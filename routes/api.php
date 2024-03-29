@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\ArtikelCategoryController;
 use App\Http\Controllers\Api\v1\ArtikelController;
+use App\Http\Controllers\Api\v1\ServicesController;
 use App\Http\Controllers\Api\v1\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,4 +25,5 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('artikel_category', ArtikelCategoryController::class);
     Route::apiResource('artikel', ArtikelController::class);
+    Route::apiResource('services', ServicesController::class);
 });

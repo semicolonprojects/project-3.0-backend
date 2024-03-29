@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('slug');
             $table->string('nama_service');
             $table->string('category');
-            $table->decimal('price');
-            $table->string('image');
+            $table->float('price');
+            $table->string('link_wa');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

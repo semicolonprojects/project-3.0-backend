@@ -14,6 +14,7 @@ class Services extends Model
         'nama_service',
         'category',
         'price',
+        'link_wa',
         'image'
     ];
 }
