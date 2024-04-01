@@ -32,27 +32,27 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Services $services)
+    public function show(Services $service)
     {
-        return new ServicesResource ($services);
+        return new ServicesResource ($service);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreServicesRequest $request, Services $services)
+    public function update(StoreServicesRequest $request, Services $service)
     {
-        $services->update($request->validated());
+        $service->update($request->validated());
         return response()->json("Service Has Been Updated");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Services $services)
+    public function destroy(Services $service)
     {
-        $services->delete();
+        $service->delete();
         return response()->json("Services Has Been Deleted");
     }
 }

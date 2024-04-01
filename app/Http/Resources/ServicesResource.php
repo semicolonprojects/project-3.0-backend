@@ -19,7 +19,7 @@ class ServicesResource extends JsonResource
             "slug" => $this->slug,
             "nama_service" => $this->nama_service,
             "category" => $this->category,
-          "price" => $this->price,
+            "price" => $this->price,
             "link_wa" => $this->link_wa,
             "image" => $this->image
         ];

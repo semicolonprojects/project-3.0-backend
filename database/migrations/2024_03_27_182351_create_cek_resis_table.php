@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('nama_pelanggan');
             $table->string('status_pengerjaan');
             $table->string('category');
-            $table->string('pengirim');
-            $table->string('penerima');
+            $table->string('pengirim')->nullable();
+            $table->string('penerima')->nullable();
             $table->timestamps();
         });
     }
