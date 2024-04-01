@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Artikel;
 use App\Http\Requests\StoreArtikelRequest;
 use App\Http\Requests\UpdateArtikelRequest;
+use App\Http\Resources\ArtikelCollection;
+use App\Http\Resources\ArtikelResource;
+use Database\Factories\ArtikelFactory;
 
 class ArtikelController extends Controller
 {
@@ -14,7 +17,7 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        return response()->json('Artikel controller');
+        return new  ArtikelCollection(Artikel::all());
     }
 
     /**
@@ -30,15 +33,17 @@ class ArtikelController extends Controller
      */
     public function store(StoreArtikelRequest $request)
     {
-        //
+        $validate = Artikel::create($request->validated());
+
+        return response()->json("Success!");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Artikel $artikel)
+    public function show($id)
     {
-        //
+        return new ArtikelResource(Artikel::findOrFail($id));
     }
 
     /**
@@ -54,7 +59,9 @@ class ArtikelController extends Controller
      */
     public function update(UpdateArtikelRequest $request, Artikel $artikel)
     {
-        //
+        $artikel->update($request->validated());
+
+        return response()->json('Updated');
     }
 
     /**
@@ -62,6 +69,8 @@ class ArtikelController extends Controller
      */
     public function destroy(Artikel $artikel)
     {
-        //
+        $artikel->delete();
+
+        return response()->json('Deleted');
     }
 }
