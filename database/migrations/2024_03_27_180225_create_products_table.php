@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('product_name', 255);
             $table->string('slug',  100)->unique()->index();
-            $table->string('category',  30)->unique();
+            $table->string('category',  30);
             $table->float('price');
             $table->string('whatsapp_link', 255);
-            $table->string('image',  255);
+            $table->string('image',  255)->nullable();
             $table->timestamps();
         });
     }

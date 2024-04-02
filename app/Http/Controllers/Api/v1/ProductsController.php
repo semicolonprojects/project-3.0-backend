@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Products;
 use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 
 class ProductsController extends Controller
 {
@@ -14,7 +16,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        return new  ProductCollection(Products::all());
     }
 
     /**
@@ -30,15 +32,17 @@ class ProductsController extends Controller
      */
     public function store(StoreProductsRequest $request)
     {
-        //
+        Products::create($request->validated());
+
+        return response()->json('Success');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show($id)
     {
-        //
+        return new ProductResource(Products::findOrFail($id));
     }
 
     /**
@@ -52,16 +56,22 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, Products $products)
+    public function update(UpdateProductsRequest $request, $id)
     {
-        //
+        $product = Products::findOrFail($id);
+        $product->update($request->validated());
+
+        return response()->json('Products Updated', 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy($id)
     {
-        //
+        $product = Products::findOrFail($id);
+        $product->delete();
+
+        return response()->json('Products Deleted');
     }
 }

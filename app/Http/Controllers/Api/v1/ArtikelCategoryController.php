@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ArtikelCategory;
 use App\Http\Requests\StoreArtikelCategoryRequest;
 use App\Http\Requests\UpdateArtikelCategoryRequest;
+use App\Http\Resources\ArtikelCategoryCollection;
+use App\Http\Resources\ArtikelCategoryResource;
 
 class ArtikelCategoryController extends Controller
 {
@@ -14,7 +16,7 @@ class ArtikelCategoryController extends Controller
      */
     public function index()
     {
-        return response()->json('Artikel Category Controller');
+        return new ArtikelCategoryCollection(ArtikelCategory::all());
     }
 
     /**
@@ -30,7 +32,9 @@ class ArtikelCategoryController extends Controller
      */
     public function store(StoreArtikelCategoryRequest $request)
     {
-        //
+        ArtikelCategory::create($request->validated());
+
+        return response()->json("Success!");
     }
 
     /**
@@ -38,7 +42,7 @@ class ArtikelCategoryController extends Controller
      */
     public function show(ArtikelCategory $artikelCategory)
     {
-        //
+        return new ArtikelCategoryResource($artikelCategory);
     }
 
     /**
@@ -54,7 +58,9 @@ class ArtikelCategoryController extends Controller
      */
     public function update(UpdateArtikelCategoryRequest $request, ArtikelCategory $artikelCategory)
     {
-        //
+        $artikelCategory->update($request->validated());
+
+        return response()->json('Updated');
     }
 
     /**
@@ -62,6 +68,8 @@ class ArtikelCategoryController extends Controller
      */
     public function destroy(ArtikelCategory $artikelCategory)
     {
-        //
+        $artikelCategory->delete();
+
+        return response()->json('Deleted');
     }
 }

@@ -7,7 +7,6 @@ use App\Http\Requests\StoreServicesRequest;
 use App\Http\Resources\ServicesCollection;
 use App\Http\Resources\ServicesResource;
 use App\Models\Services;
-use Illuminate\Http\Request;
 
 class ServicesController extends Controller
 {
@@ -34,7 +33,7 @@ class ServicesController extends Controller
      */
     public function show(Services $service)
     {
-        return new ServicesResource ($service);
+        return new ServicesResource($service);
     }
 
 
