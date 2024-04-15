@@ -1,13 +1,39 @@
 "use client";
+import axios from "axios";
+import { useCookies } from "next-client-cookies";
+import { useRouter } from "next/navigation";
 import Image from 'next/image'
 import React, { useState } from 'react'
 import logo from "/public/img/logo3.png"
 
 
-
 function Dashboard() {
   const [showMenu, setshowMenu] = useState(false);
-  
+  const cookies = useCookies();
+
+  const router = useRouter();
+
+  const token = cookies.get("token");
+
+  const logout = async (e) => {
+      e.preventDefault();
+
+      await axios({
+          method: "POST",
+          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/logout`,
+          data: {
+              token: token,
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              cookies.remove("token");
+              router.push("/login");
+          })
+          .catch((error) => {
+              console.error(error);
+          });
+  };
   
   const toggleMenu = () => {
     setshowMenu((showMenu) => !showMenu);
@@ -62,7 +88,7 @@ function Dashboard() {
                   <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">Earnings</a>
                 </li>
                 <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">Sign out</a>
+                <button onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >Logout</button>
                 </li>
               </ul>
             </div>

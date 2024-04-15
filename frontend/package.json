@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
+    "axios": "^1.6.8",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.6",
     "next": "14.1.0",
+    "next-client-cookies": "^1.1.1",
     "react": "^18",
     "react-compare-image": "^3.4.0",
     "react-dom": "^18",
