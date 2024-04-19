@@ -1,162 +1,176 @@
-"use client";
-import axios from "axios";
-import { useCookies } from "next-client-cookies";
-import { useRouter } from "next/navigation";
-import Image from 'next/image'
-import React, { useState } from 'react'
-import logo from "/public/img/logo3.png"
+import React from 'react'
+import Image from 'next/image';
 
-
-function Dashboard() {
-  const [showMenu, setshowMenu] = useState(false);
-  const cookies = useCookies();
-
-  const router = useRouter();
-
-  const token = cookies.get("token");
-
-  const logout = async (e) => {
-      e.preventDefault();
-
-      await axios({
-          method: "POST",
-          url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/logout`,
-          data: {
-              token: token,
-          },
-      })
-          .then((response) => {
-              console.log(response);
-              cookies.remove("token");
-              router.push("/login");
-          })
-          .catch((error) => {
-              console.error(error);
-          });
-  };
-  
-  const toggleMenu = () => {
-    setshowMenu((showMenu) => !showMenu);
-  };
+const home = () => {
   return (
-  <>
-  
-
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 ">
-  <div class="px-3 py-3 lg:px-5 lg:pl-3">
-    <div class="flex items-center justify-between">
-      <div class="flex items-center justify-start rtl:justify-end">
-        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 text-sm text-[#4EAEFD] rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
-            <span class="sr-only">Open sidebar</span>
-            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-               <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
-            </svg>
-         </button>
-        <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-         <Image 
-         className="w-16 h-10 mr-2.5" 
-         src={logo} 
-         />
-          <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">Nettoyer</span>
-        </a>
+    <>
+  <div className="p-4 sm:ml-80">
+    <div className="grid grid-flow-col gap-2 py-20 pb-5">
+      <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
+        <div className="grid grid-flow-row">
+         <p className="font-bold text-2xl">Products</p>
+         <p className="font-extrabold text-4xl">100</p>
+        </div>
       </div>
-      <div class="flex items-center">
-          <div class="flex items-center ms-3">
-            <div>
-              <button onClick={toggleMenu} className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 " >
-                <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"/>
-              </button>
-            </div>
-            {showMenu && (
-            <div class="absolute top-12 right-4 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div class="px-4 py-3" role="none">
-                <p class="text-sm text-gray-900 " role="none">
-                  Neil Sims
-                </p>
-                <p class="text-sm font-medium text-gray-900 truncate " role="none">
-                  neil.sims@flowbite.com
-                </p>
-              </div>
-              <ul class="py-1" role="none">
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">Dashboard</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">Settings</a>
-                </li>
-                <li>
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 " role="menuitem">Earnings</a>
-                </li>
-                <li>
-                <button onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >Logout</button>
-                </li>
-              </ul>
-            </div>
-            )}
-          </div>
+      <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
+        <div className="grid grid-flow-row">
+         <p className="font-bold text-2xl">Services</p>
+         <p className="font-extrabold text-4xl">100</p>
+        </div>
+      </div>
+      <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
+        <div className="grid grid-flow-row">
+         <p className="font-bold text-2xl">Artikel</p>
+         <p className="font-extrabold text-4xl">100</p>
         </div>
     </div>
+    </div>
+    <div className="bg-white w-[96%] rounded-md shadow-sm p-4 mb-5"> 
+    <div className="grid grid-flow-col">
+      <div className="items-start">
+        <h1 className="font-bold text-2xl" >Promos</h1>
+      </div>
+      <div className="text-right">
+        <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2 rounded-lg w-fit " >
+            <svg className='left-0 w-5 h-5 mx-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+              <path d="M5 12h14"/><path d="M12 5v14"/>
+            </svg>
+            <span className='text-sm'>Add New Promo</span>
+            </button>
+      </div>
+    </div>
+    <div className="grid grid-flow-col gap-2 py-10 px-5 pl-10" >
+      <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
+        <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
+          <p className="pt-1 text-md font-bold" >Promo</p>
+          <button className="p-1">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
+        <p className="text-sm pb-2" >Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        <p className="text-sm font-bold" >15-04-2024</p>
+      </div>
+      <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
+        <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
+          <p className="pt-1 text-md font-bold" >Promo</p>
+          <button className="p-1">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
+        <p className="text-sm pb-2" >Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        <p className="text-sm font-bold" >15-04-2024</p>
+      </div>
+      <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
+        <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
+          <p className="pt-1 text-md font-bold" >Promo</p>
+          <button className="p-1">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
+        <p className="text-sm pb-2" >Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        <p className="text-sm font-bold" >15-04-2024</p>
+      </div>
+      <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
+        <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
+          <p className="pt-1 text-md font-bold" >Promo</p>
+          <button className="p-1">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
+        <p className="text-sm pb-2" >Lorem ipsum dolor sit amet consectetur adipisicing elit. </p>
+        <p className="text-sm font-bold" >15-04-2024</p>
+      </div>
+    </div>
+    <div>
+      
+    </div>
+    </div>
+    <div className="grid grid-flow-col gap-2 pb-5"> 
+      <div className="rounded-md bg-white w-72 p-4 pt-2"> 
+        <div className="grid grid-flow-col gap-14">
+        <p className="font-bold text-xl pb-2">Preview Artikel</p>
+        <button className="p-2">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <div className="bg-slate-200 w-64 p-4">
+          <Image
+            src="https://images.unsplash.com/photo-1682687219612-b12805df750d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="..."
+            width={300}
+            height={300}
+            className="object-fill w-full "
+          />
+          <h1 className="my-2 font-bold text-xl">Judul Artikel</h1>
+          <p className="text-base font-normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus quia, nulla! Maiores et perferendis eaque,
+              exercitationem praesentium nihil. </p>
+        </div>
+      </div>
+      <div className="rounded-md bg-white w-72 p-4 pt-2"> 
+        <div className="grid grid-flow-col gap-14">
+        <p className="font-bold text-xl pb-2">Preview Artikel</p>
+        <button className="p-2">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <div className="bg-slate-200 w-64 p-4">
+          <Image
+            src="https://images.unsplash.com/photo-1682687219612-b12805df750d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="..."
+            width={300}
+            height={300}
+            className="object-fill w-full "
+          />
+          <h1 className="my-2 font-bold text-xl">Judul Artikel</h1>
+          <p className="text-base font-normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus quia, nulla! Maiores et perferendis eaque,
+              exercitationem praesentium nihil. </p>
+        </div>
+      </div>
+      <div className="rounded-md bg-white w-72 p-4 pt-2"> 
+        <div className="grid grid-flow-col gap-14">
+        <p className="font-bold text-xl pb-2">Preview Artikel</p>
+        <button className="p-2">
+          <svg className="w-7 h-7" data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"></path>
+          </svg>
+          </button>
+        </div>
+        <div className="bg-slate-200 w-64 p-4">
+          <Image
+            src="https://images.unsplash.com/photo-1682687219612-b12805df750d?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="..."
+            width={300}
+            height={300}
+            className="object-fill w-full "
+          />
+          <h1 className="my-2 font-bold text-xl">Judul Artikel</h1>
+          <p className="text-base font-normal">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Voluptatibus quia, nulla! Maiores et perferendis eaque,
+              exercitationem praesentium nihil. </p>
+        </div>
+      </div>
+    </div>
   </div>
-</nav>
-
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 " aria-label="Sidebar">
-   <div class="h-full px-3 pb-4 overflow-y-auto bg-white ">
-      <ul class="space-y-2 font-medium">
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-            <svg class="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect width="7" height="18" x="3" y="3" rx="1"/>
-              <rect width="7" height="7" x="14" y="3" rx="1"/>
-              <rect width="7" height="7" x="14" y="14" rx="1"/>
-            </svg>
-               <span class="ms-3">Home</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-            <svg class="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="8" cy="21" r="1"/>
-              <circle cx="19" cy="21" r="1"/>
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-            </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Products</span>            
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-            <svg class="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] " fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"></path>
-            </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Services</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-            <svg class= "flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD]" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
-              <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
-              <path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/>
-            </svg>
-               <span class="flex-1 ms-3 whitespace-nowrap">Resi</span>
-            </a>
-         </li>
-         <li>
-            <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group">
-            <svg class="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] "  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
-                <path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>
-            </svg>
-            <span class="flex-1 ms-3 whitespace-nowrap">Artikel</span>
-            </a>
-         </li>
-       
-      </ul>
-   </div>
-</aside>
-
-
-
-  </>
+    </>
   )
 }
 
-export default Dashboard
+export default home

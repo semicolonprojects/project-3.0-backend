@@ -1,19 +1,18 @@
-import React from 'react'
-
-const Products = () => {
-  return (
-   <>
-   <div className='p-4 ml-80'>
+const Resi = () => {
+  return ( 
+    <>
+    <div className='p-4 ml-80'>
       <div className='py-20 pb-10'>
         <div className='grid grid-flow-col gap-6 w-fit'>
           <div className='p-4 bg-white bg-opacity-45 rounded-xl shadow-lg'>
-        <svg className="flex-shrink-0 w-10 h-10 drop-shadow-lg shadow-black text-[#3f8ac7]  " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="8" cy="21" r="1"/>
-              <circle cx="19" cy="21" r="1"/>
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          <svg class= "flex-shrink-0 w-10 h-11 drop-shadow-lg shadow-black text-[#3f8ac7] " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+              <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+              <path d="M13 5v2"/>
+              <path d="M13 17v2"/>
+              <path d="M13 11v2"/>
             </svg>
           </div>
-        <h1 className='text-3xl font-bold py-5'>Products Content Management</h1>
+        <h1 className='text-3xl font-bold py-5'>Resi Content Management</h1>
         </div>
       </div>
     <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px]">
@@ -21,8 +20,8 @@ const Products = () => {
         <caption className="p-5 text-lg font-semibold text-left  text-gray-900 bg-">
             <div className="flex-row items-center justify-between p-4 space-y-3 sm:flex sm:space-y-4 sm:space-x-4">
             <div className=''>
-            Products
-            <p className="mt-1 text-sm font-normal text-pretty text-gray-500 ">Berisi List-list product yang ditunjukkan di dalam company profile, anda dapat menambah, merubah dan menghapus product yang akan ditampilkan</p>
+            Resi
+            <p className="mt-1 text-sm font-normal text-pretty text-gray-500 ">Berisi List-list resi yang ditunjukkan di dalam company profile, anda dapat menambah, merubah dan menghapus product yang akan ditampilkan</p>
             </div>
             </div>
             <div className='flex flex-col items-center px-3 justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-5'> 
@@ -44,7 +43,7 @@ const Products = () => {
             <svg className='left-0 w-5 h-5 mx-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
               <path d="M5 12h14"/><path d="M12 5v14"/>
             </svg>
-            <span className='text-sm'>Add New Product </span>
+            <span className='text-sm'>Add New Resi </span>
             </button>
         </div>
         </div>
@@ -52,13 +51,16 @@ const Products = () => {
         <thead className="bg-white bg-opacity-45 text-xs border-b text-gray-700 uppercase ">
             <tr>
                 <th scope="col" className="px-10 py-3">
-                    Nama Product
+                    Kode Resi
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Category Product
+                    Nama Pelanggan
                 </th>
                 <th scope="col" className="px-6 py-3">
-                    Price
+                    Status Pengerjaan
+                </th>
+                <th scope="col" className="px-6 py-3">
+                    Category Resi
                 </th>
                 <th scope="col" className="px-12 py-3">
                     Actions
@@ -72,6 +74,9 @@ const Products = () => {
                 </th>
                 <td className="px-6 py-4">
                     Silver
+                </td>
+                <td className="px-6 py-4">
+                    Laptop
                 </td>
                 <td className="px-6 py-4">
                     Laptop
@@ -110,6 +115,9 @@ const Products = () => {
                 <td className="px-6 py-4">
                     Laptop PC
                 </td>
+                <td className="px-6 py-4">
+                    Laptop PC
+                </td>
                 <td className="px-1 py-3 text-right">
                   <div className='grid grid-flow-col gap-1'>
                   <button className='grid grid-flow-row text-gray-600'>
@@ -139,9 +147,9 @@ const Products = () => {
     </table>
 </div>
 
-   </div>
-   </>
-  )
+      </div>
+    </>
+   );
 }
-
-export default Products
+ 
+export default Resi;
