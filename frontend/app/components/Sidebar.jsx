@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { detectDevice } from "../utils/deviceUtils";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
+
 const Sidebar = () => {
   const [isExpand, setisExpand] = useState(false);
   const [isSidebarHidden, setIsSidebarHidden] = useState(false);
@@ -168,12 +169,12 @@ const Sidebar = () => {
             </div>
             {!isExpand && (
               <>
-                <div className="flex flex-col items-center  tablet:pt-64 laptop:pt-40 ">
+                <div className="flex flex-col items-center  tablet:pt-64 laptop:pt-32 ">
                   <Link href="/">
                     <Image src={Logo} height={50} width={50} alt="..." />
                   </Link>
                 </div>
-                <div className="grid py-42 tablet:py-96 laptop:py-[298px] desktop:py-24 grid-flow-row justify-center gap-7">
+                <div className="grid py-42 tablet:py-96 laptop:py-[288px] desktop:py-28 grid-flow-row justify-center gap-7">
                   <div>
                     <Link
                       href="https://www.instagram.com/nettoyer.shoes/"
