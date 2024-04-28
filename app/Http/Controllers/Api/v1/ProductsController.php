@@ -8,6 +8,8 @@ use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
 {
@@ -16,7 +18,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return new  ProductCollection(Products::all());
+        return new  ProductCollection(Products::paginate(10));
     }
 
     /**
@@ -30,11 +32,48 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductsRequest $request)
+    public function store(Request $request)
     {
-        Products::create($request->validated());
 
-        return response()->json('Success');
+        // $image = $request->file('image');
+        // $extension = $image->getClientOriginalExtension();
+        // $filename = $image->hashName() . '.' . $extension;
+        // Storage::disk('public/product')->put($filename, file_get_contents($image));
+        // $image->storeAs('public/product', $filename);
+
+        // Products::create($request->validated());
+        // return response()->json('Success');
+
+        $validator = Validator::make($request->all(), [
+            'product_name' => 'required|string|max:255',
+            'slug' => 'required|string|unique:products,slug|max:100',
+            'category' => 'required|string|max:30',
+            'price' => 'required|numeric|min:0',
+            'whatsapp_link' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('public/posts', $image->hashName());
+
+        //create post
+        $post = Products::create([
+            'product_name' => $request->product_name,
+            'slug' => $request->slug,
+            'category' => $request->category,
+            'price' => $request->price,
+            'whatsapp_link' => $request->whatsapp_link,
+            'image' => $image->hashName(),
+        ]);
+
+        //return response
+        return response()->json('Success', 200);
     }
 
     /**
