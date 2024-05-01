@@ -1,9 +1,59 @@
-import React from 'react';
+"use client";
 
+import { useEffect, useState } from 'react';
+import {deleteService, getServices} from "./_api/api.js";
+import  toast  from 'react-hot-toast';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 
 
 const Services = () => {
+  const router = useRouter();
+  const [services, setServices ] = useState([]);
+
+  useEffect(()=> {
+      const fetchServices = async () => {
+        try {
+          const serviceData = await getServices();
+          const res = serviceData.data;
+          console.log("🚀 ~ fetchServices ~ res:", res);
+          setServices(res);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      fetchServices();
+  }, []);
+
+  function formatRupiah(price) {
+    const cleanPrice = String(price).replace(/\D/g, "");
+
+    const formattedPrice = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+  }).format(cleanPrice);
+
+  return formattedPrice;
+  }
+
+  const handleDeleteTask = async (serviceId) => {
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete this service?"
+    );
+    if (!confirmDelete) return;
+
+    try {
+      await deleteService(serviceId);
+      setServices(services.filter((service)=> service.id !== serviceId));
+      toast.success("Service deleted successfully");
+      router.refresh();
+    } catch (error) {
+      console.error ("Error deleting service:", error);
+    }
+  };
+
   return (
     <>
       <div className='p-4 ml-80'>
@@ -41,12 +91,14 @@ const Services = () => {
           </form>
         </div>
         <div className='flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 space-x-4'>
+        <Link href="/dashboard/services/create">
         <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2.5 rounded-lg w-full" >
             <svg className='left-0 w-5 h-5 mx-2' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
               <path d="M5 12h14"/><path d="M12 5v14"/>
             </svg>
-            <span className='text-sm'>Add New Service </span>
+            <span className='text-sm'>Add New Service{" "} </span>
             </button>
+        </Link>
         </div>
         </div>
         </caption>
@@ -67,15 +119,16 @@ const Services = () => {
             </tr>
         </thead>
         <tbody>
+            {services.map((service)=> (
             <tr className="border-b hover:bg-white hover:bg-opacity-70">
                 <th scope="row" className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    Apple MacBook Pro 17"
+                    {service.nama_service}
                 </th>
                 <td className="px-6 py-4">
-                    Silver
+                    {service.category}
                 </td>
                 <td className="px-6 py-4">
-                    Laptop
+                    {formatRupiah(service.price)}
                 </td>
                 <td className="px-1 py-3 text-right">
                   <div className='grid grid-flow-col gap-1'>
@@ -92,7 +145,7 @@ const Services = () => {
                   </svg>                 
                   <span className='inline-flex text-xs'>Edit </span>
                   </button>
-                  <button className='grid grid-flow-row text-gray-600'>
+                  <button className='grid grid-flow-row text-gray-600' onClick={() =>handleDeleteTask(service.id)}>
                   <svg className='w-6 h-6 ml-2' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path>
                   </svg>              
@@ -101,41 +154,7 @@ const Services = () => {
                   </div>
                 </td>
             </tr>
-            <tr className=" border-b hover:bg-white hover:bg-opacity-70">
-                <th scope="row" className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    Microsoft Surface Pro
-                </th>
-                <td className="px-6 py-4">
-                    White
-                </td>
-                <td className="px-6 py-4">
-                    Laptop PC
-                </td>
-                <td className="px-1 py-3 text-right">
-                  <div className='grid grid-flow-col gap-1'>
-                  <button className='grid grid-flow-row text-gray-600'>
-                  <svg className='w-6 h-6 ml-2' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-                  </svg>                 
-                  <span className='inline-flex text-xs'>Preview </span>
-                  </button>
-                  <button className='grid grid-flow-row text-gray-600'>
-                  <svg className='w-6 h-6 ' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
-                  </svg>                 
-                  <span className='inline-flex text-xs'>Edit </span>
-                  </button>
-                  <button className='grid grid-flow-row text-gray-600'>
-                  <svg className='w-6 h-6 ml-2' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path>
-                  </svg>              
-                  <span className='inline-flex text-xs'>Delete</span>
-                  </button>
-                  </div>
-                </td>
-            </tr>
-          
+            ))}
         </tbody>
     </table>
 </div>

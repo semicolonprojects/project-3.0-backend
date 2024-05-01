@@ -1,9 +1,11 @@
 "use client";
 
 import axios from "axios";
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
+
 
 const Page = () => {
     const fileTypes = ["jpg", "png", "jpeg"];
@@ -12,6 +14,7 @@ const Page = () => {
     const [productName, setProductName] = useState("");
     const [category, setcategory] = useState("");
     const [price, setPrice] = useState("");
+    const router = useRouter();
 
     const handleChange = (file) => {
         setFile(file);
@@ -22,6 +25,7 @@ const Page = () => {
         toast.loading("Loading ... ", {
             position: "bottom-right",
         });
+        
         const formData = new FormData();
 
         formData.append("product_name", productName);
@@ -41,7 +45,9 @@ const Page = () => {
             toast.dismiss();
             toast.success(response.data, {
                 position: "bottom-right",
+                
             });
+            router.push(`/dashboard/products`)
         } catch (error) {
             toast.dismiss();
             if (error.response.status === 422 && error.response.data.errors) {
@@ -59,6 +65,7 @@ const Page = () => {
                 });
             }
         }
+        
     };
 
     return (
@@ -88,14 +95,16 @@ const Page = () => {
                     </h1>
                 </div>
             </div>
-            <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px]">
-                <div>
+            <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px] p-6">
+                <div className="mx-5">
+                <p className="text-lg font-semibold text-gray-900 mb-5">Create New Products </p>
                     <form
-                        class="max-w-sm mx-auto"
+                        class="max-w-4xl"
                         onSubmit={handleSubmit}
                         encType="multipart/form-data"
                     >
-                        <div class="mb-5">
+                        <div class="mb-5 grid md:grid-flow-col max-w-4xl gap-5">
+                            <div className="relative z-0 w-full mb-5 group">
                             <label className="block mb-2 text-sm font-medium text-gray-900">
                                 Product Name
                             </label>
@@ -104,17 +113,17 @@ const Page = () => {
                                 id="productName"
                                 value={productName}
                                 onChange={(e) => setProductName(e.target.value)}
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                 placeholder="Product Name"
                                 required
                             />
-                        </div>
-                        <div class="mb-5">
-                            <div className="grid grid-flow-col gap-36">
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
+                            <div className="grid grid-flow-col">
                                 <label class="block mb-2 text-sm font-medium text-gray-900">
                                     Category
                                 </label>
-                                <button className="block mb-2 text-sm font-medium text-gray-900">
+                                <button className="text-right block mb-2 text-sm font-medium text-gray-900">
                                     Manage Category
                                 </button>
                             </div>
@@ -130,8 +139,10 @@ const Page = () => {
                                 <option>France</option>
                                 <option>Germany</option>
                             </select>
+                            </div>
                         </div>
-                        <div class="mb-5">
+                        <div class="mb-5 ">
+                            <div className="relative z-0 w-full mb-5"> 
                             <label className="block mb-2 text-sm font-medium text-gray-900">
                                 Price
                             </label>
@@ -146,10 +157,11 @@ const Page = () => {
                                 placeholder="Product Price"
                                 required
                             />
+                            </div>
                         </div>
-                        <div class="mb-5">
+                        <div class="relative z-0 max-w-sm h-full mb-5 ">
                             <label className="block mb-2 text-sm font-medium text-gray-900">
-                                Image
+                                Image 
                             </label>
                             <FileUploader
                                 handleChange={handleChange}

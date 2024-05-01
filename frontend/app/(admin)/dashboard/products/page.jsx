@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react";
 import { deleteProduct, getProducts } from "./_api/api.js";
 import toast from "react-hot-toast";
+import Link from "next/link.js";
+import { useRouter } from "next/navigation.js";
+
 
 const Products = () => {
+    const router = useRouter();
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
@@ -37,7 +41,7 @@ const Products = () => {
 
     const handleDeleteTask = async (productId) => {
         const confirmDelete = window.confirm(
-            "Are you sure you want to delete this task?"
+            "Are you sure you want to delete this product?"
         );
         if (!confirmDelete) return; // If the user cancels, do nothing
 
@@ -46,8 +50,9 @@ const Products = () => {
             setProducts(products.filter((product) => product.id !== productId));
             // Show toast notification when task is successfully deleted
             toast.success("Product deleted successfully");
+            router.refresh();
         } catch (error) {
-            console.error("Error deleting task:", error);
+            console.error("Error deleting product:", error);
         }
     };
 
@@ -129,6 +134,7 @@ const Products = () => {
                                     </form>
                                 </div>
                                 <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 space-x-4">
+                                    <Link href="/dashboard/products/create">
                                     <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2.5 rounded-lg w-full">
                                         <svg
                                             className="left-0 w-5 h-5 mx-2"
@@ -149,6 +155,7 @@ const Products = () => {
                                             Add New Product{" "}
                                         </span>
                                     </button>
+                                    </Link>
                                 </div>
                             </div>
                         </caption>
