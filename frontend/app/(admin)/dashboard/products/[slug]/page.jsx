@@ -1,85 +1,101 @@
 "use client";
 
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
+import { useEffect, useState } from "react";
+import { detailProduct } from "../_api/api.js";
+import axios from "axios";
+import { useRouter } from "next/navigation.js";
 import toast from "react-hot-toast";
-import { getAllCategory } from "../category/_api/api";
 
-const Page = () => {
+const Page = ({ params }) => {
     const fileTypes = ["jpg", "png", "jpeg"];
 
     const [file, setFile] = useState("");
+    const [productTitle, setProductTitle] = useState("");
     const [productName, setProductName] = useState("");
-    const [category, setcategory] = useState("");
-    const [price, setPrice] = useState("");
-    const [getCategory, setGetCategory] = useState([]);
-    const router = useRouter();
+    const [productPrice, setProductPrice] = useState("");
+    const [productCategory, setProductCategory] = useState("");
+    const [productId, setProductId] = useState("");
 
-    useEffect(() => {
-        const fetchCategory = async () => {
-            try {
-                const categories = await getAllCategory();
-                const res = categories.data;
-                setGetCategory(res);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        fetchCategory();
-    }, []);
+    const router = useRouter();
 
     const handleChange = (file) => {
         setFile(file);
     };
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        const detail = async () => {
+            try {
+                const productData = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${params.slug}`
+                );
+                const res = productData.data.data;
+                setProductName(res.product_name);
+                setProductTitle(res.product_name);
+                setProductPrice(res.price);
+                setProductCategory(res.category);
+                setProductId(res.id);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        detail();
+    }, []);
+
+    const updateProduct = async (e) => {
         e.preventDefault();
+
         toast.loading("Loading ... ", {
             position: "bottom-right",
         });
 
         const formData = new FormData();
 
+        //append data to "formData"
         formData.append("product_name", productName);
-        formData.append("slug", productName);
-        formData.append("category", category);
-        formData.append("whatsapp_link", productName);
-        formData.append("price", price);
+        formData.append("slug", productName.trim());
+        formData.append("price", productPrice);
+        formData.append("category", productCategory);
+        formData.append("_method", "PUT");
         formData.append("image", file);
+        formData.append("whatsapp_link", "www.wa.me.com");
 
-        try {
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products`,
+        await axios
+            .post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${productId}`,
                 formData
-            );
-
-            toast.dismiss();
-            toast.success(response.data, {
-                position: "bottom-right",
-            });
-            router.push(`/dashboard/products`);
-        } catch (error) {
-            toast.dismiss();
-            if (error.response.status === 422 && error.response.data.errors) {
-                const errors = error.response.data.errors;
-                Object.keys(errors).forEach((field) => {
-                    errors[field].forEach((errorMessage) => {
-                        toast.error(`${field}: ${errorMessage}`, {
-                            position: "bottom-right",
-                        });
-                    });
-                });
-            } else {
-                toast.error("An error occurred. Please try again.", {
+            )
+            .then((response) => {
+                // Add response parameter to access response data
+                toast.dismiss();
+                toast.success(response.data, {
                     position: "bottom-right",
                 });
-            }
-        }
+                router.back();
+            })
+            .catch((error) => {
+                toast.dismiss();
+                if (
+                    error.response && // Check if response exists
+                    error.response.status === 422 && // Check if response status is 422
+                    error.response.data.errors
+                ) {
+                    const errors = error.response.data.errors;
+                    Object.keys(errors).forEach((field) => {
+                        errors[field].forEach((errorMessage) => {
+                            toast.error(`${field}: ${errorMessage}`, {
+                                position: "bottom-right",
+                            });
+                        });
+                    });
+                } else {
+                    toast.error("An error occurred. Please try again.", {
+                        position: "bottom-right",
+                    });
+                }
+            });
     };
-
     return (
         <div className="p-4 ml-80">
             <div className="py-20 pb-10">
@@ -110,12 +126,12 @@ const Page = () => {
             <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px] p-6">
                 <div className="mx-5">
                     <p className="text-lg font-semibold text-gray-900 mb-5">
-                        Create New Products{" "}
+                        Edit Products {productTitle}
                     </p>
                     <form
                         className="max-w-4xl"
-                        onSubmit={handleSubmit}
                         encType="multipart/form-data"
+                        onSubmit={updateProduct}
                     >
                         <div className="mb-5 grid md:grid-flow-col max-w-4xl gap-5">
                             <div className="relative z-0 w-full mb-5 group">
@@ -123,12 +139,13 @@ const Page = () => {
                                     Product Name
                                 </label>
                                 <input
-                                    type="text"
-                                    id="productName"
                                     value={productName}
                                     onChange={(e) =>
                                         setProductName(e.target.value)
                                     }
+                                    type="text"
+                                    id="productName"
+                                    name="productName"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                     placeholder="Product Name"
                                     required
@@ -139,30 +156,21 @@ const Page = () => {
                                     <label className="block mb-2 text-sm font-medium text-gray-900">
                                         Category
                                     </label>
-                                    <Link
-                                        href="/dashboard/products/category"
-                                        className="text-right block mb-2 text-sm font-medium text-gray-900"
-                                    >
+                                    <button className="text-right block mb-2 text-sm font-medium text-gray-900">
                                         Manage Category
-                                    </Link>
+                                    </button>
                                 </div>
                                 <select
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     name="category"
-                                    defaultValue={category}
-                                    onChange={(e) =>
-                                        setcategory(e.target.value)
-                                    }
+                                    defaultValue={productCategory}
+                                    onChange={(e) => e.target.value}
                                 >
-                                    <option>Select Option</option>
-                                    {getCategory.map((categoryList) => (
-                                        <option
-                                            key={categoryList.id}
-                                            value={categoryList.name}
-                                        >
-                                            {categoryList.name}
-                                        </option>
-                                    ))}
+                                    <option>Select Category</option>
+                                    <option>United States</option>
+                                    <option>Canada</option>
+                                    <option>France</option>
+                                    <option>Germany</option>
                                 </select>
                             </div>
                         </div>
@@ -172,12 +180,11 @@ const Page = () => {
                                     Price
                                 </label>
                                 <input
+                                    value={productPrice}
+                                    onChange={(e) => e.target.value}
                                     type="number"
+                                    name="price"
                                     id="price"
-                                    value={price}
-                                    onChange={(e) =>
-                                        setPrice(Number(e.target.value))
-                                    }
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     placeholder="Product Price"
                                     required

@@ -6,25 +6,37 @@ import toast from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation.js";
 
-
 const Products = () => {
     const router = useRouter();
     const [products, setProducts] = useState([]);
+    const [search, setSearch] = useState("");
+    const [currentPages, setCurrentPages] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const productData = await getProducts();
-                const res = productData.data;
-                console.log("🚀 ~ fetchProducts ~ res:", res);
-                setProducts(res);
+                const productData = await getProducts(currentPages);
+                const res = productData;
+                setProducts(res.data);
+                setTotalPages(res.meta.last_page);
             } catch (error) {
                 console.log(error);
             }
         };
 
         fetchProducts();
-    }, []);
+    }, [currentPages]);
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+    };
+
+    const filteredProducts = products.filter(
+        (product) =>
+            product.product_name.toLowerCase().includes(search.toLowerCase()) ||
+            product.category.toLowerCase().includes(search.toLowerCase())
+    );
 
     function formatRupiah(price) {
         // Convert price to string and remove any non-digit characters
@@ -54,6 +66,10 @@ const Products = () => {
         } catch (error) {
             console.error("Error deleting product:", error);
         }
+    };
+
+    const handlePageChange = (page) => {
+        setCurrentPages(page); // Update the current page
     };
 
     return (
@@ -129,32 +145,34 @@ const Products = () => {
                                                 className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 "
                                                 placeholder="Search"
                                                 required=""
+                                                value={search}
+                                                onChange={handleSearchChange}
                                             />
                                         </div>
                                     </form>
                                 </div>
                                 <div className="flex flex-col items-stretch justify-end flex-shrink-0 w-full space-y-2 md:w-auto md:flex-row md:space-y-0 space-x-4">
                                     <Link href="/dashboard/products/create">
-                                    <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2.5 rounded-lg w-full">
-                                        <svg
-                                            className="left-0 w-5 h-5 mx-2"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        >
-                                            <path d="M5 12h14" />
-                                            <path d="M12 5v14" />
-                                        </svg>
-                                        <span className="text-sm">
-                                            Add New Product{" "}
-                                        </span>
-                                    </button>
+                                        <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2.5 rounded-lg w-full">
+                                            <svg
+                                                className="left-0 w-5 h-5 mx-2"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="24"
+                                                height="24"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            >
+                                                <path d="M5 12h14" />
+                                                <path d="M12 5v14" />
+                                            </svg>
+                                            <span className="text-sm">
+                                                Add New Product{" "}
+                                            </span>
+                                        </button>
                                     </Link>
                                 </div>
                             </div>
@@ -176,11 +194,14 @@ const Products = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map((product) => (
-                                <tr className="border-b hover:bg-white hover:bg-opacity-70">
+                            {filteredProducts.map((product) => (
+                                <tr
+                                    className="border-b hover:bg-white hover:bg-opacity-70"
+                                    key={product.id}
+                                >
                                     <th
                                         scope="row"
-                                        className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap "
+                                        className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap"
                                     >
                                         {product.product_name}
                                     </th>
@@ -192,7 +213,10 @@ const Products = () => {
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">
-                                            <button className="grid grid-flow-row text-gray-600">
+                                            <Link
+                                                href={`/dashboard/products/${product.slug}/show`}
+                                                className="grid grid-flow-row text-gray-600"
+                                            >
                                                 <svg
                                                     className="w-6 h-6 ml-2"
                                                     data-slot="icon"
@@ -217,8 +241,11 @@ const Products = () => {
                                                 <span className="inline-flex text-xs">
                                                     Preview{" "}
                                                 </span>
-                                            </button>
-                                            <button className="grid grid-flow-row text-gray-600">
+                                            </Link>
+                                            <Link
+                                                href={`/dashboard/products/${product.slug}`}
+                                                className="grid grid-flow-row text-gray-600"
+                                            >
                                                 <svg
                                                     className="w-6 h-6 "
                                                     data-slot="icon"
@@ -238,7 +265,7 @@ const Products = () => {
                                                 <span className="inline-flex text-xs">
                                                     Edit{" "}
                                                 </span>
-                                            </button>
+                                            </Link>
                                             <button
                                                 className="grid grid-flow-row text-gray-600"
                                                 onClick={() =>
@@ -271,6 +298,29 @@ const Products = () => {
                             ))}
                         </tbody>
                     </table>
+                    <div className="flex justify-center items-center py-">
+                        {Array.from(
+                            { length: totalPages },
+                            (_, index) => index + 1
+                        ).map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => handlePageChange(page)}
+                                disabled={currentPages === page}
+                                value={page}
+                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${
+                                    currentPages === page
+                                        ? "pointer-events-none" && "underline"
+                                        : ""
+                                }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="flex justify-end items-end p-2">
+                        Page {currentPages} from {totalPages}
+                    </div>
                 </div>
             </div>
         </>

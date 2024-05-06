@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getProducts = async () => {
+export const getProducts = async (currentPage) => {
     const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products?page=${currentPage}`
     );
     return response.data;
 };
@@ -20,4 +20,9 @@ export const createProduct = async (product) => {
         product
     );
     return response.data;
+};
+
+export const detailProduct = async (slug) => {
+    const products = await getProducts();
+    return products.data.find((product) => product.slug === slug);
 };

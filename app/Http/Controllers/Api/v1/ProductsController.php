@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductsController extends Controller
@@ -18,7 +19,7 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        return new  ProductCollection(Products::paginate(10));
+        return new  ProductCollection(Products::latest()->paginate(5));
     }
 
     /**
@@ -34,15 +35,6 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $image = $request->file('image');
-        // $extension = $image->getClientOriginalExtension();
-        // $filename = $image->hashName() . '.' . $extension;
-        // Storage::disk('public/product')->put($filename, file_get_contents($image));
-        // $image->storeAs('public/product', $filename);
-
-        // Products::create($request->validated());
-        // return response()->json('Success');
 
         $validator = Validator::make($request->all(), [
             'product_name' => 'required|string|max:255',
@@ -60,10 +52,10 @@ class ProductsController extends Controller
 
         //upload image
         $image = $request->file('image');
-        $image->storeAs('public/posts', $image->hashName());
+        $image->storeAs('public/products', $image->hashName());
 
         //create post
-        $post = Products::create([
+        Products::create([
             'product_name' => $request->product_name,
             'slug' => $request->slug,
             'category' => $request->category,
@@ -79,9 +71,11 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show($slug)
     {
-        return new ProductResource(Products::findOrFail($id));
+        $product = Products::where('slug', $slug)->firstOrFail();
+
+        return new ProductResource($product);
     }
 
     /**
@@ -95,12 +89,53 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductsRequest $request, $id)
+    public function update(Request $request, $id)
     {
+        // Find the product
         $product = Products::findOrFail($id);
-        $product->update($request->validated());
 
-        return response()->json('Products Updated', 200);
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'product_name' => 'required|string|max:255',
+            'slug' => 'required|string|max:100|unique:products,slug,' . $id,
+            'category' => 'required|string|max:30',
+            'price' => 'required|numeric|min:0',
+            'whatsapp_link' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Check if image is uploaded
+        if ($request->hasFile('image')) {
+            // Upload image
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('public/products', $image->hashName());
+            $imageFileName = basename($imagePath);
+            // Delete previous image if exists
+            if ($product->image) {
+                Storage::delete('public/products/' . $product->image);
+            }
+        } else {
+            // Keep the existing image if no new image is uploaded
+            $imageFileName = $product->image;
+        }
+
+        // Update the product
+        $product->update([
+            'product_name' => $request->product_name,
+            'slug' => $request->slug,
+            'category' => $request->category,
+            'price' => $request->price,
+            'whatsapp_link' => $request->whatsapp_link,
+            'image' => $imageFileName,
+        ]);
+
+        // Return success response
+        return response()->json('Product updated successfully', 200);
     }
 
     /**

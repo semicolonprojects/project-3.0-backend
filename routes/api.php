@@ -4,11 +4,13 @@ use App\Http\Controllers\Api\v1\ArtikelCategoryController;
 use App\Http\Controllers\Api\v1\ArtikelController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\CekResiController;
+use App\Http\Controllers\Api\v1\ProductCategoryController;
 use App\Http\Controllers\Api\v1\ProductsController;
 use App\Http\Controllers\Api\v1\ServicesController;
 use App\Http\Controllers\Api\v1\UserController;
 use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,4 +42,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('services', ServicesController::class);
     Route::apiResource('products', ProductsController::class);
     Route::apiResource('cekresi', CekResiController::class);
+    Route::apiResource('productsCategory', ProductCategoryController::class)->except(['getAll']);
+
+    Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
 })->middleware('cors');
