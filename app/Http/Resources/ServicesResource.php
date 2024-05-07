@@ -15,7 +15,7 @@ class ServicesResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
+            // "id" => $this->id,
             "slug" => $this->slug,
             "nama_service" => $this->nama_service,
             "category" => $this->category,

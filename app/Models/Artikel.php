@@ -11,4 +11,6 @@ class Artikel extends Model
     use HasFactory;
 
     protected $fillable = ['slug', 'judul', 'category_id', 'isi_artikel', 'image'];
+
+    
 }

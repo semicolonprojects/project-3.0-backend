@@ -8,12 +8,27 @@ import toast from "react-hot-toast";
 
 const Page = () => {
   const fileTypes = ["jpg", "png", "jpeg"];
+  
+  
+  const createSlug = (serviceName) => {
+    const slug = serviceName.replace(/[^a-zA-Z0-9]/gi, '-');
+    return slug.trim().toLowerCase().replace(/-+ /g, '-');
+  };
 
   const [file, setFile] = useState("");
   const [serviceName, setServiceName] = useState("");
+  const [serviceLink, setServiceLink] = useState("");
+  const [serviceSlug, setServiceSlug] = useState("");
   const [category, setcategory] = useState("");
   const [price, setPrice] = useState("");
   const router = useRouter();
+
+
+
+  const handleInputChange = (event) => {
+    setServiceName(event.target.value);
+    setServiceSlug(createSlug(event.target.value)); // Update slug on service name change
+  };
 
   const handleChange = (file) => {
     setFile(file);
@@ -27,13 +42,15 @@ const Page = () => {
 
     const formData = new FormData();
 
+
     formData.append("nama_service", serviceName);
-    formData.append("slug", serviceName);
-    formData.append("link_wa", serviceName);
+    formData.append("slug", serviceSlug);
+    formData.append("link_wa", serviceLink);
     formData.append("category", category );
     formData.append("price", price);
     formData.append("image", file);
-
+    
+   
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services`,
@@ -92,13 +109,45 @@ const Page = () => {
                     type="text" 
                     id="serviceName" 
                     value={serviceName}
-                    onChange={(e) => setServiceName(e.target.value)} 
+                    onChange={handleInputChange} 
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5" 
                     placeholder="Service Name"
                     required
                     />
               </div>
               <div className="relative z-0 w-full mb-5 group">
+              <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Service Slug
+              </label>
+              <input 
+                    type="text" 
+                    id="serviceSlug" 
+                    value={serviceSlug}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5" 
+                    placeholder="Service Slug"
+                    required
+                    disabled
+                    />
+              </div>  
+            </div>
+            <div class="grid md:grid-flow-col max-w-4xl gap-5 ">
+                            <div className="relative z-0 w-full mb-5 group"> 
+                            <label className="block mb-2 text-sm font-medium text-gray-900">
+                                Price
+                            </label>
+                            <input
+                                type="number"
+                                id="price"
+                                value={price}
+                                onChange={(e) =>
+                                    setPrice(Number(e.target.value))
+                                }
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Service Price"
+                                required
+                            />
+                            </div>
+                            <div className="relative z-0 w-full mb-5 group">
               <div className="grid grid-flow-col">
               <label className="block mb-2 text-sm font-medium text-gray-900">
                   Category
@@ -118,27 +167,25 @@ const Page = () => {
                                 <option>France</option>
                                 <option>Germany</option>
                 </select>
-              </div>  
-            </div>
-            <div class="mb-5 ">
-                            <div className="relative z-0 w-full mb-5"> 
+              </div>
+                        </div>
+                        <div className="">
+                        <div className="relative z-0 max-w-4xl mb-5"> 
                             <label className="block mb-2 text-sm font-medium text-gray-900">
-                                Price
+                                Link Whatsapp
                             </label>
                             <input
-                                type="number"
-                                id="price"
-                                value={price}
-                                onChange={(e) =>
-                                    setPrice(Number(e.target.value))
-                                }
+                                type="text"
+                                id="link_wa"
+                                value={serviceLink}
+                                onChange={(e) => setServiceLink(e.target.value)} 
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Service Price"
+                                placeholder="Service Whatsapp Link"
                                 required
                             />
                             </div>
                         </div>
-                        <div class="relative z-0 max-w-sm h-full mb-5 ">
+                        <div class="relative z-0 max-w-md mb-5">
                             <label className="block mb-2 text-sm font-medium text-gray-900">
                                 Image 
                             </label>
