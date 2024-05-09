@@ -1,5 +1,5 @@
 "use client";
-import { getService } from "../_api/api.js";
+import { getService } from "../../_api/api.js";
 import { useEffect, useState } from 'react';
 
 
