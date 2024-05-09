@@ -8,6 +8,7 @@ use App\Http\Resources\ServicesCollection;
 use App\Http\Resources\ServicesResource;
 use App\Models\Services;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ServicesController extends Controller
@@ -32,7 +33,7 @@ class ServicesController extends Controller
             'nama_service' => 'required|string|unique:products,slug|max:100',
             'category' => 'required|string|max:30',
             'price' => 'required|numeric|min:0',
-            'link_wa' => 'nullable|string|max:255',
+            'link_wa' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
@@ -51,7 +52,7 @@ class ServicesController extends Controller
             'slug' => $request->slug,
             'category' => $request->category,
             'price' => $request->price,
-            'whatsapp_link' => $request->whatsapp_link,
+            'link_wa' => $request->link_wa,
             'image' => $image->hashName(),
         ]);
 
@@ -71,10 +72,47 @@ class ServicesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreServicesRequest $request, Services $slug)
+    public function update(Request $request, $id)
     {
-        $slug->update($request->validated());
-        return response()->json("Service Has Been Updated");
+        $service = Services::findOrFail($id);
+        
+        $validator = Validator::make($request->all(), [
+            'slug' => 'required|string|max:255',
+            'nama_service' => 'required|string|unique:products,slug|max:100',
+            'category' => 'required|string|max:30',
+            'price' => 'required|numeric|min:0',
+            'link_wa' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+         //check if validation fails
+         if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if ($request->hasFile('image')) {
+            // Upload image
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('public/service', $image->hashName());
+            $imageFileName = basename($imagePath);
+            // Delete previous image if exists
+            if ($service->image) {
+                Storage::delete('public/service/' . $service->image);
+            }
+        } else {
+            // Keep the existing image if no new image is uploaded
+            $imageFileName = $service->image;
+        }
+
+        $service->update([
+            'nama_service' => $request->nama_service,
+            'slug' => $request->slug,
+            'category' => $request->category,
+            'price' => $request->price,
+            'link_wa' => $request->link_wa,
+            'image' => $imageFileName,
+        ]);
+
     }
 
     /**

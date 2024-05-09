@@ -27,6 +27,8 @@ function EditPage({ params }) {
   const [serviceSlug, setServiceSlug] = useState("");
   const [category, setcategory] = useState("");
   const [price, setPrice] = useState("");
+  const [serviceId, setServiceId] = useState("");
+
   const router = useRouter();
 
   const handleChange = (file) => {
@@ -46,6 +48,7 @@ useEffect(() => {
           setServiceSlug(res.slug);
           setcategory(res.category);
           setServiceLink(res.link_wa);
+          setServiceId(res.id);
       } catch (error) {
           console.log(error);
       }
@@ -74,7 +77,7 @@ useEffect(() => {
  
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services/${serviceId}`,
       formData
     );
     console.log("🚀 ~ updateService ~ response:", response);
