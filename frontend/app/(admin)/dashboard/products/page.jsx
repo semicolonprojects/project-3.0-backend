@@ -298,7 +298,7 @@ const Products = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-center items-center py-">
+                    <div className="flex justify-center items-center py-2">
                         {Array.from(
                             { length: totalPages },
                             (_, index) => index + 1
@@ -318,7 +318,7 @@ const Products = () => {
                             </button>
                         ))}
                     </div>
-                    <div className="flex justify-end items-end p-2">
+                    <div className="flex justify-end items-end p-6">
                         Page {currentPages} from {totalPages}
                     </div>
                 </div>
