@@ -18,7 +18,7 @@ class ServicesController extends Controller
      */
     public function index()
     {
-        return new ServicesCollection(Services::all());
+        return new ServicesCollection(Services::latest()->paginate(5));
     }
 
 

@@ -10,22 +10,35 @@ import { useRouter } from 'next/navigation';
 
 const Services = () => {
   const router = useRouter();
-  const [service, setServices ] = useState([]);
+  const [services, setServices ] = useState([]);
+  const [search, setSearch] = useState("");
+  const [currentPages, setCurrentPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(()=> {
       const fetchServices = async () => {
         try {
-          const serviceData = await getServices();
-          const res = serviceData.data;
-          console.log("🚀 ~ fetchServices ~ res:", res);
-          setServices(res);
+          const serviceData = await getServices(currentPages);
+          const res = serviceData;
+          setServices(res.data);
+          setTotalPages(res.meta.last_page);
         } catch (error) {
           console.log(error);
         }
       };
 
       fetchServices();
-  }, []);
+  }, [currentPages]);
+
+  const filteredServices = services.filter(
+    (service) =>
+        service.nama_service.toLowerCase().includes(search.toLowerCase()) ||
+        service.category.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   function formatRupiah(price) {
     const cleanPrice = String(price).replace(/\D/g, "");
@@ -46,12 +59,16 @@ const Services = () => {
 
     try {
       await deleteService(slug);
-      setServices(service.filter((data)=> data.slug !== slug));
+      setServices(services.filter((data)=> data.slug !== slug));
       toast.success("Service deleted successfully");
-      router.refresh();
+      router.refresh(); 
     } catch (error) {
       console.error ("Error deleting service:", error);
     }
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPages(page); // Update the current page
   };
 
  
@@ -88,7 +105,13 @@ const Services = () => {
                   <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                 </svg>
               </div>
-              <input type="text" id="simple-search" className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 " placeholder="Search" required=""/>
+              <input type="text" id="simple-search" 
+              className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary-500 focus:border-primary-500 "
+              placeholder="Search" 
+              required=""
+              value={search}
+              onChange={handleSearchChange}
+              />
             </div>
           </form>
         </div>
@@ -121,20 +144,20 @@ const Services = () => {
             </tr>
         </thead>
         <tbody>
-            {service.map((slug)=> (
+            {filteredServices.map((service)=> (
             <tr className="border-b hover:bg-white hover:bg-opacity-70">
                 <th scope="row" className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap ">
-                    {slug.nama_service}
+                    {service.nama_service}
                 </th>
                 <td className="px-6 py-4">
-                    {slug.slug}
+                    {service.category}
                 </td>
                 <td className="px-6 py-4">
-                    {formatRupiah(slug.price)}
+                    {formatRupiah(service.price)}
                 </td>
                 <td className="px-1 py-3 text-right">
                   <div className='grid grid-flow-col gap-1'>
-                    <Link href={`./services/${slug.slug}/show`}>
+                    <Link href={`./services/${service.slug}/show`}>
                   <button className='grid grid-flow-row text-gray-600'>
                   <svg className='w-6 h-6 ml-2' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"></path>
@@ -143,7 +166,7 @@ const Services = () => {
                   <span className='inline-flex text-xs'>Preview </span>
                   </button>
                     </Link>
-                    <Link href={`./services/${slug.slug}/edit`}>
+                    <Link href={`./services/${service.slug}/edit`}>
                   <button className='grid grid-flow-row text-gray-600'>
                   <svg className='w-6 h-6 ' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
@@ -151,7 +174,7 @@ const Services = () => {
                   <span className='inline-flex text-xs'>Edit </span>
                   </button>
                     </Link>
-                  <button className='grid grid-flow-row text-gray-600' onClick={() =>handleDeleteTask(slug.slug)}>
+                  <button className='grid grid-flow-row text-gray-600' onClick={() =>handleDeleteTask(service.slug)}>
                   <svg className='w-6 h-6 ml-2' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"></path>
                   </svg>              
@@ -163,6 +186,29 @@ const Services = () => {
             ))}
         </tbody>
     </table>
+    <div className="flex justify-center items-center py-2">
+                        {Array.from(
+                            { length: totalPages },
+                            (_, index) => index + 1
+                        ).map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => handlePageChange(page)}
+                                disabled={currentPages === page}
+                                value={page}
+                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${
+                                    currentPages === page
+                                        ? "pointer-events-none" && "underline"
+                                        : ""
+                                }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                    </div>
+                    <div className="flex justify-end items-end p-6">
+                        Page {currentPages} from {totalPages}
+                    </div>
 </div>
 
       </div>

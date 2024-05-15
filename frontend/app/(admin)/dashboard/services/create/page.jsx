@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 const Page = () => {
   const fileTypes = ["jpg", "png", "jpeg"];
@@ -148,13 +149,15 @@ const Page = () => {
                             />
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
-              <div className="grid grid-flow-col">
+              <div className="grid grid-flow-col w-full">
               <label className="block mb-2 text-sm font-medium text-gray-900">
                   Category
               </label>
-              <button className="text-right block mb-2 text-sm font-medium text-gray-900">
+              <Link href="/dashboard/services/category" className="">
+              <label className="text-right block mb-2 text-sm font-medium text-gray-900">
                  Manage Category
-              </button>
+              </label>
+              </Link>
                 </div>
                 <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 name="category"

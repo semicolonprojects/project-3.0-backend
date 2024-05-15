@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getServices = async () => {
+export const getServices = async (currentPage) => {
     const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services?page=${currentPage}`
     );
     return response.data;
 };
