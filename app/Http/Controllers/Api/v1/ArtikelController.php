@@ -88,12 +88,54 @@ class ArtikelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateArtikelRequest $request, Artikel $artikel)
+    public function update(Request $request, $id)
     {
-        $artikel->update($request->validated());
 
-        return response()->json('Updated');
+        // Find the article by ID
+        $article = Artikel::findOrFail($id);
+
+        // Validate the request data
+        $validator = Validator::make($request->all(), [
+            'slug' => 'required|string|max:100|unique:artikels,slug,' . $id,
+            'judul' => 'required|string|max:100|unique:artikels,judul,' . $id,
+            'category_id' => 'required|exists:artikel_categories,id',
+            'isi_artikel' => 'required|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        // If validation fails, return the validation errors
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Handle image upload if provided
+        if ($request->hasFile('image')) {
+            // Delete the old image file
+            if ($article->image) {
+                Storage::delete('public/artikel/' . $article->image);
+            }
+
+            $image = $request->file('image');
+            $imageName = $image->hashName();
+            $image->storeAs('public/artikel', $imageName);
+            $article->image = $imageName;
+        }
+
+        // Update article data
+        $article->slug = $request->slug;
+        $article->judul = $request->judul;
+        $article->category_id = $request->category_id;
+        $article->isi_artikel = $request->isi_artikel;
+        $article->description = $request->description ?? $article->description;
+
+        // Save the updated article
+        $article->save();
+
+        // Return success response
+        return response()->json('Article updated successfully', 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

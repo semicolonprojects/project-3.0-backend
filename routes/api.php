@@ -42,7 +42,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('services', ServicesController::class);
     Route::apiResource('products', ProductsController::class);
     Route::apiResource('cekresi', CekResiController::class);
-    Route::apiResource('productsCategory', ProductCategoryController::class)->except(['getAll']);
+    Route::apiResource('productsCategory', ProductCategoryController::class);
 
     Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
 })->middleware('cors');

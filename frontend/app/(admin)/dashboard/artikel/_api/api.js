@@ -15,6 +15,14 @@ export const createArtikel = async (artikel) => {
   return response.data;
 };
 
+export const updateArtikel = async (slug, updatedArtikel) => {
+  const response = await axios.post(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/artikel/${slug}`,
+    updatedArtikel
+  );
+  return response.data;
+};
+
 export const deleteArtikel = async (artikelId) => {
   const response = await axios.delete(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/artikel/${artikelId}`

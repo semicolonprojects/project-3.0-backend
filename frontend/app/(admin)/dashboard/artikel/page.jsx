@@ -234,7 +234,10 @@ const Artikel = () => {
                         </svg>
                         <span className="inline-flex text-xs">Preview </span>
                       </Link>
-                      <button className="grid grid-flow-row text-gray-600">
+                      <Link
+                        href={`/dashboard/artikel/${data.slug}/edit`}
+                        className="grid grid-flow-row text-gray-600"
+                      >
                         <svg
                           className="w-6 h-6 "
                           data-slot="icon"
@@ -252,7 +255,7 @@ const Artikel = () => {
                           ></path>
                         </svg>
                         <span className="inline-flex text-xs">Edit </span>
-                      </button>
+                      </Link>
                       <button
                         className="grid grid-flow-row text-gray-600"
                         onClick={() => handleDeleteArtikel(data.id)}
