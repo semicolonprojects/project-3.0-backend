@@ -9,6 +9,9 @@ use App\Http\Requests\UpdateArtikelRequest;
 use App\Http\Resources\ArtikelCollection;
 use App\Http\Resources\ArtikelResource;
 use Database\Factories\ArtikelFactory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ArtikelController extends Controller
 {
@@ -17,7 +20,7 @@ class ArtikelController extends Controller
      */
     public function index()
     {
-        return new  ArtikelCollection(Artikel::all());
+        return new  ArtikelCollection(Artikel::latest()->paginate());
     }
 
     /**
@@ -31,19 +34,47 @@ class ArtikelController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreArtikelRequest $request)
+    public function store(Request $request)
     {
-        $validate = Artikel::create($request->validated());
+        $validator = Validator::make($request->all(), [
+            'slug' => 'required|string|unique:artikels|max:100',
+            'judul' => 'required|string|unique:artikels|max:100',
+            'category_id' => 'required|exists:artikel_categories,id',
+            'isi_artikel' => 'required|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-        return response()->json("Success!");
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        //upload image
+        $image = $request->file('image');
+        $image->storeAs('public/artikel', $image->hashName());
+
+        //create post
+        Artikel::create([
+            'slug' => $request->slug,
+            'judul' => $request->judul,
+            'category_id' => $request->category_id,
+            'isi_artikel' => $request->isi_artikel,
+            'description' => $request->description,
+            'image' => $image->hashName(),
+        ]);
+
+        //return response
+        return response()->json('Success', 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(string $slug)
     {
-        return new ArtikelResource(Artikel::findOrFail($id));
+        $article = Artikel::where('slug', $slug)->first();
+        return new ArtikelResource(Artikel::findOrFail($article->id));
     }
 
     /**
@@ -67,8 +98,16 @@ class ArtikelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Artikel $artikel)
+    public function destroy($id)
     {
+        $artikel = Artikel::findOrFail($id);
+
+        if (Storage::exists('public/artikel/' . $artikel->image)) {
+            Storage::delete('public/artikel/' . $artikel->image); // Corrected path
+        } else {
+            return response()->json('File does not exist.', 404); // Returning a proper response for non-existing file
+        }
+
         $artikel->delete();
 
         return response()->json('Deleted');

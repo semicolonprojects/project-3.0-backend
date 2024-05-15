@@ -23,11 +23,12 @@ class StoreArtikelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => ['required'],
-            'judul' => ['required', 'max:255'],
-            'category_id' => ['required'],
-            'isi_artikel'  => ['required'],
-            'image' =>  ['nullable', 'file', 'image', 'max:1024'],
+            'slug' => 'required|string|unique:artikels|max:100',
+            'judul' => 'required|string|unique:artikels|max:100',
+            'category_id' => 'required|exists:artikel_categories,id',
+            'isi_artikel' => 'required|string',
+            'description' => 'nullable|string',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
         ];
     }
 }
