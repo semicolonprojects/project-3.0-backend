@@ -16,7 +16,7 @@ class CekResiController extends Controller
      */
     public function index()
     {
-        return new CekResiCollection(CekResi::all());
+        return new CekResiCollection(CekResi::latest()->paginate(5));
     }
 
 

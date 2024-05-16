@@ -46,7 +46,9 @@ class ServiceCategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $serviceCategory = ServiceCategory::findOrFail($id);
+
+        return new ServiceCategoryResource($serviceCategory);
     }
 
     /**

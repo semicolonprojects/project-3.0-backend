@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { getAllCategory } from "../category/_api/api";
 
 const Page = () => {
   const fileTypes = ["jpg", "png", "jpeg"];
@@ -21,9 +22,23 @@ const Page = () => {
   const [serviceLink, setServiceLink] = useState("");
   const [serviceSlug, setServiceSlug] = useState("");
   const [category, setcategory] = useState("");
+  const [getCategory, setGetCategory] = useState([]);
   const [price, setPrice] = useState("");
   const router = useRouter();
 
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const categories = await getAllCategory();
+        const res = categories.data;
+        setGetCategory(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCategory();
+  }, []);
 
 
   const handleInputChange = (event) => {
@@ -165,10 +180,12 @@ const Page = () => {
                                 onChange={(e) => setcategory(e.target.value)}
                             >
                                 <option selected>Select Category</option>
-                                <option>United States</option>
-                                <option>Canada</option>
-                                <option>France</option>
-                                <option>Germany</option>
+                                {getCategory.map((categoryList) => (
+                               <option key={categoryList.id} value={categoryList.slug}>
+                                {categoryList.name}
+                               </option>
+                  ))}
+                                
                 </select>
               </div>
                         </div>

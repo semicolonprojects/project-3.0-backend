@@ -13,6 +13,18 @@ import Modal from "./components/Modal";
 import { useRouter } from "next/navigation";      
 
 const Category = () => {
+
+    const handleInputChange = (event) => {
+        setShowCategory(event.target.value);
+        setCategorySlug(createSlug(event.target.value)); // Update slug on service name change
+      };
+    
+
+    const createSlug = (showCategory) => {
+        const slug = showCategory.replace(/[^a-zA-Z0-9]/gi, '-');
+        return slug.trim().toLowerCase().replace(/-+ /g, '-');
+      };
+
      const [search, setSearch] = useState("");
      const [currentPages, setCurrentPages] = useState(1);
      const [totalPages, setTotalPages] = useState(1);
@@ -23,18 +35,7 @@ const Category = () => {
      const [categoryId, setCategoryId] = useState([]);
 
      const router = useRouter();
-    
-     const createSlug = (showCategory) => {
-        const slug = showCategory.replace(/[^a-zA-Z0-9]/gi, '-');
-        return slug.trim().toLowerCase().replace(/-+ /g, '-');
-      };
-
-      const handleInputChange = (event) => {
-        setShowCategory(event.target.value);
-        setCategorySlug(createSlug(event.target.value)); // Update slug on service name change
-      };
-    
-
+     
      useEffect(
       () => {
         const fetchServiceCategory = async () => {
@@ -64,16 +65,16 @@ const Category = () => {
         category.name.toLowerCase().includes(search.toLowerCase())
      );
 
-     const handelDeleteTask = async (slug) => {
+     const handelDeleteTask = async (serviceCategoryId) => {
         const confirmDelete = window.confirm(
           "Are you sure you want to delete this category ?"
         );
         if (!confirmDelete) return;
         
         try {
-          await deleteServiceCategory(slug);
+          await deleteServiceCategory(serviceCategoryId);
           setCategories(
-            categories.filter((data)=> data.slug !== slug)
+            categories.filter((category)=> category.id !== serviceCategoryId)
           )
           toast.success("Service's Category deleted successfully", {
             position: "bottom-right",
@@ -85,19 +86,19 @@ const Category = () => {
      };
 
      const handleEdit = async (id) => {
-      setIsOpen(true);
-
-      if (id) {
-          const res = await detailServiceCategory(id);
-          setShowCategory(res.data.name);
-          setCategoryId(res.data.id);
-          setCategorySlug(res.data.slug);
-      } else {
-          setShowCategory("");
-          setCategoryId(null);
-          setCategorySlug("");
-      }
-  };
+        setIsOpen(true);
+        if (id) {
+            const res = await detailServiceCategory(id);
+            setShowCategory(res.data.name);
+            setCategoryId(res.data.id);
+            setCategorySlug(res.data.slug);
+        } else {
+            setShowCategory("");
+            setCategoryId(null);
+            setCategorySlug("");
+        }
+    };
+    
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -171,6 +172,8 @@ const Category = () => {
 };
 
 
+
+
   return (
     <>
       <table className="max-w-[974px] w-full text-sm text-left text-gray-500">
@@ -216,10 +219,10 @@ const Category = () => {
                 <th scope="col" className="px-10 py-3">
                     Nama Category Service
                 </th>
-                <th scope="col" className="px-6 py-3">
+                <th scope="col" className="px-10 py-3">
                     Slug
                 </th>
-                <th scope="col" className="px-12 py-3">
+                <th scope="col" className="px-7 py-3">
                     Actions
                 </th>
             </tr>
@@ -233,8 +236,8 @@ const Category = () => {
                 <td className="px-6 py-4">
                     {category.slug}
                 </td>
-                <td className="px-1 py-3 text-right">
-                  <div className='grid grid-flow-col gap-1'>
+                <td className="px-5 py-3">
+                  <div className='grid grid-cols-2 max-w-24'>
                   <button className='grid grid-flow-row text-gray-600'  onClick={() => handleEdit(category.id)} >
                   <svg className='w-6 h-6 ' data-slot="icon" fill="none" stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"></path>
@@ -267,7 +270,7 @@ const Category = () => {
      title={categoryId ? "Edit Category" : "Create Category"}
  >
      <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
-         <div className="mb-4">
+         <div className="mb-4 ">
              <label
                  htmlFor="name"
                  className="block text-gray-700 text-sm font-bold mb-2"
@@ -284,7 +287,7 @@ const Category = () => {
                  required
              />
          </div>
-         <div className="mb-4">
+         <div className="mb-4 ">
              <label
                  htmlFor="name"
                  className="block text-gray-700 text-sm font-bold mb-2"
@@ -296,7 +299,7 @@ const Category = () => {
                  id="slug"
                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                  placeholder="Enter category slug"
-                 onChange={(e) => setCategorySlug(e.target.value)}
+                //  onChange={(e) => setCategorySlug(e.target.value)}
                  value={categorySlug}
                  required
              />

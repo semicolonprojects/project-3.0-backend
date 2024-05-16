@@ -205,13 +205,13 @@ const Services = () => {
                                 {page}
                             </button>
                         ))}
-                    </div>
-                    <div className="flex justify-end items-end p-6">
-                        Page {currentPages} from {totalPages}
-                    </div>
-</div>
-
+    </div>
+      <div className="flex justify-end items-end p-6">
+    Page {currentPages} from {totalPages}
       </div>
+    </div>
+
+    </div>
     </>
     );
 }

@@ -7,9 +7,9 @@ export const getServicesCategory = async (currentPage) => {
     return response.data;
 };
 
-export const deleteServiceCategory = async (id) => {
+export const deleteServiceCategory = async (categoryService) => {
     const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${categoryService}`
     );
     return response.data;
 };
