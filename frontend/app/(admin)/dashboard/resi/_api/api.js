@@ -21,10 +21,10 @@ export const deleteResi = async (id) => {
   return response.data;
 };
 
-export const createResi = async (data) => {
+export const createResi = async (resi) => {
   const response = await axios.post(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi`,
-    data
+    resi
   );
   return response.data;
 };
