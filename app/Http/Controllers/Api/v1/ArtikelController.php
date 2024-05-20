@@ -18,9 +18,16 @@ class ArtikelController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new  ArtikelCollection(Artikel::latest()->paginate());
+        $all = $request->has('all');
+
+        if ($all) {
+
+            return new ArtikelCollection(Artikel::latest()->get());
+        } else {
+            return new ArtikelCollection(Artikel::latest()->paginate());
+        }
     }
 
     /**

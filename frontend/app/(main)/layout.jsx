@@ -26,15 +26,7 @@ export default function HomeLayout({ children }) {
       <Navbar />
       <div className="flex h-full">
         <Sidebar />
-        <main className="inline-flex flex-col h-full w-full">
-          {loading ? (
-            <div className="flex-grow flex justify-center items-center">
-              <Spinner />
-            </div>
-          ) : (
-            children
-          )}
-        </main>
+        <main className="inline-flex flex-col h-full w-full">{children}</main>
       </div>
       <Footer />
     </>
