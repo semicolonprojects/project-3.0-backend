@@ -18,7 +18,7 @@ class ServicesResource extends JsonResource
             "id" => $this->id,
             "slug" => $this->slug,
             "nama_service" => $this->nama_service,
-            "category" => $this->category,
+            "category" => $this->category->name,
             "price" => $this->price,
             "link_wa" => $this->link_wa,
             "image" => $this->image

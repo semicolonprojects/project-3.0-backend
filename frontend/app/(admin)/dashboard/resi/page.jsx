@@ -182,9 +182,9 @@ const Resi = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredResis.map((resi, index) => (
+                            {filteredResis.map((resi) => (
                                 <tr
-                                    key={index}
+                                    key={resi.id}
                                     className="border-b hover:bg-white hover:bg-opacity-70"
                                 >
                                     <th

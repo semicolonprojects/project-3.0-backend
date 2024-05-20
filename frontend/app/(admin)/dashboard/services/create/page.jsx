@@ -62,7 +62,7 @@ const Page = () => {
     formData.append("nama_service", serviceName);
     formData.append("slug", serviceSlug);
     formData.append("link_wa", serviceLink);
-    formData.append("category", category );
+    formData.append("category_id", category );
     formData.append("price", price);
     formData.append("image", file);
     
@@ -175,13 +175,13 @@ const Page = () => {
               </Link>
                 </div>
                 <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                name="category"
+                                name="category_id"
                                 value={category}
                                 onChange={(e) => setcategory(e.target.value)}
                             >
                                 <option selected>Select Category</option>
                                 {getCategory.map((categoryList) => (
-                               <option key={categoryList.id} value={categoryList.slug}>
+                               <option key={categoryList.id} value={categoryList.id}>
                                 {categoryList.name}
                                </option>
                   ))}

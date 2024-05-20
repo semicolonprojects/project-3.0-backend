@@ -19,7 +19,7 @@ class CekResiResource extends JsonResource
             "kode_resi" => $this->kode_resi,
             "nama_pelanggan" => $this->nama_pelanggan,
             "status_pengerjaan" => $this->status_pengerjaan,
-            "category" => $this->category,
+            "category" => $this->category->name,
             "pengirim" => $this->pengirim,
             "penerima" => $this->penerima,
             "created_at" => $this->created_at,

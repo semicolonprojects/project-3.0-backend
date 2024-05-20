@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('slug');
             $table->string('nama_service');
-            $table->string('category');
+            $table->foreignId('category_id')->constrained('service_categories')->onDelete('cascade');
             $table->float('price');
             $table->string('link_wa')->nullable();
             $table->string('image')->nullable();

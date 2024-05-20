@@ -47,7 +47,7 @@ function Page() {
         formData.append("kode_resi", formattedResi);
         formData.append("nama_pelanggan", resiName);
         formData.append("status_pengerjaan", resiStatus);
-        formData.append("category", category);
+        formData.append("category_id", category);
         formData.append("pengirim", sender);
         formData.append("penerima", recipient);
 
@@ -191,8 +191,7 @@ function Page() {
                                     </div>
                                     <select
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        name="category"
-                                        value={category}
+                                        defaultValue={category}
                                         onChange={(e) =>
                                             setCategory(e.target.value)
                                         }
@@ -203,7 +202,7 @@ function Page() {
                                         {getCategory.map((categoryList) => (
                                             <option
                                                 key={categoryList.id}
-                                                value={categoryList.slug}
+                                                value={categoryList.id}
                                             >
                                                 {categoryList.name}
                                             </option>

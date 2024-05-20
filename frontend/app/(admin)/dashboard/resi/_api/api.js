@@ -28,3 +28,11 @@ export const createResi = async (resi) => {
   );
   return response.data;
 };
+
+export const getCategory = async () => {
+  const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category`
+  );
+
+  return response.data;
+};

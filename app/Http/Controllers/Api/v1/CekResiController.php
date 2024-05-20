@@ -26,16 +26,30 @@ class CekResiController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'kode_resi' => 'required|unique:cek_resis,kode_resi',
             'nama_pelanggan' => 'required',
             'status_pengerjaan' => 'required',
-            'category' => 'required',
+            'category_id' => 'required|exists:service_categories,id',
             'pengirim' => 'nullable',
             'penerima' => 'nullable'
         ]);
-        $cekResi = CekResi::create($validatedData);
-        return new CekResiResource($cekResi);
+
+         //check if validation fails
+         if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        CekResi::create([
+            'kode_resi' => $request->kode_resi,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'status_pengerjaan' => $request->status_pengerjaan,
+            'category_id' => $request->category_id,
+            'pengirim' => $request->pengirim,
+            'penerima' => $request->penerima,
+        ]);
+
+        return response()->json('Success', 200);
     }
 
     /**
@@ -59,7 +73,7 @@ class CekResiController extends Controller
             'kode_resi' => 'required|unique:cek_resis,kode_resi',
             'nama_pelanggan' => 'required',
             'status_pengerjaan' => 'required',
-            'category' => 'required',
+            'category_id' => 'required|exists:service_categories,id',
             'pengirim' => 'nullable',
             'penerima' => 'nullable'
         ]);
@@ -74,10 +88,11 @@ class CekResiController extends Controller
             'kode_resi' => $request->kode_resi,
             'nama_pelanggan' => $request->nama_pelanggan,
             'status_pengerjaan' => $request->status_pengerjaan,
-            'category' => $request->category,
+            'category_id' => $request->category_id,
             'pengirim' => $request->pengirim,
             'penerima' => $request->penerima,
         ]);
+        
         return new CekResiResource($cekResi);
 
 

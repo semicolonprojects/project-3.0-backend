@@ -31,7 +31,7 @@ class ServicesController extends Controller
         $validator = Validator::make($request->all(), [
             'slug' => 'required|string|max:255',
             'nama_service' => 'required|string|unique:products,slug|max:100',
-            'category' => 'required|string|max:30',
+            'category_id' => 'required|exists:service_categories,id',
             'price' => 'required|numeric|min:0',
             'link_wa' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -50,7 +50,7 @@ class ServicesController extends Controller
         Services::create([
             'nama_service' => $request->nama_service,
             'slug' => $request->slug,
-            'category' => $request->category,
+            'category_id' => $request->category_id,
             'price' => $request->price,
             'link_wa' => $request->link_wa,
             'image' => $image->hashName(),
@@ -79,7 +79,7 @@ class ServicesController extends Controller
         $validator = Validator::make($request->all(), [
             'slug' => 'required|string|max:255',
             'nama_service' => 'required|string|unique:products,slug|max:100',
-            'category' => 'required|string|max:30',
+            'category_id' => 'required|exists:service_categories,id',            
             'price' => 'required|numeric|min:0',
             'link_wa' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -107,7 +107,7 @@ class ServicesController extends Controller
         $service->update([
             'nama_service' => $request->nama_service,
             'slug' => $request->slug,
-            'category' => $request->category,
+            'category_id' => $request->category_id,
             'price' => $request->price,
             'link_wa' => $request->link_wa,
             'image' => $imageFileName,

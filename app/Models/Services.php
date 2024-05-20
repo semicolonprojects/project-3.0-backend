@@ -18,9 +18,14 @@ class Services extends Model
     protected $fillable = [
         'slug',
         'nama_service',
-        'category',
+        'category_id',
         'price',
         'link_wa',
         'image'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
+    }
 }

@@ -13,4 +13,15 @@ class ServiceCategory extends Model
         'name',
         'slug'
     ];
+
+    // public function cekresi()
+    // {
+    //     return $this->hasMany(CekResi::class);
+    // }
+
+    // public function services()
+    // {
+    //     return $this->hasMany(Services::class);
+    // }
+
 }
