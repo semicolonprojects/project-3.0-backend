@@ -35,8 +35,8 @@ class CekResiController extends Controller
             'penerima' => 'nullable'
         ]);
 
-         //check if validation fails
-         if ($validator->fails()) {
+        //check if validation fails
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
@@ -78,11 +78,11 @@ class CekResiController extends Controller
             'penerima' => 'nullable'
         ]);
 
-         //check if validation fails
-         if ($validator->fails()) {
+        //check if validation fails
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-       
+
 
         $cekResi->update([
             'kode_resi' => $request->kode_resi,
@@ -92,10 +92,9 @@ class CekResiController extends Controller
             'pengirim' => $request->pengirim,
             'penerima' => $request->penerima,
         ]);
-        
-        return new CekResiResource($cekResi);
 
-
+        // return new CekResiResource($cekResi);
+        return response()->json('Sukses Update');
     }
 
     /**
