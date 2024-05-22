@@ -10,7 +10,10 @@ class Artikel extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['slug', 'judul', 'category_id', 'isi_artikel', 'image'];
+    protected $fillable = ['slug', 'judul', 'category_id', 'isi_artikel', 'image', 'description'];
 
-    
+    public function category()
+    {
+        return $this->belongsTo(ArtikelCategory::class, 'category_id');
+    }
 }

@@ -6,7 +6,7 @@ import ServicesProducts from "./ServicesProducts";
 
 const Page = () => {
   return (
-    <div className=" max-h-full flex flex-col gap-6">
+    <div className="max-h-full flex flex-col gap-6">
       <About />
       <div className="container w-full mx-auto ">
         <ServicesProducts />

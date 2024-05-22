@@ -27,6 +27,7 @@ class UpdateArtikelRequest extends FormRequest
             'category_id' => ['required'],
             'isi_artikel'  => ['required'],
             'image' =>  ['nullable', 'file', 'image', 'max:1024'],
+            'description' => ['nullable']
         ];
     }
 }

@@ -14,6 +14,18 @@ class ArtikelCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'data' => $this->collection->map(function ($artikel) {
+                return [
+                    'id' => $artikel->id,
+                    'judul' => $artikel->judul,
+                    'category' => $artikel->category->name,
+                    'slug' => $artikel->slug,
+                    'isi_artikel' => $artikel->isi_artikel,
+                    'image' => $artikel->image,
+                    'description' => $artikel->description
+                ];
+            }),
+        ];
     }
 }

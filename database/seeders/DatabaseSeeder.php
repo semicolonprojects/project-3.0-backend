@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Artikel;
 use App\Models\ArtikelCategory;
 use App\Models\CekResi;
+use App\Models\ProductCategory;
 use App\Models\Products;
 use App\Models\Services;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         Artikel::factory(10)->create();
         Services::factory(10)->create();
         CekResi::factory(10)->create();
+        ProductCategory::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
