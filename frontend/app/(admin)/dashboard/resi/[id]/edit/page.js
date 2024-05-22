@@ -40,7 +40,7 @@ const Edit = ({ params }) => {
         const data = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${params.id}`
         );
-        const res = data.data.data;
+        const res = data.data[0];
         setResiCode(res.kode_resi);
         setResiTitle(res.kode_resi);
         setResiName(res.nama_pelanggan);
@@ -73,13 +73,11 @@ const Edit = ({ params }) => {
     formData.append("category_id", oldCategory);
     formData.append("pengirim", sender);
     formData.append("penerima", recipient);
-    console.log("🚀 ~ updateResi ~ response:", formData);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${resiId}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${resiCode}`,
         formData
       );
-      console.log("🚀 ~ updateResi ~ response:", response);
       toast.dismiss();
       toast.success(response.data, {
         position: "bottom-right",
@@ -103,23 +101,22 @@ const Edit = ({ params }) => {
       }
     }
   };
-
   return (
     <div className="p-4 ml-80">
       <div className="py-20 pb-10">
         <div className="grid grid-flow-col gap-6 w-fit">
           <div className="p-4 bg-white bg-opacity-45 rounded-xl shadow-lg">
             <svg
-              class="flex-shrink-0 w-10 h-11 drop-shadow-lg shadow-black text-[#3f8ac7] "
+              className="flex-shrink-0 w-10 h-11 drop-shadow-lg shadow-black text-[#3f8ac7] "
               xmlns="http://www.w3.org/2000/svg"
               width="24"
               height="24"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
               <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
               <path d="M13 5v2" />
@@ -168,7 +165,7 @@ const Edit = ({ params }) => {
                 />
               </div>
             </div>
-            <div class="grid md:grid-flow-col max-w-4xl gap-5 ">
+            <div className="grid md:grid-flow-col max-w-4xl gap-5 ">
               <div className="relative z-0 w-full mb-5 group">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Status Pengerjaan
@@ -181,7 +178,7 @@ const Edit = ({ params }) => {
                   placeholder="Status Pengerjaan"
                   required
                 >
-                  <option selected>Select Status</option>
+                  <option>Select Status</option>
                   <option>Belum Dikerjakan</option>
                   <option>Sedang Dikerjakan</option>
                   <option>Dikirim</option>
@@ -218,9 +215,8 @@ const Edit = ({ params }) => {
                     ))}
                   </select>
                 ) : (
-                  <p
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                  Loading.... 
+                  <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    Loading....
                   </p> // Display a loading message or placeholder
                 )}
               </div>
@@ -239,7 +235,7 @@ const Edit = ({ params }) => {
                   placeholder="Nama Pengirim"
                 />
               </div>
-              <div class="relative z-0 max-w-md mb-5 group">
+              <div className="relative z-0 max-w-md mb-5 group">
                 <label className="block mb-2 text-sm font-medium text-gray-900">
                   Nama Penerima
                 </label>

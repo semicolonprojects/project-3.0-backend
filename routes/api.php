@@ -48,5 +48,8 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
     Route::apiResource('service-category', ServiceCategoryController::class)->except(['getAll']);
-    Route::apiResource('cekresi', CekResiController::class);
+
+    Route::apiResource('cekresi', CekResiController::class)->except(['getResi', 'getDetail']);
+    Route::get('getResi', [CekResiController::class, 'getData'])->name('getResi');
+    Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
 })->middleware('cors');
