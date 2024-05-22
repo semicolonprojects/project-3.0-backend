@@ -9,12 +9,23 @@ class Services extends Model
 {
     use HasFactory;
 
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     protected $fillable = [
         'slug',
         'nama_service',
-        'category',
+        'category_id',
         'price',
         'link_wa',
         'image'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
+    }
 }

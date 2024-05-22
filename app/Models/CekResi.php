@@ -13,8 +13,13 @@ class CekResi extends Model
         'kode_resi',
         'nama_pelanggan',
         'status_pengerjaan',
-        'category',
+        'category_id',
         'pengirim',
         'penerima'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
+    }
 }

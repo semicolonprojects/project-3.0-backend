@@ -8,6 +8,7 @@ use App\Http\Resources\CekResiCollection;
 use App\Http\Resources\CekResiResource;
 use App\Models\CekResi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CekResiController extends Controller
 {
@@ -16,35 +17,84 @@ class CekResiController extends Controller
      */
     public function index()
     {
-        return new CekResiCollection(CekResi::all());
+        return new CekResiCollection(CekResi::latest()->paginate(5));
     }
 
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCekResiRequest $request)
+    public function store(Request $request)
     {
-        CekResi::create($request->validated());
-        return response()->json("Resi Has Been Created");
+        $validator = Validator::make($request->all(), [
+            'kode_resi' => 'required|unique:cek_resis,kode_resi',
+            'nama_pelanggan' => 'required',
+            'status_pengerjaan' => 'required',
+            'category_id' => 'required|exists:service_categories,id',
+            'pengirim' => 'nullable',
+            'penerima' => 'nullable'
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        CekResi::create([
+            'kode_resi' => $request->kode_resi,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'status_pengerjaan' => $request->status_pengerjaan,
+            'category_id' => $request->category_id,
+            'pengirim' => $request->pengirim,
+            'penerima' => $request->penerima,
+        ]);
+
+        return response()->json('Success', 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(CekResi $cekresi)
+    public function show(string $id)
     {
-        return new CekResiResource($cekresi);
+        $cekResi = CekResi::findOrFail($id);
+
+        return new CekResiResource($cekResi);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreCekResiRequest $request, CekResi $cekresi)
+    public function update(Request $request, $id)
     {
-        $cekresi->update($request->validated());
-        return response()->json("Resi Has Been Updated");
+        $cekResi = CekResi::findOrFail($id);
+        $validator = Validator::make($request->all(), [
+            'kode_resi' => 'required|unique:cek_resis,kode_resi',
+            'nama_pelanggan' => 'required',
+            'status_pengerjaan' => 'required',
+            'category_id' => 'required|exists:service_categories,id',
+            'pengirim' => 'nullable',
+            'penerima' => 'nullable'
+        ]);
+
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+
+        $cekResi->update([
+            'kode_resi' => $request->kode_resi,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'status_pengerjaan' => $request->status_pengerjaan,
+            'category_id' => $request->category_id,
+            'pengirim' => $request->pengirim,
+            'penerima' => $request->penerima,
+        ]);
+
+        // return new CekResiResource($cekResi);
+        return response()->json('Sukses Update');
     }
 
     /**

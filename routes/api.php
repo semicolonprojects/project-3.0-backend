@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\CekResiController;
 use App\Http\Controllers\Api\v1\ProductCategoryController;
 use App\Http\Controllers\Api\v1\ProductsController;
+use App\Http\Controllers\Api\v1\ServiceCategoryController;
 use App\Http\Controllers\Api\v1\ServicesController;
 use App\Http\Controllers\Api\v1\UserController;
 use App\Http\Middleware\CorsMiddleware;
@@ -39,10 +40,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('users', UserController::class);
     Route::apiResource('artikel_category', ArtikelCategoryController::class);
     Route::apiResource('artikel', ArtikelController::class);
-    Route::apiResource('services', ServicesController::class);
+    Route::apiResource('services', ServicesController::class)->parameters([
+        'services' => 'slug',
+    ]);
     Route::apiResource('products', ProductsController::class);
-    Route::apiResource('cekresi', CekResiController::class);
     Route::apiResource('productsCategory', ProductCategoryController::class);
 
     Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
+    Route::apiResource('service-category', ServiceCategoryController::class)->except(['getAll']);
+    Route::apiResource('cekresi', CekResiController::class);
 })->middleware('cors');

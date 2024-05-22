@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kode_resi');
             $table->string('nama_pelanggan');
             $table->string('status_pengerjaan');
-            $table->string('category');
+            $table->foreignId('category_id')->constrained('service_categories')->onDelete('cascade');
             $table->string('pengirim')->nullable();
             $table->string('penerima')->nullable();
             $table->timestamps();

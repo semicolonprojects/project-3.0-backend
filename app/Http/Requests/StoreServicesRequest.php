@@ -25,7 +25,7 @@ class StoreServicesRequest extends FormRequest
         return [
             'slug' => ['required', Rule::unique('services')->ignore($this->service)],
             'nama_service' => ['required', 'min:5', 'max:100'],
-            'category' => ['required'],
+            'category_id' => ['required|exists:artikel_categories,id' ],
             'price' => ['required'],
             'link_wa' => ['required'],
             'image' => ['nullable', 'file', 'image', 'max:1024']

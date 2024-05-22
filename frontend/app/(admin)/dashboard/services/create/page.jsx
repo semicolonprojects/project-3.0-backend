@@ -5,15 +5,46 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { getAllCategory } from "../category/_api/api";
 
 const Page = () => {
   const fileTypes = ["jpg", "png", "jpeg"];
+  
+  
+  const createSlug = (serviceName) => {
+    const slug = serviceName.replace(/[^a-zA-Z0-9]/gi, '-');
+    return slug.trim().toLowerCase().replace(/-+ /g, '-');
+  };
 
   const [file, setFile] = useState("");
   const [serviceName, setServiceName] = useState("");
+  const [serviceLink, setServiceLink] = useState("");
+  const [serviceSlug, setServiceSlug] = useState("");
   const [category, setcategory] = useState("");
+  const [getCategory, setGetCategory] = useState([]);
   const [price, setPrice] = useState("");
   const router = useRouter();
+
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const categories = await getAllCategory();
+        const res = categories.data;
+        setGetCategory(res);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCategory();
+  }, []);
+
+
+  const handleInputChange = (event) => {
+    setServiceName(event.target.value);
+    setServiceSlug(createSlug(event.target.value)); // Update slug on service name change
+  };
 
   const handleChange = (file) => {
     setFile(file);
@@ -27,13 +58,15 @@ const Page = () => {
 
     const formData = new FormData();
 
+
     formData.append("nama_service", serviceName);
-    formData.append("slug", serviceName);
-    formData.append("link_wa", serviceName);
-    formData.append("category", category );
+    formData.append("slug", serviceSlug);
+    formData.append("link_wa", serviceLink);
+    formData.append("category_id", category );
     formData.append("price", price);
     formData.append("image", file);
-
+    
+   
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services`,
@@ -92,36 +125,29 @@ const Page = () => {
                     type="text" 
                     id="serviceName" 
                     value={serviceName}
-                    onChange={(e) => setServiceName(e.target.value)} 
+                    onChange={handleInputChange} 
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5" 
                     placeholder="Service Name"
                     required
                     />
               </div>
               <div className="relative z-0 w-full mb-5 group">
-              <div className="grid grid-flow-col">
               <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Category
+                  Service Slug
               </label>
-              <button className="text-right block mb-2 text-sm font-medium text-gray-900">
-                 Manage Category
-              </button>
-                </div>
-                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                name="category"
-                                value={category}
-                                onChange={(e) => setcategory(e.target.value)}
-                            >
-                                <option selected>Select Category</option>
-                                <option>United States</option>
-                                <option>Canada</option>
-                                <option>France</option>
-                                <option>Germany</option>
-                </select>
+              <input 
+                    type="text" 
+                    id="serviceSlug" 
+                    value={serviceSlug}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5" 
+                    placeholder="Service Slug"
+                    required
+                    disabled
+                    />
               </div>  
             </div>
-            <div class="mb-5 ">
-                            <div className="relative z-0 w-full mb-5"> 
+            <div class="grid md:grid-flow-col max-w-4xl gap-5 ">
+                            <div className="relative z-0 w-full mb-5 group"> 
                             <label className="block mb-2 text-sm font-medium text-gray-900">
                                 Price
                             </label>
@@ -137,8 +163,49 @@ const Page = () => {
                                 required
                             />
                             </div>
+                            <div className="relative z-0 w-full mb-5 group">
+              <div className="grid grid-flow-col w-full">
+              <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Category
+              </label>
+              <Link href="/dashboard/services/category" className="">
+              <label className="text-right block mb-2 text-sm font-medium text-gray-900">
+                 Manage Category
+              </label>
+              </Link>
+                </div>
+                <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                name="category_id"
+                                value={category}
+                                onChange={(e) => setcategory(e.target.value)}
+                            >
+                                <option selected>Select Category</option>
+                                {getCategory.map((categoryList) => (
+                               <option key={categoryList.id} value={categoryList.id}>
+                                {categoryList.name}
+                               </option>
+                  ))}
+                                
+                </select>
+              </div>
                         </div>
-                        <div class="relative z-0 max-w-sm h-full mb-5 ">
+                        <div className="">
+                        <div className="relative z-0 max-w-4xl mb-5"> 
+                            <label className="block mb-2 text-sm font-medium text-gray-900">
+                                Link Whatsapp
+                            </label>
+                            <input
+                                type="text"
+                                id="link_wa"
+                                value={serviceLink}
+                                onChange={(e) => setServiceLink(e.target.value)} 
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Service Whatsapp Link"
+                                required
+                            />
+                            </div>
+                        </div>
+                        <div class="relative z-0 max-w-md mb-5">
                             <label className="block mb-2 text-sm font-medium text-gray-900">
                                 Image 
                             </label>
