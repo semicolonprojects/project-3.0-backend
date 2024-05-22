@@ -19,13 +19,13 @@ function EditPage({ params }) {
         const slug = serviceName.replace(/[^a-zA-Z0-9]/gi, "-");
         return slug.trim().toLowerCase().replace(/-+ /g, "-");
     };
-
+    const [oldCategory, setOldCategory] = useState("");
     const [file, setFile] = useState("");
     const [serviceName, setServiceName] = useState("");
     const [serviceTitle, setServiceTitle] = useState("");
     const [serviceLink, setServiceLink] = useState("");
     const [serviceSlug, setServiceSlug] = useState("");
-    const [category, setcategory] = useState("");
+    const [categories, setCategories] = useState([]);
     const [price, setPrice] = useState("");
     const [serviceId, setServiceId] = useState("");
 
@@ -36,6 +36,21 @@ function EditPage({ params }) {
     };
 
     useEffect(() => {
+        const fetchCategory = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category`
+                );
+                const categories = response.data.data;
+                console.log(response.data);
+                // Access data array if needed
+                setCategories(categories);
+            } catch (error) {
+                console.error("Error fetching categories:", error.message);
+                // Handle errors here (e.g., display an error message to the user)
+            }
+        };
+
         const detail = async () => {
             try {
                 const serviceData = await axios.get(
@@ -46,7 +61,7 @@ function EditPage({ params }) {
                 setServiceTitle(res.nama_service);
                 setPrice(res.price);
                 setServiceSlug(res.slug);
-                setcategory(res.category);
+                setOldCategory(res.category_id);
                 setServiceLink(res.link_wa);
                 setServiceId(res.id);
             } catch (error) {
@@ -54,6 +69,7 @@ function EditPage({ params }) {
             }
         };
 
+        fetchCategory();
         detail();
     }, []);
 
@@ -68,7 +84,7 @@ function EditPage({ params }) {
         formData.append("nama_service", serviceName);
         formData.append("slug", serviceSlug);
         formData.append("link_wa", serviceLink);
-        formData.append("category", category);
+        formData.append("category_id", oldCategory);
         formData.append("_method", "PUT");
         formData.append("price", price);
         formData.append("image", file);
@@ -195,20 +211,34 @@ function EditPage({ params }) {
                                         Manage Category
                                     </button>
                                 </div>
-                                <select
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    name="category"
-                                    value={category}
-                                    onChange={(e) =>
-                                        setcategory(e.target.value)
-                                    }
-                                >
-                                    <option selected>Select Category</option>
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>France</option>
-                                    <option>Germany</option>
-                                </select>
+                                {categories.length > 0 ? ( // Render only if categories have data
+                                    <select
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        defaultValue={oldCategory}
+                                        onChange={(e) =>
+                                            setOldCategory(e.target.value)
+                                        }
+                                    >
+                                        <option value="">
+                                            Select Category
+                                        </option>
+                                        {categories.map((category) => (
+                                            <option
+                                                key={category.id}
+                                                value={category.id}
+                                                selected={
+                                                    category.id === oldCategory
+                                                }
+                                            >
+                                                {category.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <p
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    >Loading.... </p>// Display a loading message or placeholder
+                                )}
                             </div>
                         </div>
                         <div className="">

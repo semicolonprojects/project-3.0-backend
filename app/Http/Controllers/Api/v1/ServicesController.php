@@ -112,7 +112,8 @@ class ServicesController extends Controller
             'link_wa' => $request->link_wa,
             'image' => $imageFileName,
         ]);
-
+        
+        return response()->json('Sukses Update');
     }
 
     /**
