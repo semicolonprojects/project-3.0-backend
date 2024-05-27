@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const Page = ({ params }) => {
     const [service, setService] = useState([]);
-    const [productImage, setProductImage] = useState("");
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -13,9 +12,6 @@ const Page = ({ params }) => {
                 const res = serviceData.data;
                 console.log("🚀 ~ fetchServices ~ res:", res);
                 setService(res);
-                setProductImage(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/service/${res.image}`
-                );
             } catch (error) {
                 console.log(error);
             }
@@ -66,14 +62,7 @@ const Page = ({ params }) => {
                     <p className="text-lg font-semibold text-gray-900 mb-5">
                         Preview Services{" "}
                     </p>
-                    <div className="grid grid-cols-2">
-                        <div className="max-w-md w-full h-full ">
-                            <img
-                                src={productImage}
-                                alt={service.nama_service}
-                                className="h-[560px] w-96"
-                            />
-                        </div>
+                    <div className="">
                         <div className="relative mx-1">
                             <div className="flex">
                                 <h1 className="text-4xl font-bold">
@@ -84,9 +73,12 @@ const Page = ({ params }) => {
                                 <p className="text-md font-bold py-1">
                                     {service.category}
                                 </p>
-                                <p className="text-xl font-extrabold pb-5">
+                                <p className="text-xl font-extrabold pb-2">
                                     {formatRupiah(service.price)}
                                 </p>
+                            <div className="max-w-md w-full h-full "> 
+                            {service.deskripsi}
+                            </div>
                             </div>
                         </div>
                     </div>

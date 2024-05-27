@@ -11,7 +11,9 @@ class ServiceCategory extends Model
 
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'image',
+        'category_barang'
     ];
 
     // public function cekresi()

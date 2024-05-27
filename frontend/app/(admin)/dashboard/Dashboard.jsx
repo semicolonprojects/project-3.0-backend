@@ -10,6 +10,7 @@ import { toast } from "react-hot-toast";
 
 function Dashboard() {
     const [showMenu, setshowMenu] = useState(false);
+    const [showMulti, setshowMulti ] = useState(false);
     const cookies = useCookies();
 
     const router = useRouter();
@@ -40,6 +41,10 @@ function Dashboard() {
 
     const toggleMenu = () => {
         setshowMenu((showMenu) => !showMenu);
+    };
+
+    const toggleMulti = () => {
+        setshowMulti((showMulti) => !showMulti);
     };
     return (
         <>
@@ -232,30 +237,49 @@ function Dashboard() {
                                 </span>
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/dashboard/services"
-                                className="flex items-center p-2 text-gray-900 rounded-lg  hover:bg-gray-100  group"
+                        <li className="" >
+                            <button className="flex items-center p-2 w-full text-gray-900 rounded-lg group hover:bg-gray-100 transition duration-75 " onClick={toggleMulti} >
+                            <svg
+                                className="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] "
+                                fill="none"
+                                strokeWidth="1.5"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
                             >
-                                <svg
-                                    className="flex-shrink-0 w-5 h-5 text-[#3f8ac7] transition duration-75  group-hover:text-[#4EAEFD] "
-                                    fill="none"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
-                                    ></path>
-                                </svg>
-                                <span className="flex-1 ms-3 whitespace-nowrap">
-                                    Services
-                                </span>
-                            </Link>
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M11.42 15.17 17.25 21A2.652 2.652 0 0 0 21 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 1 1-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 0 0 4.486-6.336l-3.276 3.277a3.004 3.004 0 0 1-2.25-2.25l3.276-3.276a4.5 4.5 0 0 0-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437 1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008Z"
+                                ></path>
+                            </svg>
+                            <span className="flex ms-3 whitespace-nowrap">
+                                Services
+                            </span>
+                            </button>
+                            {showMulti && (
+                            <ul
+                                className="py-2 space-y-2"
+                            >
+                                <li>
+                                    <Link
+                                        href="/dashboard/services"
+                                        className="flex items-center w-full p-2 text-gray-900 hover:bg-gray-100 transition duration-75 rounded-lg pl-11 group"
+                                    >
+                                        Service
+                                    </Link>
+                                </li>
+                                <li>
+                                <Link
+                                        href="/dashboard/services/category"
+                                        className="flex items-center w-full p-2 text-gray-900 hover:bg-gray-100 transition duration-75 rounded-lg pl-11 group"
+                                    >
+                                        Service Category
+                                    </Link>
+                                </li>
+                            </ul>
+                            )}
                         </li>
                         <li>
                             <Link

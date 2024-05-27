@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
                   </h1>
               </div>
           </div>
-          <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px]">
+          <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px] p-6 ">
               {children}
           </div>
       </div>

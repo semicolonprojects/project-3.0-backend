@@ -34,7 +34,8 @@ class ServicesController extends Controller
             'category_id' => 'required|exists:service_categories,id',
             'price' => 'required|numeric|min:0',
             'link_wa' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'deskripsi' => 'required|string'
+           
         ]);
 
         //check if validation fails
@@ -42,9 +43,7 @@ class ServicesController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/service', $image->hashName());
+       
 
         //create post
         Services::create([
@@ -53,7 +52,7 @@ class ServicesController extends Controller
             'category_id' => $request->category_id,
             'price' => $request->price,
             'link_wa' => $request->link_wa,
-            'image' => $image->hashName(),
+            'deskripsi' => $request->deskripsi
         ]);
 
         //return response
@@ -82,26 +81,13 @@ class ServicesController extends Controller
             'category_id' => 'required|exists:service_categories,id',            
             'price' => 'required|numeric|min:0',
             'link_wa' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'deskripsi' => 'required|string'
+           
         ]);
 
          //check if validation fails
          if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
-        }
-
-        if ($request->hasFile('image')) {
-            // Upload image
-            $image = $request->file('image');
-            $imagePath = $image->storeAs('public/service', $image->hashName());
-            $imageFileName = basename($imagePath);
-            // Delete previous image if exists
-            if ($service->image) {
-                Storage::delete('public/service/' . $service->image);
-            }
-        } else {
-            // Keep the existing image if no new image is uploaded
-            $imageFileName = $service->image;
         }
 
         $service->update([
@@ -110,7 +96,7 @@ class ServicesController extends Controller
             'category_id' => $request->category_id,
             'price' => $request->price,
             'link_wa' => $request->link_wa,
-            'image' => $imageFileName,
+            'deskripsi' => $request->deskripsi,
         ]);
         
         return response()->json('Sukses Update');

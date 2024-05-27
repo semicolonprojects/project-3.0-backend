@@ -1,6 +1,5 @@
 "use client";
 
-import { FileUploader } from "react-drag-drop-files";
 import { useEffect, useState } from "react";
 import { getService } from "../../_api/api.js";
 import axios from "axios";
@@ -8,7 +7,6 @@ import { useRouter } from "next/navigation.js";
 import toast from "react-hot-toast";
 
 function EditPage({ params }) {
-    const fileTypes = ["jpg", "png", "jpeg"];
 
     const handleInputChange = (event) => {
         setServiceName(event.target.value);
@@ -20,7 +18,7 @@ function EditPage({ params }) {
         return slug.trim().toLowerCase().replace(/-+ /g, "-");
     };
     const [oldCategory, setOldCategory] = useState("");
-    const [file, setFile] = useState("");
+    const [serviceDesc, setServiceDesc] = useState("");
     const [serviceName, setServiceName] = useState("");
     const [serviceTitle, setServiceTitle] = useState("");
     const [serviceLink, setServiceLink] = useState("");
@@ -31,9 +29,6 @@ function EditPage({ params }) {
 
     const router = useRouter();
 
-    const handleChange = (file) => {
-        setFile(file);
-    };
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -58,6 +53,7 @@ function EditPage({ params }) {
                 );
                 const res = serviceData.data.data;
                 setServiceName(res.nama_service);
+                setServiceDesc(res.deskripsi);
                 setServiceTitle(res.nama_service);
                 setPrice(res.price);
                 setServiceSlug(res.slug);
@@ -87,7 +83,7 @@ function EditPage({ params }) {
         formData.append("category_id", oldCategory);
         formData.append("_method", "PUT");
         formData.append("price", price);
-        formData.append("image", file);
+        formData.append("deskripsi", serviceDesc);
 
         try {
             const response = await axios.post(
@@ -259,15 +255,18 @@ function EditPage({ params }) {
                                 />
                             </div>
                         </div>
-                        <div class="relative z-0 max-w-md mb-5">
+                        <div class="relative z-0 mb-5">
                             <label className="block mb-2 text-sm font-medium text-gray-900">
-                                Image
+                                Description
                             </label>
-                            <FileUploader
-                                handleChange={handleChange}
-                                name="image"
-                                types={fileTypes}
-                            />
+                            <textarea
+                                id="deskripsi"
+                                value={serviceDesc}
+                                onChange={(e) => setServiceDesc(e.target.value)} 
+                                rows="4"
+                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                                placeholder="Deskripsi Dari Service"
+                            ></textarea>
                         </div>
                         <button
                             type="submit"

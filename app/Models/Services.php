@@ -21,7 +21,7 @@ class Services extends Model
         'category_id',
         'price',
         'link_wa',
-        'image'
+        'deskripsi'
     ];
 
     public function category()

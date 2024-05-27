@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\ServiceCategoryResource;
 use Illuminate\Http\Request;
 use App\Models\ServiceCategory;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class ServiceCategoryController extends Controller
 {
@@ -30,24 +32,40 @@ class ServiceCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|unique:service_categories,name|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
             'slug' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'category_barang' => 'required|max:255',
+           
         ]);
 
-        $serviceCategory = ServiceCategory::create($validatedData);
+        //check if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-        return new ServiceCategoryResource($serviceCategory);
+         //upload image
+         $image = $request->file('image');
+         $image->storeAs('public/service', $image->hashName());
+        //create post
+        ServiceCategory::create([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'image' => $image->hashName(),
+            'category_barang' => $request->category_barang,
+        ]);
 
+        //return response
+        return response()->json('Success', 200);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
         $serviceCategory = ServiceCategory::findOrFail($id);
-
         return new ServiceCategoryResource($serviceCategory);
     }
 
@@ -65,15 +83,44 @@ class ServiceCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $serviceCategory = ServiceCategory::findOrFail($id);
-
-        $validatedData = $request->validate([
-            'name' => 'required|unique:service_categories,name,' . $id . '|max:255',
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
             'slug' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'category_barang' => 'required|max:255',
+           
         ]);
 
-        $serviceCategory->update($validatedData);
+       // Check if validation fails
+       if ($validator->fails()) {
+        return response()->json($validator->errors(), 422);
+    }
 
-        return new ServiceCategoryResource($serviceCategory);
+    // Check if image is uploaded
+    if ($request->hasFile('image')) {
+        // Upload image
+        $image = $request->file('image');
+        $imagePath = $image->storeAs('public/service', $image->hashName());
+        $imageFileName = basename($imagePath);
+        // Delete previous image if exists
+        if ($serviceCategory->image) {
+            Storage::delete('public/service/' . $serviceCategory->image);
+        }
+    } else {
+        // Keep the existing image if no new image is uploaded
+        $imageFileName = $serviceCategory->image;
+    }
+        //create post
+        $serviceCategory->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'image' => $imageFileName,
+            'category_barang' => $request->category_barang,
+        ]);
+
+        //return response
+        return response()->json('Success', 200);
     }
 
     /**
