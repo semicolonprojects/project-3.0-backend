@@ -96,7 +96,10 @@ const DetailMobile = ({
             Rp. {product.priceIDR}
           </p>
           <div className="rounded-lg">
-            <button className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853] ">
+            <Link
+              href={product.whatsapp_link}
+              className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853]"
+            >
               <div className="flex items-center justify-center gap-x-2">
                 <svg
                   width="32"
@@ -121,7 +124,7 @@ const DetailMobile = ({
                   Order This Product On Whatsapp{" "}
                 </p>
               </div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>

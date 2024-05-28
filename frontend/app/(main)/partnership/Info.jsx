@@ -23,21 +23,16 @@ const Info = () => {
             </div>
             <div className="max-w-screen-md max-h-screen">
               <p className="text-[#4EAEFD] text-justify py-2 font-semibold text-base tablet:text-xl">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry standard dummy text
-                ever since the 1500s, when an unknown printer took a galley of
-                type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
+                Di era modern saat ini sudah waktunya untuk kita saling bermitra
+                agar mendapatkan potensi pasar yang lebih luas dan spesifik.
+                Mari ambil potensi besar dalam jasa laundry Sepatu
+                bersama Nettoyer.Shoes
               </p>
             </div>
             <div className="py-4 tablet:py-10">
-              <button
-                type="button"
+              <a
+                target="_blank"
+                href="https://wa.me/6281232750957?text=Terimakasih%20atas%20minat%20anda%20untuk%20bekerjasama%20dengan%20Nettoyer.Shoes.%20Sebelum%20memasuki%20tahap%20lebih%20lanjut%20silahkan%20mengisi%20form%20di%20bawah%20ini%0ANama%20%3A%0AAlamat%20%3A%20%0ANo%20Hp%20%3A%20%0AStatus%20%3A%20%28pensiun%2Fpegawai%2Fdll%29%0A%0ATerimakasih%20atas%20perhatianya.%0A%0ASalam%20hangat"
                 className="gap-2 flex-row justify-center text-white bg-[#34A853] hover:bg-[#2e7c49] focus:ring-4 focus:outline-none focus:ring-[#5aa476] font-medium rounded-lg text-xl w-full py-4 inline-flex items-center me-2 mb-2"
               >
                 <svg
@@ -59,7 +54,7 @@ const Info = () => {
                   />
                 </svg>
                 Chat us on Whatsapp
-              </button>
+              </a>
             </div>
           </div>
         </div>

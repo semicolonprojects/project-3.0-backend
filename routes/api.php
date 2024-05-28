@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\v1\ArtikelCategoryController;
 use App\Http\Controllers\Api\v1\ArtikelController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\CekResiController;
+use App\Http\Controllers\Api\v1\NomorController;
 use App\Http\Controllers\Api\v1\ProductCategoryController;
 use App\Http\Controllers\Api\v1\ProductsController;
 use App\Http\Controllers\Api\v1\ServiceCategoryController;
@@ -52,4 +53,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('cekresi', CekResiController::class)->except(['getResi', 'getDetail']);
     Route::get('getResi', [CekResiController::class, 'getData'])->name('getResi');
     Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
+
+    Route::apiResource('nomors', NomorController::class);
 })->middleware('cors');

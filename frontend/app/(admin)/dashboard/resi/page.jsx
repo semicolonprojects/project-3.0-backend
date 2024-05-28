@@ -65,16 +65,16 @@ const Resi = () => {
           <div className="grid grid-flow-col gap-6 w-fit">
             <div className="p-4 bg-white bg-opacity-45 rounded-xl shadow-lg">
               <svg
-                class="flex-shrink-0 w-10 h-11 drop-shadow-lg shadow-black text-[#3f8ac7] "
+                className="flex-shrink-0 w-10 h-11 drop-shadow-lg shadow-black text-[#3f8ac7] "
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
                 <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
                 <path d="M13 5v2" />
@@ -101,7 +101,7 @@ const Resi = () => {
               <div className="flex flex-col items-center px-3 justify-between space-y-3 md:flex-row md:space-y-0 md:space-x-5">
                 <div className="w-full md:w-[30%]">
                   <form className="flex items-center ">
-                    <label for="simple-search" className="sr-only">
+                    <label htmlFor="simple-search" className="sr-only">
                       Search
                     </label>
                     <div className="relative w-full">
@@ -110,13 +110,13 @@ const Resi = () => {
                           aria-hidden="true"
                           className="w-5 h-5 text-gray-500 dark:text-gray-400"
                           fill="currentColor"
-                          viewbox="0 0 20 20"
+                          viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
                         >
                           <path
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           />
                         </svg>
                       </div>
@@ -143,9 +143,9 @@ const Resi = () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       >
                         <path d="M5 12h14" />
                         <path d="M12 5v14" />

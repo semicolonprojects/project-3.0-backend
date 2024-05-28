@@ -28,9 +28,9 @@ const DetailDesktop = ({
           </div> */}
           <div className="w-[40rem] h-[30rem] flex justify-center items-center">
             <div className="items-center h-64 w-96 relative">
-              <Image
-                alt={product.productName}
-                src={product.imageUrl}
+              <img
+                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
+                alt={product.product_name}
                 layout="fill" // required
                 objectFit="fill" // change to suit your needs
               />
@@ -101,24 +101,33 @@ const DetailDesktop = ({
                     />
                   </svg>
                   <span className="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                    {product.productName}
+                    {product.product_name}
                   </span>
                 </div>
               </li>
             </ol>
           </nav>
           <div className="grid grid-flow-row">
-            <h1 className="text-4xl font-bold">{product.productName}</h1>
+            <h1 className="text-4xl font-bold">{product.product_name}</h1>
             <div className="pt-2">
-              <p className="text-xl font-bold">Rp. {product.priceIDR}</p>
+              <p className="text-xl font-bold">
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                }).format(product.price)}
+              </p>
             </div>
           </div>
           <div className="my-5">
             <div className="grid grid-flow-row">
-              <p>{product.details}</p>
+              <p>{product.description}</p>
             </div>
             <div className="pt-[72px] grid grid-flow-row ">
-              <button className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853] ">
+              <a
+                target="_blank"
+                href={product.whatsapp_link}
+                className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853] "
+              >
                 <div className="flex items-center justify-center gap-x-2">
                   <svg
                     width="32"
@@ -143,7 +152,7 @@ const DetailDesktop = ({
                     Order This Product On Whatsapp{" "}
                   </p>
                 </div>
-              </button>
+              </a>
             </div>
           </div>
           {/* Carousel */}
@@ -159,16 +168,12 @@ const DetailDesktop = ({
                   Produk Kami Lainnya{" "}
                 </h2>
                 <div className=" py-5 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-1 lg:grid-cols-3 xl:gap-x-10">
-                  {slicedRandomProducts.map((random) => (
-                    <Link
-                      href={random.slug}
-                      className="group"
-                      key={random.slug}
-                    >
+                  {slicedRandomProducts.map((random, index) => (
+                    <Link href={random.slug} className="group" key={index}>
                       <div className="aspect-h-1 aspect-w-1 w-[200px] h-[287px] overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-                        <Image
-                          src={random.imageUrl}
-                          alt="..."
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${random.image}`}
+                          alt={random.product_name}
                           width="217"
                           height="287"
                           loading="lazy"
@@ -176,7 +181,7 @@ const DetailDesktop = ({
                         />
                       </div>
                       <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-                        {random.productName}
+                        {random.product_name}
                       </h3>
                     </Link>
                   ))}

@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             'category' => $this->category,
             'price' => $this->price,
             'whatsapp_link' => $this->whatsapp_link,
+            'description' => $this->description,
             'image' => $this->image,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at

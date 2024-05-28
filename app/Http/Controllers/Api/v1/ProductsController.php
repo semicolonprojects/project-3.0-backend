@@ -8,6 +8,7 @@ use App\Http\Requests\StoreProductsRequest;
 use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\ProductResource;
+use App\Models\Nomor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -17,9 +18,15 @@ class ProductsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new  ProductCollection(Products::latest()->paginate(5));
+        $all = $request->has('all');
+
+        if ($all) {
+            return new ProductCollection(Products::orderBy('created_at', 'asc')->get());
+        } else {
+            return new  ProductCollection(Products::latest()->paginate());
+        }
     }
 
     /**
@@ -36,12 +43,15 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
 
+        $nomor = Nomor::firstOrFail();
+
         $validator = Validator::make($request->all(), [
             'product_name' => 'required|unique:products,product_name|string|max:255',
             'slug' => 'required|string|unique:products,slug|max:100',
             'category' => 'required|string|max:30',
             'price' => 'required|numeric|min:0',
             'whatsapp_link' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -54,13 +64,27 @@ class ProductsController extends Controller
         $image = $request->file('image');
         $image->storeAs('public/products', $image->hashName());
 
+        $nomor = Nomor::firstOrFail();
+        $whatsappMessage = urlencode(
+            'Format order
+            Nama : 
+            Lokasi pengambilan : 
+            Treatment:
+            Jam pengambilan : 
+
+            *Untuk jam pengambilan akan disesuaikan oleh jam kurir, terimakasih🙏😊'
+        );
+
+        $whatsappLinkUrl = "https://wa.me/$nomor->nomor?text=$whatsappMessage";
+
         //create post
         Products::create([
             'product_name' => $request->product_name,
             'slug' => $request->slug,
             'category' => $request->category,
             'price' => $request->price,
-            'whatsapp_link' => $request->whatsapp_link,
+            'whatsapp_link' => $whatsappLinkUrl,
+            'description' => $request->description,
             'image' => $image->hashName(),
         ]);
 
@@ -91,50 +115,55 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Find the product
         $product = Products::findOrFail($id);
 
-        // Validate the request data
         $validator = Validator::make($request->all(), [
             'product_name' => 'required|string|max:255',
             'slug' => 'required|string|max:100|unique:products,slug,' . $id,
             'category' => 'required|string|max:30',
             'price' => 'required|numeric|min:0',
             'whatsapp_link' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        // Check if image is uploaded
         if ($request->hasFile('image')) {
             // Upload image
             $image = $request->file('image');
             $imagePath = $image->storeAs('public/products', $image->hashName());
             $imageFileName = basename($imagePath);
-            // Delete previous image if exists
             if ($product->image) {
                 Storage::delete('public/products/' . $product->image);
             }
         } else {
-            // Keep the existing image if no new image is uploaded
             $imageFileName = $product->image;
         }
 
-        // Update the product
+        $nomor = Nomor::firstOrFail();
+        $whatsappMessage = urlencode('Format order
+Nama : 
+Lokasi pengambilan : 
+Treatment:
+Jam pengambilan : 
+
+*Untuk jam pengambilan akan disesuaikan oleh jam kurir, terimakasih🙏😊');
+
+        $whatsappLinkUrl = "https://wa.me/$nomor->nomor?text=$whatsappMessage";
+
         $product->update([
             'product_name' => $request->product_name,
             'slug' => $request->slug,
             'category' => $request->category,
             'price' => $request->price,
-            'whatsapp_link' => $request->whatsapp_link,
+            'whatsapp_link' => $whatsappLinkUrl,
+            'description' => $request->description,
             'image' => $imageFileName,
         ]);
 
-        // Return success response
         return response()->json('Product updated successfully', 200);
     }
 

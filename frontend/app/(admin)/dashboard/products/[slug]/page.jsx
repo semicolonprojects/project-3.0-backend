@@ -17,6 +17,8 @@ const Page = ({ params }) => {
   const [productPrice, setProductPrice] = useState("");
   const [productCategory, setProductCategory] = useState("");
   const [productId, setProductId] = useState("");
+  const [templateMessage, setTemplateMessage] = useState("");
+  const [description, setDescription] = useState("");
   const [getCategory, setGetCategory] = useState([]);
 
   const router = useRouter();
@@ -24,6 +26,19 @@ const Page = ({ params }) => {
   const handleChange = (file) => {
     setFile(file);
   };
+
+  function extractTextFromWhatsAppUrl(url) {
+    const searchParams = new URLSearchParams(url);
+
+    let text = searchParams.get("text");
+
+    const dynamicPartIndex = text.indexOf("=");
+    if (dynamicPartIndex !== -1) {
+      text = text.substring(0, dynamicPartIndex);
+    }
+
+    return decodeURIComponent(text);
+  }
 
   useEffect(() => {
     const detail = async () => {
@@ -40,6 +55,8 @@ const Page = ({ params }) => {
         setProductTitle(res.product_name);
         setProductPrice(res.price);
         setProductCategory(res.category);
+        setTemplateMessage(extractTextFromWhatsAppUrl(res.whatsapp_link));
+        setDescription(res.description);
         setProductId(res.id);
       } catch (error) {
         console.log(error);
@@ -65,7 +82,8 @@ const Page = ({ params }) => {
     formData.append("category", productCategory);
     formData.append("_method", "PUT");
     formData.append("image", file);
-    formData.append("whatsapp_link", "www.wa.me.com");
+    formData.append("whatsapp_link", templateMessage);
+    formData.append("description", description);
 
     await axios
       .post(
@@ -181,6 +199,22 @@ const Page = ({ params }) => {
                     ))}
                   </select>
                 )}
+              </div>
+            </div>
+            <div className="mb-5 ">
+              <div className="relative z-0 w-full mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Product Description"
+                  required
+                />
               </div>
             </div>
             <div className="mb-5 ">

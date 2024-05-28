@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NavbarServices = () => {
   const [services, setServices] = useState([]);
-
+  const [category, setCategory] = useState("");
   const pathname = usePathname();
 
   const getServices = async () => {
@@ -23,31 +22,36 @@ const NavbarServices = () => {
     getServices();
   }, []);
 
+  const handleClick = (event) => {
+    const category = event.target.value;
+    setCategory(category);
+  };
+
   return (
     <ul className="pt-5 pl-1 flex font-medium text-xs tablet:text-sm gap-6 tablet:gap-7">
       <li>
-        <Link
-          href="/services"
+        <button
+          value={""}
+          onClick={handleClick}
           className={`hover:underline ${
-            pathname === "/services" ? "text-yellow-500" : ""
+            category === "" ? "text-yellow-500" : ""
           } `}
         >
           All Services
-        </Link>
+        </button>
       </li>
       {services?.map((service, index) => (
         <li key={index}>
-          <Link
-            href={`/services/${service.category}`}
+          <button
+            value={service.category}
+            onClick={handleClick}
             className={`hover:underline ${
-              pathname === `/services/${service.category}`
-                ? "text-yellow-500"
-                : ""
+              service.category === category ? "text-yellow-500" : ""
             } `}
           >
             {" "}
             {service.category}
-          </Link>
+          </button>
         </li>
       ))}
     </ul>

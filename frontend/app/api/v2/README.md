@@ -107,6 +107,23 @@ File ini berfungsi untuk consume data yang nantinya digunakan di frontend.
 - `DELETE api/v1/cekresi/{cekresi}`  
   **Description**: Delete a specific shipment tracking.
 
+### Nomors
+
+- `GET|HEAD api/v1/nomors`  
+  **Description**: Retrieve all nomors.
+
+- `POST api/v1/nomors`  
+  **Description**: Create a new nomor.
+
+- `GET|HEAD api/v1/nomors/{nomor}`  
+  **Description**: Retrieve details of a specific nomor.
+
+- `PUT|PATCH api/v1/nomors/{nomor}`  
+  **Description**: Update details of a specific nomor.
+
+- `DELETE api/v1/nomors/{nomor}`  
+  **Description**: Delete a specific nomor.
+
 ### Auth
 
 - `POST api/v1/login`  

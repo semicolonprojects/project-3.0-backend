@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import axios from "axios"; // Import Axios
 import Spinner from "../../../components/Spinner";
 import DetailDesktop from "./DetailDesktop";
 import DetailMobile from "./DetailMobile";
@@ -24,9 +25,8 @@ const useGetData = (url) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(url);
-        const result = await res.json();
-        setData(result.data);
+        const res = await axios.get(url); // Use axios.get instead of fetch
+        setData(res.data.data); // Assuming your data is nested under 'data'
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -41,11 +41,14 @@ const useGetData = (url) => {
 };
 
 const Page = ({ params }) => {
+  const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
+
   const { data: product, loading: productLoading } = useGetData(
-    `/api/v1/dummy-data/${params.slug}`
+    `${API_URL}/api/v1/products/${params.slug}`
   );
-  const { data: randomProducts, loading: randomProductsLoading } =
-    useGetData("/api/v1/dummy-data");
+  const { data: randomProducts, loading: randomProductsLoading } = useGetData(
+    `${API_URL}/api/v1/products?all`
+  );
 
   const shuffledProducts = useShuffleArray(randomProducts);
   const slicedRandomProducts = shuffledProducts.slice(0, 3);

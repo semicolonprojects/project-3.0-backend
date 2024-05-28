@@ -15,6 +15,8 @@ const Page = () => {
   const [productName, setProductName] = useState("");
   const [category, setcategory] = useState("");
   const [price, setPrice] = useState("");
+  const [templateMessage, setTemplateMessage] = useState("");
+  const [description, setDescription] = useState("");
   const [getCategory, setGetCategory] = useState([]);
   const router = useRouter();
 
@@ -35,6 +37,11 @@ const Page = () => {
     setFile(file);
   };
 
+  const createSlug = (productName) => {
+    const slug = productName.replace(/[^a-zA-Z0-9]/gi, "-");
+    return slug.trim().toLowerCase().replace(/-+ /g, "-");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     toast.loading("Loading ... ", {
@@ -44,9 +51,10 @@ const Page = () => {
     const formData = new FormData();
 
     formData.append("product_name", productName);
-    formData.append("slug", productName);
+    formData.append("slug", createSlug(productName));
     formData.append("category", category);
-    formData.append("whatsapp_link", productName);
+    formData.append("whatsapp_link", templateMessage);
+    formData.append("description", description);
     formData.append("price", price);
     formData.append("image", file);
 
@@ -158,6 +166,22 @@ const Page = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            <div className="mb-5 ">
+              <div className="relative z-0 w-full mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Product Description"
+                  required
+                />
               </div>
             </div>
             <div className="mb-5 ">

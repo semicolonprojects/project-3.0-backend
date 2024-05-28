@@ -1,25 +1,25 @@
 import { NextResponse } from "next/server";
 import { getCookies } from "next-client-cookies/server";
+import toast from "react-hot-toast";
 
-// This function can be marked `async` if using `await` inside
+export async function middleware(request) {
+  const cookies = getCookies(request);
+  const userToken = cookies.get("token");
+  const requestedPath = new URL(request.url).pathname;
 
-export function middleware(request) {
-    const cookies = getCookies();
-    const userToken = cookies.get("token");
-    const requestedPath = new URL(request.url).pathname;
-
-    if (userToken && requestedPath === "/login") {
-        return NextResponse.redirect(new URL("/dashboard", request.url));
+  if (userToken) {
+    if (requestedPath === "/login") {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
-
-    if (!userToken && requestedPath === "/dashboard") {
-        return NextResponse.redirect(new URL("/login", request.url));
+    if (requestedPath.startsWith("/dashboard")) {
+      return NextResponse.next();
     }
-
+  } else {
+    if (requestedPath.startsWith("/dashboard")) {
+      return NextResponse.redirect(new URL("/login", request.url));
+    }
     return NextResponse.next();
-}
+  }
 
-// See "Matching Paths" below to learn more
-export const config = {
-    matcher: ["/dashboard", "/login"],
-};
+  return NextResponse.next();
+}
