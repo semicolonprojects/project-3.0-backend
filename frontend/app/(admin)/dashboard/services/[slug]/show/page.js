@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 const Page = ({ params }) => {
     const [service, setService] = useState([]);
+    const [serviceImage, setServiceImage] = useState("");
 
     useEffect(() => {
         const fetchServices = async () => {
@@ -12,6 +13,7 @@ const Page = ({ params }) => {
                 const res = serviceData.data;
                 console.log("🚀 ~ fetchServices ~ res:", res);
                 setService(res);
+                setServiceImage(`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${res.category_image}`)
             } catch (error) {
                 console.log(error);
             }
@@ -62,7 +64,14 @@ const Page = ({ params }) => {
                     <p className="text-lg font-semibold text-gray-900 mb-5">
                         Preview Services{" "}
                     </p>
-                    <div className="">
+                    <div className="grid grid-flow-col gap-2">
+                        <div>
+                            <img 
+                            src={serviceImage}
+                            alt={service.category}
+                            />
+                            
+                        </div>
                         <div className="relative mx-1">
                             <div className="flex">
                                 <h1 className="text-4xl font-bold">
