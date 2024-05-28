@@ -12,7 +12,7 @@ function CreateCategory() {
 
   const handleInputChange = (event) => {
     setShowCategory(event.target.value);
-    setCategorySlug(createSlug(event.target.value)); // Update slug on service name change
+    setCategorySlug(createSlug(event.target.value));
   };
 
   const createSlug = (showCategory) => {
@@ -39,7 +39,7 @@ function CreateCategory() {
     const formData = new FormData();
 
     formData.append("name", showCategory);
-    formData.append("slug", categorySlug);
+    formData.append("slug", `${categorySlug}-${categoryFor.toLowerCase()}`);
     formData.append("category_barang", categoryFor);
     formData.append("image", file);
 
@@ -98,7 +98,7 @@ function CreateCategory() {
               required
             />
           </div>
-          <div className="mb-4 ">
+          {/* <div className="mb-4 ">
             <label
               htmlFor="name"
               className="block text-gray-700 text-sm font-medium mb-2"
@@ -114,7 +114,7 @@ function CreateCategory() {
               value={categorySlug}
               required
             />
-          </div>
+          </div> */}
         </div>
         <div className="mb-4 ">
           <label
