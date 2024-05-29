@@ -16,9 +16,28 @@ class ServicesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return new ServicesCollection(Services::latest()->paginate(5));
+        $all = $request->has('all');
+        $category = $request->has('category');
+
+        if ($all) {
+            return new ServicesCollection(Services::latest()->get());
+        } elseif ($category) {
+            $category = $request->query('category');
+
+            $query = Services::query(); // Start with a fresh query
+    
+            if ($category && in_array($category, ['Shoes & Sandals', 'Bag', 'Hat', 'Others'])) {
+                $query->where('category', $category);
+            }
+            $products = $query->get();
+    
+            return response()->json($products);
+        } else {
+            return new ServicesCollection(Services::latest()->paginate());
+        }
+       
     }
 
 

@@ -2,30 +2,41 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { getServices } from "../../api/v2/service/getService";
+import { getServiceCategory } from "../../api/v2/service/getServiceByCategory";
+
 
 const NavbarServices = () => {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [category, setCategory] = useState("");
-  const pathname = usePathname();
 
-  const getServices = async () => {
-    try {
-      const res = await fetch("/api/v1/services-dummy-data");
-      const data = await res.json();
-      setServices(data.data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  
 
   useEffect(() => {
-    getServices();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const res = await getServices();
+        setServices(res);
+        if (category) { // Fetch filtered data if category is set
+          const res = await getServiceCategory(category);
+          setFilteredServices(res);
+          console.log(res);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [category]);
 
   const handleClick = (event) => {
-    const category = event.target.value;
-    setCategory(category);
+
+    setCategory(event.target.value);
   };
+
+  console.log(category);
 
   return (
     <ul className="pt-5 pl-1 flex font-medium text-xs tablet:text-sm gap-6 tablet:gap-7">
@@ -40,7 +51,7 @@ const NavbarServices = () => {
           All Services
         </button>
       </li>
-      {services?.map((service, index) => (
+      {filteredServices.map((service, index) => (
         <li key={index}>
           <button
             value={service.category}

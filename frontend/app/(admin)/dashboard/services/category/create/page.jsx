@@ -132,10 +132,10 @@ function CreateCategory() {
             required
           >
             <option selected>Select Category</option>
-            <option>Shoes</option>
-            <option>Sandals</option>
+            <option>Shoes & Sandals</option>
             <option>Bag</option>
             <option>Hat</option>
+            <option>Others</option>
           </select>
         </div>
         <div className="relative z-0 max-w-md mb-5">
