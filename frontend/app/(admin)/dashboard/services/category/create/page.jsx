@@ -132,7 +132,7 @@ function CreateCategory() {
             required
           >
             <option selected>Select Category</option>
-            <option>Shoes & Sandals</option>
+            <option>Shoes</option>
             <option>Bag</option>
             <option>Hat</option>
             <option>Others</option>
