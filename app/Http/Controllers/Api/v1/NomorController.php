@@ -90,4 +90,11 @@ class NomorController extends Controller
             return response()->json(['message' => 'Failed to delete Nomor'], 500);
         }
     }
+
+    public function getExistsNomor()
+    {
+        $nomor = Nomor::first();
+
+        return response()->json(['data' => $nomor]);
+    }
 }

@@ -55,7 +55,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('getResi', [CekResiController::class, 'getData'])->name('getResi');
     Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
 
-    Route::apiResource('nomors', NomorController::class);
+    Route::apiResource('nomors', NomorController::class)->except(['getExistsNomor']);
+    Route::get('getExistsNomor', [NomorController::class, 'getExistsNomor'])->name('getExistsNomor');
 
     Route::apiResource('promo', PromoController::class);
 })->middleware('cors');

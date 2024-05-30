@@ -7,6 +7,7 @@ import React, { useState } from "react";
 import logo from "/public/img/logo3.png";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import NomorWhatsapp from "./NomorWhatsapp";
 
 function Dashboard() {
   const [showMenu, setshowMenu] = useState(false);
@@ -46,6 +47,7 @@ function Dashboard() {
   const toggleMulti = () => {
     setshowMulti((showMulti) => !showMulti);
   };
+
   return (
     <>
       <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 ">
@@ -117,6 +119,9 @@ function Dashboard() {
                         >
                           Dashboard
                         </Link>
+                      </li>
+                      <li>
+                        <NomorWhatsapp />
                       </li>
                       <li>
                         <button
