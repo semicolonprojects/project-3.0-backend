@@ -28,8 +28,8 @@ const NomorWhatsapp = () => {
       const formData = new FormData(event.target);
       const nomor = formData.get("nomor");
 
-      if (nomor.length !== 10) {
-        toast.error("Nomor Whatsapp harus terdiri dari 10 digit.", {
+      if (nomor.length !== 11) {
+        toast.error("Nomor Whatsapp harus terdiri dari 11 digit.", {
           position: "bottom-right",
         });
         return;
