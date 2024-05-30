@@ -1,5 +1,7 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
+import Promo from "./Promo";
 
 const home = () => {
   return (
@@ -25,148 +27,7 @@ const home = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white w-[96%] rounded-md shadow-sm p-4 mb-5">
-          <div className="grid grid-flow-col">
-            <div className="items-start">
-              <h1 className="font-bold text-2xl">Promos</h1>
-            </div>
-            <div className="text-right">
-              <button className="bg-green-500 hover:bg-green-400 inline-flex items-center  text-white p-2 rounded-lg w-fit ">
-                <svg
-                  className="left-0 w-5 h-5 mx-2"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5v14" />
-                </svg>
-                <span className="text-sm">Add New Promo</span>
-              </button>
-            </div>
-          </div>
-          <div className="grid grid-flow-col gap-2 py-10 px-5 pl-10">
-            <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
-              <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
-                <p className="pt-1 text-md font-bold">Promo</p>
-                <button className="p-1">
-                  <svg
-                    className="w-7 h-7"
-                    data-slot="icon"
-                    fill="none"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-              <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
-              <p className="text-sm pb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
-              </p>
-              <p className="text-sm font-bold">15-04-2024</p>
-            </div>
-            <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
-              <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
-                <p className="pt-1 text-md font-bold">Promo</p>
-                <button className="p-1">
-                  <svg
-                    className="w-7 h-7"
-                    data-slot="icon"
-                    fill="none"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-              <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
-              <p className="text-sm pb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
-              </p>
-              <p className="text-sm font-bold">15-04-2024</p>
-            </div>
-            <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
-              <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
-                <p className="pt-1 text-md font-bold">Promo</p>
-                <button className="p-1">
-                  <svg
-                    className="w-7 h-7"
-                    data-slot="icon"
-                    fill="none"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-              <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
-              <p className="text-sm pb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
-              </p>
-              <p className="text-sm font-bold">15-04-2024</p>
-            </div>
-            <div className="bg-slate-200 rounded-lg p-2 h-44 w-44">
-              <div className="grid grid-cols-2 gap-24 border-b border-slate-300">
-                <p className="pt-1 text-md font-bold">Promo</p>
-                <button className="p-1">
-                  <svg
-                    className="w-7 h-7"
-                    data-slot="icon"
-                    fill="none"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
-              <p className="text-base font-bold py-2 pb-0">Judul Promo</p>
-              <p className="text-sm pb-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.{" "}
-              </p>
-              <p className="text-sm font-bold">15-04-2024</p>
-            </div>
-          </div>
-          <div></div>
-        </div>
+        <Promo />
         <div className="grid grid-flow-col gap-2 pb-5">
           <div className="rounded-md bg-white w-72 p-4 pt-2">
             <div className="grid grid-flow-col gap-14">

@@ -30,20 +30,20 @@ const Page = () => {
   return (
     <>
       {/* Desktop View */}
-      <div classNameName="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-10">
-        <h1 classNameName="pt-9 font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
+      <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-10">
+        <h1 className="pt-9 font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
           Product For You
         </h1>
-        <ul classNameName="pt-5 pl-1 flex font-medium text-sm gap-7">
+        <ul className="pt-5 pl-1 flex font-medium text-sm gap-7">
           <li>
-            <Link href="#" classNameName="hover:underline text-[#FFB62B]">
+            <Link href="#" className="hover:underline text-[#FFB62B]">
               All Products
             </Link>
           </li>
           {getCategories.length > 0 ? (
             getCategories.map((category, index) => (
               <li key={index}>
-                <button classNameName="hover:underline">{category.name}</button>
+                <button className="hover:underline">{category.name}</button>
               </li>
             ))
           ) : (
@@ -52,29 +52,29 @@ const Page = () => {
             </li>
           )}
         </ul>
-        <div classNameName="py-5">
+        <div className="py-5">
           {/*  Cards Service 1 */}
-          <div classNameName="py-2 grid grid-cols-2 gap-x-32 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
+          <div className="py-2 grid grid-cols-2 gap-x-32 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
             {products.length > 0 ? (
               products.map((product) => (
                 <Link
                   href={`products/${product.slug}`}
-                  classNameName="group"
+                  className="group"
                   key={product.id}
                 >
-                  <div classNameName="aspect-h-1 aspect-w-1 w-[250px] h-[389px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                  <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                     <img
                       src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                       alt={product.product_name}
                       width="250"
                       height="389"
-                      classNameName="h-full w-full object-cover group-hover:opacity-75"
+                      className="h-full w-full object-cover group-hover:opacity-75"
                     />
                   </div>
-                  <h3 classNameName="mt-2 text-sm text-gray-900 font-semibold">
+                  <h3 className="mt-2 text-sm text-gray-900 font-semibold">
                     {product.product_name}
                   </h3>
-                  <h3 classNameName="mt-2 text-sm text-gray-900 font-medium">
+                  <h3 className="mt-2 text-sm text-gray-900 font-medium">
                     {new Intl.NumberFormat("id-ID", {
                       style: "currency",
                       currency: "IDR",
@@ -88,7 +88,7 @@ const Page = () => {
                 {[...Array(8)].map((_, index) => (
                   <div
                     key={index}
-                    classNameName="w-[250px] h-[389px] bg-gray-300 animate-pulse"
+                    className="w-[250px] h-[389px] bg-gray-300 animate-pulse"
                   ></div>
                 ))}
               </>
@@ -98,46 +98,46 @@ const Page = () => {
       </div>
 
       {/* Mobile View */}
-      <div className="block tablet:hidden h-screen w-screen overflow-x-hidden flex-col justify-center items-center py-32">
-        <h1 className="text-center py-5 font-bold tracking-tight leading-none text-3xl text-[#FFB62B]">
+      <div class="block tablet:hidden h-screen w-screen overflow-x-hidden flex-col justify-center items-center py-32">
+        <h1 class="text-center py-5 font-bold tracking-tight leading-none text-3xl text-[#FFB62B]">
           Product For Your Shoes
         </h1>
-        <ul className="w-screen mx-auto flex font-medium text-sm gap-6 justify-center text-center">
+        <ul class="w-screen mx-auto flex font-medium text-sm gap-6 justify-center text-center">
           <li>
-            <button className="hover:underline text-[#FFB62B]">Show All</button>
+            <button class="hover:underline text-[#FFB62B]">Show All</button>
           </li>
           {getCategories.length > 0 ? (
             getCategories.map((category, index) => (
               <li key={index}>
-                <button classNameName="hover:underline">{category.name}</button>
+                <button className="hover:underline">{category.name}</button>
               </li>
             ))
           ) : (
             <li>Loading categories...</li>
           )}
         </ul>
-        <div classNameName="py-5 flex justify-center items-center">
+        <div className="py-5 flex justify-center items-center">
           {/*  Cards Service 1 */}
-          <div classNameName=" py-2 grid grid-cols-1 gap-x-20 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
+          <div className=" py-2 grid grid-cols-1 gap-x-20 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
             {products?.map((product) => (
               <Link
                 href={`products/${product.slug}`}
-                classNameName="group"
+                className="group"
                 key={product.id}
               >
-                <div classNameName="aspect-h-1 aspect-w-1 w-[217px] h-[287px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                <div className="aspect-h-1 aspect-w-1 w-[217px] h-[287px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                   <Image
                     src={product.imageUrl}
                     alt={product.productName}
                     width="217"
                     height="287"
-                    classNameName="h-full w-full object-cover group-hover:opacity-75"
+                    className="h-full w-full object-cover group-hover:opacity-75"
                   />
                 </div>
-                <h3 classNameName="mt-2 text-sm text-gray-900 font-semibold text-center">
+                <h3 className="mt-2 text-sm text-gray-900 font-semibold text-center">
                   {product.productName}
                 </h3>
-                <h3 classNameName="mt-2 text-sm text-gray-900 font-medium text-center">
+                <h3 className="mt-2 text-sm text-gray-900 font-medium text-center">
                   Rp {product.priceIDR}
                 </h3>
               </Link>

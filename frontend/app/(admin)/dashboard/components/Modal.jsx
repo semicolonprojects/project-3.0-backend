@@ -1,8 +1,6 @@
 import React from "react";
 
-const Modal = ({ isOpen, onClose }) => {
-  if (!isOpen) return null;
-
+const Modal = () => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen">

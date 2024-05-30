@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\CekResiController;
 use App\Http\Controllers\Api\v1\NomorController;
 use App\Http\Controllers\Api\v1\ProductCategoryController;
 use App\Http\Controllers\Api\v1\ProductsController;
+use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\ServiceCategoryController;
 use App\Http\Controllers\Api\v1\ServicesController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -55,4 +56,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
 
     Route::apiResource('nomors', NomorController::class);
+
+    Route::apiResource('promo', PromoController::class);
 })->middleware('cors');
