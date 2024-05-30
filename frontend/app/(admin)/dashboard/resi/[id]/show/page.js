@@ -56,8 +56,8 @@ function Show({ params }) {
           <h1 className="text-3xl font-bold py-5">Resi Content Management</h1>
         </div>
       </div>
+        <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-h-[974px] max-w-[974px] h-full p-6">
       {resi.length > 0 && (
-        <div className="relative overflow-x-auto shadow-md bg-white bg-opacity-45 sm:rounded-lg max-w-[974px] p-6">
           <div className="mx-5">
             <div className="grid grid-flow-col gap-10 rounded-md justify-center">
               <div className="grid grid-flow-row-dense gap-5 h-24">
@@ -112,8 +112,8 @@ function Show({ params }) {
               </div>
             </div>
           </div>
+          )}
         </div>
-      )}
     </div>
   );
 }

@@ -40,7 +40,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
       } finally {
         inputValue === null;
       }
-    };
+    };      
 
     if (inputValue) {
       fetchData();
@@ -75,51 +75,38 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
           onClose={() => setshowModal(false)}
           title="Cek Resi"
         >
-          <div className=" flex flex-col md:flex-row p-0 md:p-4 gap-1 md:gap-4 rounded-md">
-            <div className="flex-grow bg-gray-200 flex flex-row items-center p-2 rounded-md gap-3">
-              <MagnifyingGlassIcon className="w-5 h-5 text-gray-500" />
-              <input
-                className="text-base bg-transparent border-none outline-none text-black flex-grow"
-                placeholder="Masukkan Nomor Resi ..."
-              />
-            </div>
-            <button
-              type="button"
-              className="text-white bg-blue-500 hover:bg-yellow-400 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm px-3 py-2 focus:outline-none mt-2 md:mt-0"
-            >
-              Lacak
-            </button>
-          </div>
 
-          <div className="block md:flex flex-col md:flex-row p-2 gap-4 rounded-md mt-2">
-            <button
-              type="button"
-              className="text-white bg-blue-500 hover:bg-yellow-400 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-0.5 text-center me-2 mb-2 md:mb-0"
-            >
-              {details[0].kode_resi}
-            </button>
-          </div>
-
-          <div className="grid grid-flow-col p-1 md:p-2 gap-4 rounded-md justify-center mt-1.5 md:mt-4">
-            <div className="grid grid-flow-row gap-3">
-              <p className="font-semibold">Detail Status</p>
-              <p>{details[0].status_pengerjaan}</p>
-              <div className="grid grid-flow-col text-[15px]">
-                <p className="flex items-center font-semibold">Pengirim</p>
-                <p className="flex items-center">{details[0].pengirim}</p>
+          <div className="grid grid-flow-col p-1 md:p-3 md:pt-0 gap-9 rounded-md justify-center mt-1.5 md:mt-1">
+            <div className="grid grid-flow-row gap-2 h-32 justify-center">
+              <p className="font-semibold mt-3.5">Detail Status</p>
+              <div className="pb-5">
+              <p className="mt-1.5 text-xl font-extrabold text-yellow-400">No. Resi {details[0].kode_resi}</p>
               </div>
-              <div className="grid grid-flow-col text-[15px]">
-                <p className="flex items-center font-semibold">Penerima</p>
-                <p className="flex items-center">{details[0].penerima}</p>
+              <div className="grid grid-flow-col gap-5 pb-5">
+              <div className="text-[14px]">
+              <span className="inline-flex font-semibold">Status : <p className="font-normal ml-2">{details[0].status_pengerjaan}</p> </span>
               </div>
+              <div className="text-[14px]">
+                <span className="inline-flex font-semibold">Atas Nama : <p className="font-normal ml-2">{details[0].nama_pelanggan}</p></span>
+              </div>
+              </div>
+              <div className="grid grid-flow-col gap-4 pb-5">
+              <div className="text-[14px]">
+                <span className="inline-flex font-semibold">Pengirim : <p className="font-normal ml-2">{details[0].pengirim}</p></span>
+              </div>
+              <div className=" text-[14px]">
+              <span className="inline-flex  font-semibold">Penerima : <p className="font-normal ml-2">{details[0].penerima}</p></span>
+              </div>
+              </div>
+             
             </div>
-            <div className="grid grid-flow-row gap-3 items-center pl-4 mt-0 md:mt-0">
-              <p className="font-semibold">Riwayat Pengiriman</p>
+            <div className="grid grid-flow-row items-center p-4 mt-0 md:mt-0 bg-slate-50 rounded-md overflow-y-auto">
+              <p className="font-semibold mb-4">Riwayat Status Pengerjaan</p>
               {details.map((data, index) => (
-                <div className="bg-none max-w-md" key={index}>
-                  <ol className="relative border-s border-gray-200">
+                <div className="bg-none border-s border-gray-400 max-w-md" key={index}>
+                  <ol className="relative border-gray-200">
                     <li className="mb-10 ms-4">
-                      <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -start-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                      <div className="absolute w-3 h-3 rounded-full mt-1.5 -start-1.5 border border-yellow-400 bg-yellow-400"></div>
                       <time className="mb-1 text-sm font-normal leading-none text-gray-400">
                         {formatDate(data.created_at)}
                       </time>
