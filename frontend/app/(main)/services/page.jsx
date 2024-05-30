@@ -41,6 +41,10 @@ const Page = () => {
 
   return (
     <>
+     <div className="relative overflow-hidden px-5 laptop:px-44 py-16">
+      <h1 className="pt-16 tablet:pt-9 font-bold tracking-tight leading-none text-[70px] text-[#FFB62B]">
+        Services For You
+      </h1>
       <ul className="pt-5 pl-1 flex font-medium text-xs tablet:text-sm gap-6 tablet:gap-7">
         <li>
           <button
@@ -131,53 +135,9 @@ const Page = () => {
               ))}
             </>
           )}
-
-          {/* <Link href="/services/reglue" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/2.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Services For Your Bags
-            </h3>
-          </Link>
-          <Link href="" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/3.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Services For Your Hats
-            </h3>
-          </Link>
-          <Link href="" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/3.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Other Services
-            </h3>
-          </Link> */}
         </div>
-        {/* <ImageSlider /> */}
-        {/*  Cards Service 1 */}
       </div>
+    </div>
     </>
   );
 };
