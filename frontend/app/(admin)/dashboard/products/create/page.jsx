@@ -53,7 +53,7 @@ const Page = () => {
     formData.append("product_name", productName);
     formData.append("slug", createSlug(productName));
     formData.append("category", category);
-    formData.append("whatsapp_link", templateMessage);
+    formData.append("template_message", templateMessage);
     formData.append("description", description);
     formData.append("price", price);
     formData.append("image", file);
@@ -166,6 +166,22 @@ const Page = () => {
                     </option>
                   ))}
                 </select>
+              </div>
+            </div>
+            <div className="mb-5 ">
+              <div className="relative z-0 w-full mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Template Pesan
+                </label>
+                <input
+                  type="text"
+                  id="templateMessage"
+                  value={templateMessage}
+                  onChange={(e) => setTemplateMessage(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Product Description"
+                  required
+                />
               </div>
             </div>
             <div className="mb-5 ">

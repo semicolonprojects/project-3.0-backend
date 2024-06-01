@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\WaLinkHelper as HelpersWaLinkHelper;
+use App\Helpers\WaLinkHelper\WaLinkHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Products;
 use App\Http\Requests\StoreProductsRequest;
@@ -24,6 +26,8 @@ class ProductsController extends Controller
 
         if ($all) {
             return new ProductCollection(Products::orderBy('created_at', 'asc')->get());
+        } elseif ($request->has('data')) {
+            return new ProductCollection(Products::orderBy('created_at', 'asc')->where('category', $request->data)->get());
         } else {
             return new  ProductCollection(Products::latest()->paginate());
         }
@@ -42,9 +46,6 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-
-        $nomor = Nomor::firstOrFail();
-
         $validator = Validator::make($request->all(), [
             'product_name' => 'required|unique:products,product_name|string|max:255',
             'slug' => 'required|string|unique:products,slug|max:100',
@@ -64,26 +65,13 @@ class ProductsController extends Controller
         $image = $request->file('image');
         $image->storeAs('public/products', $image->hashName());
 
-        $nomor = Nomor::firstOrFail();
-        $whatsappMessage = urlencode(
-            'Format order
-            Nama : 
-            Lokasi pengambilan : 
-            Treatment:
-            Jam pengambilan : 
-
-            *Untuk jam pengambilan akan disesuaikan oleh jam kurir, terimakasih🙏😊'
-        );
-
-        $whatsappLinkUrl = "https://wa.me/$nomor->nomor?text=$whatsappMessage";
-
         //create post
         Products::create([
             'product_name' => $request->product_name,
             'slug' => $request->slug,
             'category' => $request->category,
             'price' => $request->price,
-            'whatsapp_link' => $whatsappLinkUrl,
+            'whatsapp_link' => HelpersWaLinkHelper::orderProduct($request->template_message),
             'description' => $request->description,
             'image' => $image->hashName(),
         ]);
@@ -143,23 +131,12 @@ class ProductsController extends Controller
             $imageFileName = $product->image;
         }
 
-        $nomor = Nomor::firstOrFail();
-        $whatsappMessage = urlencode('Format order
-Nama : 
-Lokasi pengambilan : 
-Treatment:
-Jam pengambilan : 
-
-*Untuk jam pengambilan akan disesuaikan oleh jam kurir, terimakasih🙏😊');
-
-        $whatsappLinkUrl = "https://wa.me/$nomor->nomor?text=$whatsappMessage";
-
         $product->update([
             'product_name' => $request->product_name,
             'slug' => $request->slug,
             'category' => $request->category,
             'price' => $request->price,
-            'whatsapp_link' => $whatsappLinkUrl,
+            'whatsapp_link' => HelpersWaLinkHelper::orderProduct($request->template_message),
             'description' => $request->description,
             'image' => $imageFileName,
         ]);

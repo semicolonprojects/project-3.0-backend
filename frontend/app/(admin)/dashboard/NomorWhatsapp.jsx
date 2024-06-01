@@ -28,13 +28,6 @@ const NomorWhatsapp = () => {
       const formData = new FormData(event.target);
       const nomor = formData.get("nomor");
 
-      if (nomor.length !== 11) {
-        toast.error("Nomor Whatsapp harus terdiri dari 11 digit.", {
-          position: "bottom-right",
-        });
-        return;
-      }
-
       const checkResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getExistsNomor`
       );
@@ -43,7 +36,7 @@ const NomorWhatsapp = () => {
         const response = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/nomors/${checkResponse.data.data.id}`,
           {
-            nomor: nomor,
+            nomor: "62" + nomor,
           }
         );
         toast.dismiss();
@@ -112,7 +105,7 @@ const NomorWhatsapp = () => {
                     name="nomor"
                     className="flex-1 mt-1 p-2 border-gray-300 rounded-md"
                     defaultValue={existNomor.nomor ?? ""}
-                    maxLength="10"
+                    maxLength="13"
                   />
                 </div>
               </div>

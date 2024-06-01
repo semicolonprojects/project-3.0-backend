@@ -27,19 +27,6 @@ const Page = ({ params }) => {
     setFile(file);
   };
 
-  function extractTextFromWhatsAppUrl(url) {
-    const searchParams = new URLSearchParams(url);
-
-    let text = searchParams.get("text");
-
-    const dynamicPartIndex = text.indexOf("=");
-    if (dynamicPartIndex !== -1) {
-      text = text.substring(0, dynamicPartIndex);
-    }
-
-    return decodeURIComponent(text);
-  }
-
   useEffect(() => {
     const detail = async () => {
       try {
@@ -55,7 +42,7 @@ const Page = ({ params }) => {
         setProductTitle(res.product_name);
         setProductPrice(res.price);
         setProductCategory(res.category);
-        setTemplateMessage(extractTextFromWhatsAppUrl(res.whatsapp_link));
+        setTemplateMessage(res.whatsapp_link);
         setDescription(res.description);
         setProductId(res.id);
       } catch (error) {
@@ -82,7 +69,7 @@ const Page = ({ params }) => {
     formData.append("category", productCategory);
     formData.append("_method", "PUT");
     formData.append("image", file);
-    formData.append("whatsapp_link", templateMessage);
+    formData.append("template_message", templateMessage);
     formData.append("description", description);
 
     await axios
@@ -91,7 +78,6 @@ const Page = ({ params }) => {
         formData
       )
       .then((response) => {
-        // Add response parameter to access response data
         toast.dismiss();
         toast.success(response.data, {
           position: "bottom-right",
@@ -101,8 +87,8 @@ const Page = ({ params }) => {
       .catch((error) => {
         toast.dismiss();
         if (
-          error.response && // Check if response exists
-          error.response.status === 422 && // Check if response status is 422
+          error.response &&
+          error.response.status === 422 &&
           error.response.data.errors
         ) {
           const errors = error.response.data.errors;
@@ -193,12 +179,28 @@ const Page = ({ params }) => {
                   >
                     <option>Select Category</option>
                     {getCategory.map((item) => (
-                      <option key={item.id} value={item.id}>
+                      <option key={item.id} value={item.name}>
                         {item.name}
                       </option>
                     ))}
                   </select>
                 )}
+              </div>
+            </div>
+            <div className="mb-5 ">
+              <div className="relative z-0 w-full mb-5">
+                <label className="block mb-2 text-sm font-medium text-gray-900">
+                  Template Pesan
+                </label>
+                <input
+                  type="text"
+                  id="templateMessage"
+                  value={templateMessage}
+                  onChange={(e) => setTemplateMessage(e.target.value)}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  placeholder="Product Description"
+                  required
+                />
               </div>
             </div>
             <div className="mb-5 ">

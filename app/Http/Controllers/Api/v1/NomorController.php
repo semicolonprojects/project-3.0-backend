@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Nomor;
-use App\Http\Requests\StoreNomorRequest;
-use App\Http\Requests\UpdateNomorRequest;
+
 use Illuminate\Http\Request;
 
 class NomorController extends Controller
