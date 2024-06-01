@@ -1,32 +1,12 @@
-"use client";
-
 import Image from "next/image";
 import Promo from "./Promo";
+import CardInfo from "./CardInfo";
 
 const home = () => {
   return (
     <>
       <div className="p-4 sm:ml-80">
-        <div className="grid grid-flow-col gap-2 py-20 pb-5">
-          <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
-            <div className="grid grid-flow-row">
-              <p className="font-bold text-2xl">Products</p>
-              <p className="font-extrabold text-4xl">100</p>
-            </div>
-          </div>
-          <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
-            <div className="grid grid-flow-row">
-              <p className="font-bold text-2xl">Services</p>
-              <p className="font-extrabold text-4xl">100</p>
-            </div>
-          </div>
-          <div className=" bg-white w-72 p-4 rounded-md shadow-sm">
-            <div className="grid grid-flow-row">
-              <p className="font-bold text-2xl">Artikel</p>
-              <p className="font-extrabold text-4xl">100</p>
-            </div>
-          </div>
-        </div>
+        <CardInfo />
         <Promo />
         <div className="grid grid-flow-col gap-2 pb-5">
           <div className="rounded-md bg-white w-72 p-4 pt-2">
