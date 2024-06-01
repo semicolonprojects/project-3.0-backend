@@ -2,18 +2,20 @@
 
 import { Bars3Icon } from "@heroicons/react/24/solid";
 import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useCallback, useEffect, useState, useMemo } from "react";
-import { AnimatePresence, animations, motion } from "framer-motion";
+import { useEffect, useState, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import Logo from "../../public/img/logo1.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import ModalSocials from "./Modal/ModalSocials";
+import { getPromo } from "../api/v2/promo/getPromo";
 
 const Navbar = () => {
   const [showNavbar, setshowNavbar] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [showModal, setshowModal] = useState(false);
+  const [showPromo, setShowPromo] = useState("");
 
   const router = usePathname();
 
@@ -57,9 +59,18 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    // Close the navbar when the route changes
+    const promo = async () => {
+      try {
+        const promo = await getPromo();
+        setShowPromo(promo.title);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     closeNavbar();
-  }, [router]); // Listen to changes in the route
+    promo();
+  }, [router]);
 
   const socials = () => {
     setshowNavbar(false);
@@ -68,10 +79,10 @@ const Navbar = () => {
 
   return (
     <>
-      {isTop && (
+      {isTop && showPromo && (
         <nav className="hidden tablet:block  translate-y-0 transition-transform touch-pan-y bg-[#D9D9D9] p-2.5 text-[#4A89B0] fixed w-full h-11 z-10">
           {/* Your navbar content goes here */}
-          <p className="text-center text-base">PROMOPROMOPROMO</p>
+          <p className="text-center text-base">{showPromo}</p>
         </nav>
       )}
 

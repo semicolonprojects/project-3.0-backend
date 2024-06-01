@@ -70,4 +70,9 @@ class PromoController extends Controller
         $promo->delete();
         return response()->json(['message' => 'Promo deleted successfully']);
     }
+
+    public function showPromoNavbar()
+    {
+        return response()->json(Promo::latest()->where('is_visible', true)->first());
+    }
 }

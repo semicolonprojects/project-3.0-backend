@@ -58,5 +58,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('nomors', NomorController::class)->except(['getExistsNomor']);
     Route::get('getExistsNomor', [NomorController::class, 'getExistsNomor'])->name('getExistsNomor');
 
-    Route::apiResource('promo', PromoController::class);
+    Route::apiResource('promo', PromoController::class)->except(['showPromoNavbar']);
+    Route::get('showPromoNavbar', [PromoController::class, 'showPromoNavbar'])->name('showPromoNavbar');
 })->middleware('cors');
