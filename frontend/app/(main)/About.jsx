@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import WhiteShoes from "../../public/img/sepatu_putih(home).png";
-import gif from "../../public/img/Video estetik sementara.gif";
+import gif from "../../public/img/video estetik.gif";
 
 const About = () => {
   return (
@@ -17,7 +17,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="hidden tablet:block text-[#FFB62B] font-bold tablet:absolute tablet:px-32 px-3 py-10 tablet:py-32 ">
+      <div className="hidden tablet:block text-[#FFB62B] font-bold tablet:absolute tablet:px-32 px-3 py-10 tablet:py-20 ">
         <div className="inline-flex tablet:grid tablet:grid-rows-2">
           <p className="text-4xl tablet:text-5xl lg:text-5xl xl:text-6xl">
             Nettoyer
@@ -46,7 +46,7 @@ const About = () => {
             Nettoyer.Shoes mulai melebarkan sayapnya ke Kota Purwokerto untuk
             membantu Masyarakat Purwokerto merawat Sepatu, tas, dan topinya.
             Cabang ke 2 ini mulai diperkenalkan pada tanggal 24 September 2022.
-          </p>
+          </p>  
         </div>
       </div>
 
@@ -63,8 +63,8 @@ const About = () => {
         />
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-[0.72] flex items-center justify-center">
           <div className="text-white text-center p-10 tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
-            <div className="absolute inset-x-16 bottom-0">
-              <p className="text-center py-10 text-[#FFB62B] text-2xl font-bold">
+            <div className="absolute inset-x-16 ">
+              <p className="text-center text-[#FFB62B] text-4xl font-bold">
                 Make Your Foot Sparks !
               </p>
             </div>

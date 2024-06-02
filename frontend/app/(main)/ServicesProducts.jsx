@@ -32,25 +32,16 @@ const ServicesProducts = () => {
 
   return (
     <div className="relative pt-12 pb-5 mx-3 tablet:mx-28 tablet:w-[85.9%] w-full">
-      <p className="text-yellow-500 py-5 font-bold text-2xl md:text-4xl lg:text-5xl">
+      <p className="text-yellow-500 py-2 font-bold text-2xl md:text-4xl lg:text-5xl">
         Our Services & Products
       </p>
-      <div className="grid grid-cols-1 gap-9 tablet:grid-flow-col gap-x-10">
+      <div className="grid grid-cols-1 gap-2 tablet:grid-flow-col gap-x-10">
         <div className="w-full tablet:w-[825px] h-auto rounded overflow-hidden">
           {mobilePlayer ? (
-            <iframe
-              src="https://www.youtube.com/embed/-T9xnc9RmDE?si=cx3H1SiS1ur8nLWM"
-              title="YouTube video player"
-              frameBorder="0"
-              width={340}
-              height={500}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              loading="lazy"
-            />
+           <div></div>
           ) : (
             <iframe
-              src="https://www.youtube.com/embed/-T9xnc9RmDE?si=cx3H1SiS1ur8nLWM"
+              src="https://drive.google.com/file/d/1b3qKpH58dw5o0f6MPwzFBPk0fpd0Gdpc/preview"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

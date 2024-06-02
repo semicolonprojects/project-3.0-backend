@@ -41,11 +41,11 @@ const Page = () => {
 
   return (
     <>
-     <div className="relative overflow-hidden px-5 laptop:px-44 py-16">
-      <h1 className="pt-16 tablet:pt-9 font-bold tracking-tight leading-none text-[70px] text-[#FFB62B]">
+     <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-10 laptop:pt-3">
+      <h1 className="pt-20 laptop:pt-5  tablet:pt-9 font-bold tracking-wide laptop:tracking-tight leading-none text-6xl laptop:text-[70px] text-[#FFB62B]">
         Services For You
       </h1>
-      <ul className="pt-5 pl-1 flex font-medium text-xs tablet:text-sm gap-6 tablet:gap-7">
+      <ul className="pt-5 pl-1 inline-flex font-medium text-[12px] laptop:text-sm gap-4 tablet:gap-7">
         <li>
           <button
             value={""}
@@ -59,13 +59,13 @@ const Page = () => {
         </li>
         <li>
           <button
-            value={"Shoes"}
+            value={"Shoes & Sandals"}
             onClick={handleClick}
             className={`hover:underline ${
-              getClickCategory === "Shoes" ? "text-yellow-500" : ""
+              getClickCategory === "Shoes & Sandals" ? "text-yellow-500 " : ""
             } `}
           >
-            Shoes
+            Shoes & Sandals
           </button>
         </li>
         <li>
@@ -102,8 +102,8 @@ const Page = () => {
           </button>
         </li>
       </ul>
-      <div className="py-16 tablet:py-5 w-full ">
-        <div className="py-2 grid grid-rows-1 gap-x-7 gap-y-10 tablet:grid-flow-col justify-center tablet:justify-start items-center tablet:items-start">
+      <div className="py-5 laptop:py-5 ">
+        <div className="py-1 grid grid-cols-2 gap-x-3 gap-y-7 laptop:gap-x-20 laptop:grid-cols-4  tablet:justify-start tablet:items-start">
           {filteredServices.length > 0 ? (
             filteredServices.map((service) => (
               <Link
@@ -111,7 +111,7 @@ const Page = () => {
                 className="group"
                 key={service.id}
               >
-                <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                <div className="aspect-h-1 aspect-w-1 w-[157px] h-[236px] laptop:w-[250px] laptop:h-[389px] overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                   <img
                     src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${service.category_image}`}
                     alt="..."
@@ -120,7 +120,7 @@ const Page = () => {
                     className="h-full w-full object-cover  group-hover:opacity-75"
                   />
                 </div>
-                <h3 className="mt-2 text-sm text-gray-900 font-semibold">
+                <h3 className="mt-2 text-[13px] laptop:text-sm text-gray-900 font-semibold">
                   {service.nama_service} {service.category}
                 </h3>
               </Link>

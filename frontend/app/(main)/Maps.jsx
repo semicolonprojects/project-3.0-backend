@@ -38,10 +38,10 @@ const Maps = () => {
   }, []); // useEffect runs once after the initial render
 
   return (
-    <div className="pb-5 relative px-8 md:px-8 lg:px-16 desktop:px-20 flex md:justify-end rounded-md">
+    <div className="pb-5 relative px-5 md:px-8 lg:px-16 desktop:px-20 flex md:justify-end rounded-md">
       <div className="grid grid-flow-col gap-4 md:gap-8 lg:gap-12">
         <div className="min-w-0 tablet:min-w-[600px] w-full md:w-full lg:w-auto xl:w-auto">
-          <p className="py-5 text-yellow-500 font-bold text-3xl md:text-4xl lg:text-5xl">
+          <p className="py-5 text-yellow-500 font-bold text-2xl md:text-4xl lg:text-5xl">
             Our Store{" "}
           </p>
           <div className="flex flex-wrap sm:flex-nowrap">
