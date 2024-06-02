@@ -31,12 +31,13 @@ const NomorWhatsapp = () => {
       const checkResponse = await axios.get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getExistsNomor`
       );
+      console.log("🚀 ~ handleSubmit ~ checkResponse:", checkResponse);
 
-      if (checkResponse) {
+      if (checkResponse.data.data !== null) {
         const response = await axios.put(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/nomors/${checkResponse.data.data.id}`,
           {
-            nomor: "62" + nomor,
+            nomor: nomor,
           }
         );
         toast.dismiss();
@@ -48,7 +49,7 @@ const NomorWhatsapp = () => {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/nomors`,
           {
-            nomor: nomor,
+            nomor: "62" + nomor,
           }
         );
         toast.dismiss();
@@ -96,15 +97,17 @@ const NomorWhatsapp = () => {
                   Nomor Whatsapp
                 </label>
                 <div className="flex">
-                  <span className="inline-flex items-center px-3 rounded-l-md border border-gray-300 bg-gray-50 text-gray-500 text-sm">
-                    +62
-                  </span>
+                  {!existNomor && (
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-gray-300 bg-gray-50 text-gray-500 text-sm">
+                      +62
+                    </span>
+                  )}
                   <input
                     type="text"
                     id="nomor"
                     name="nomor"
                     className="flex-1 mt-1 p-2 border-gray-300 rounded-md"
-                    defaultValue={existNomor.nomor ?? ""}
+                    defaultValue={existNomor ? existNomor.nomor : ""}
                     maxLength="13"
                   />
                 </div>

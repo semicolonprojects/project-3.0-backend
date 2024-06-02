@@ -97,7 +97,7 @@ const Navbar = () => {
         tabIndex={10}
         aria-hidden="true"
       >
-        <p className="text-[#4A89B0]">PROMOPROMOPROMO</p>
+        <p className="text-[#4A89B0]">{showPromo}</p>
       </div>
       <nav
         className={`tablet:hidden fixed ${

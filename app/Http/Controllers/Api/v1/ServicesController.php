@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\WaLinkHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreServicesRequest;
 use App\Http\Resources\ServicesCollection;
@@ -61,7 +62,7 @@ class ServicesController extends Controller
             'slug' => $request->slug,
             'category_id' => $request->category_id,
             'price' => $request->price,
-            'link_wa' => $request->link_wa,
+            'link_wa' => WaLinkHelper::templateService(),
             'deskripsi' => $request->deskripsi
         ]);
 
@@ -106,7 +107,7 @@ class ServicesController extends Controller
             'slug' => $request->slug,
             'category_id' => $request->category_id,
             'price' => $request->price,
-            'link_wa' => $request->link_wa,
+            'link_wa' => WaLinkHelper::templateService(),
             'deskripsi' => $request->deskripsi,
         ]);
 

@@ -15,7 +15,6 @@ const Page = () => {
 
   const [serviceDesc, setServiceDesc] = useState("");
   const [serviceName, setServiceName] = useState("");
-  const [serviceLink, setServiceLink] = useState("");
   const [serviceSlug, setServiceSlug] = useState("");
   const [category, setcategory] = useState("");
   const [getCategory, setGetCategory] = useState([]);
@@ -50,7 +49,6 @@ const Page = () => {
 
     formData.append("nama_service", serviceName);
     formData.append("slug", serviceSlug);
-    formData.append("link_wa", serviceLink);
     formData.append("category_id", category);
     formData.append("price", price);
     formData.append("deskripsi", serviceDesc);
@@ -191,22 +189,6 @@ const Page = () => {
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
-            <div className="">
-              <div className="relative z-0 max-w-4xl mb-5">
-                <label className="block mb-2 text-sm font-medium text-gray-900">
-                  Link Whatsapp
-                </label>
-                <input
-                  type="text"
-                  id="link_wa"
-                  value={serviceLink}
-                  onChange={(e) => setServiceLink(e.target.value)}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  placeholder="Service Whatsapp Link"
-                  required
-                />
               </div>
             </div>
             <div class="relative z-0 mb-5">
