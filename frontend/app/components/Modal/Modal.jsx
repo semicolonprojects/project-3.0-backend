@@ -19,8 +19,8 @@ const Modal = ({ isVisible, onClose, children, title }) => {
           <XMarkIcon
             onClick={() => onClose()}
             className="place-self-end cursor-pointer"
-            width={20}
-            height={20}
+            width={28}
+            height={28}
           />
         </div>
         <div className="p-2 max-h-full overflow-y-auto">{children}</div>
