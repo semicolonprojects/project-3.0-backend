@@ -58,7 +58,6 @@ function EditPage({ params }) {
                 setPrice(res.price);
                 setServiceSlug(res.slug);
                 setOldCategory(res.category_id);
-                setServiceLink(res.link_wa);
                 setServiceId(res.id);
             } catch (error) {
                 console.log(error);
@@ -79,7 +78,6 @@ function EditPage({ params }) {
 
         formData.append("nama_service", serviceName);
         formData.append("slug", serviceSlug);
-        formData.append("link_wa", serviceLink);
         formData.append("category_id", oldCategory);
         formData.append("_method", "PUT");
         formData.append("price", price);
@@ -90,8 +88,6 @@ function EditPage({ params }) {
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services/${serviceId}`,
                 formData
             );
-            console.log("🚀 ~ updateService ~ response:", response);
-
             toast.dismiss();
             toast.success(response.data, {
                 position: "bottom-right",
@@ -235,24 +231,6 @@ function EditPage({ params }) {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     >Loading.... </p>// Display a loading message or placeholder
                                 )}
-                            </div>
-                        </div>
-                        <div className="">
-                            <div className="relative z-0 max-w-4xl mb-5">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">
-                                    Link Whatsapp
-                                </label>
-                                <input
-                                    type="text"
-                                    id="link_wa"
-                                    value={serviceLink}
-                                    onChange={(e) =>
-                                        setServiceLink(e.target.value)
-                                    }
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="Service Whatsapp Link"
-                                    required
-                                />
                             </div>
                         </div>
                         <div class="relative z-0 mb-5">
