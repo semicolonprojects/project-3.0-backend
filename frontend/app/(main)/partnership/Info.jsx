@@ -21,8 +21,8 @@ const Info = () => {
                 Partnership Program
               </p>
             </div>
-            <div className="max-w-screen-md max-h-screen">
-              <p className="text-[#4EAEFD] text-justify py-2 font-semibold text-base tablet:text-xl">
+            <div className="max-w-lg max-h-screen">
+              <p className="text-[#4EAEFD] break-normal text-justify tracking-tighter	 py-2 font-semibold text-base tablet:text-xl">
                 Di era modern saat ini sudah waktunya untuk kita saling bermitra
                 agar mendapatkan potensi pasar yang lebih luas dan spesifik.
                 Mari ambil potensi besar dalam jasa laundry Sepatu
