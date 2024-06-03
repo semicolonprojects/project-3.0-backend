@@ -32,7 +32,7 @@ const ImageCarousel = () => {
 
         const grouped = data.reduce((acc, curr, index) => {
         
-            const groupIndex = Math.floor(mobileArtikel ? index / 1 : index / 3);
+            const groupIndex = Math.floor(`${mobileArtikel ? index / 1 : index / 3}`);
             if (!acc[groupIndex]) {
               acc[groupIndex] = [];
             }
@@ -58,7 +58,7 @@ const ImageCarousel = () => {
     };
 
     
-  }, []);
+  }, [mobileArtikel]);
 
   return (
     <>
@@ -74,8 +74,9 @@ const ImageCarousel = () => {
       >
         {groupedData.map((groupData, index) => (
           <SwiperSlide key={index}>
-            <div className="flex justify-between">
+            <div className="flex justify-between ">
               {groupData.map((item, itemIndex) => (
+                <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
                 <Link
                   href={`/artikel/${item.slug}`}
                   className="w-96"
@@ -84,16 +85,24 @@ const ImageCarousel = () => {
                   <img
                     src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                     alt={`${item.judul}`}
-                    className="object-fill w-96 h-80"
+                    className="w-96 h-80 rounded-t-lg"
                   />
+                  </Link>
+                  <div className="p-5">
                   <div className="px-2 py-4">
-                    <div className="font-bold text-xl mb-2">{item.judul}</div>
-                    <p className="text-gray-700 text-base">
+                  <Link
+                  href={`/artikel/${item.slug}`}
+                  className="w-96"
+                  key={itemIndex}
+                >
+                    <div className="mb-2 text-2xl font-bold tracking-tight text-wrap text-gray-900">{item.judul}</div>
+                </Link>    
+                    <p className="font-normal text-gray-700 dark:text-gray-400">
                       {item.description ?? "-"}
                     </p>
                   </div>
                   <span
-                    className={`inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 cursor-pointer ${
+                    className={`inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700 ml-1 mb-2 cursor-pointer ${
                       selectedCategory === item.category
                         ? "bg-blue-500 text-amber-400"
                         : ""
@@ -101,7 +110,16 @@ const ImageCarousel = () => {
                   >
                     #{item.category}
                   </span>
-                </Link>
+                  <Link
+                  href={`/artikel/${item.slug}`}
+                  className="mt-4 block items-center px-3 py-2 w-32 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                  key={itemIndex}
+                >
+                  Read More
+                  </Link>
+
+                  </div>
+                </div>
               ))}
             </div>
           </SwiperSlide>

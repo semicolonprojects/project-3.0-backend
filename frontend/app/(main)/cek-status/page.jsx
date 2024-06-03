@@ -65,7 +65,7 @@ const Resi = () => {
                                     <button
                                         onClick={searchButton}
                                         type="button"
-                                        className="place-self-end text-white hover:shadow-2xl bg-blue-500 hover:bg-yellow-500 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-sm md:text-base lg:text-lg px-6 md:px-14 py-2 md:py-3 me-2 mb-2 focus:outline-none"
+                                        className="place-self-end text-white hover:shadow-2xl bg-blue-500 hover:bg-yellow-500 focus:ring-4 focus:ring-blue-300 font-semibold rounded-lg text-lg md:text-base lg:text-lg px-6 md:px-14 py-2 md:py-3 me-2 mb-2 focus:outline-none"
                                     >
                                         Lacak
                                     </button>

@@ -18,7 +18,7 @@ class ArtikelResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'judul' => $this->judul,
-            'category_id' => $this->category_id,
+            'category' => $this->category->name,
             'isi_artikel' => $this->isi_artikel,
             'description' => $this->description,
             'image' => $this->image,

@@ -132,7 +132,7 @@ const Page = () => {
       </div>
 
       {/* Mobile View */}
-      <div class="fixed tablet:hidden py-28 px-5 " >
+      <div class="fixed tablet:hidden py-28 px-3 " >
         <h1 class="py-5 pb-2 font-bold tracking-tight leading-none text-4xl text-[#FFB62B]">
           Product For Your Shoes
         </h1>
@@ -174,16 +174,16 @@ const Page = () => {
         </ul>
         <div className="py-5">
           {/*  Cards Service 1 */}
-          <div className="py-1 grid grid-cols-2 gap-x-3 gap-y-7">
+          <div className="px-1 grid grid-cols-2 gap-x-6 gap-y-7">
             {!loading ? (
               products.length > 0 ? (
                 products.map((product) => (
                   <Link
                     href={`products/${product.slug}`}
-                    className="group"
+                    className="w-40"
                     key={product.id}
                   >
-                    <div className="aspect-h-1 aspect-w-1 w-[147px] h-[206px] overflow-hidden bg-gray-300">
+                    <div className="aspect-h-1 aspect-w-1 w-40 h-[206px] overflow-hidden bg-gray-300">
                       <img
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                         alt={product.product_name}
