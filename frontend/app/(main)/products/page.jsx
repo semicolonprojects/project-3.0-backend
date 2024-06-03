@@ -38,8 +38,8 @@ const Page = () => {
   return (
     <>
       {/* Desktop View */}
-      <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-10">
-        <h1 className="pt-9 font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
+      <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-5 pb-10">
+        <h1 className=" font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
           Product For You
         </h1>
         <ul className="pt-5 pl-1 flex font-medium text-sm gap-7">
@@ -132,11 +132,11 @@ const Page = () => {
       </div>
 
       {/* Mobile View */}
-      <div class="block tablet:hidden h-screen w-screen overflow-x-hidden flex-col justify-center items-center py-32">
-        <h1 class="text-center py-5 font-bold tracking-tight leading-none text-3xl text-[#FFB62B]">
+      <div class="fixed tablet:hidden py-28 px-5 " >
+        <h1 class="py-5 pb-2 font-bold tracking-tight leading-none text-4xl text-[#FFB62B]">
           Product For Your Shoes
         </h1>
-        <ul class="w-screen mx-auto flex font-medium text-sm gap-6 justify-center text-center">
+        <ul class=" inline-flex font-medium text-[12px] gap-4 ">
           <li>
             <button
               onClick={handleClick}
@@ -172,9 +172,9 @@ const Page = () => {
             <li>Loading categories...</li>
           )}
         </ul>
-        <div className="py-5 flex justify-center items-center">
+        <div className="py-5">
           {/*  Cards Service 1 */}
-          <div className=" py-2 grid grid-cols-1 gap-x-20 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
+          <div className="py-1 grid grid-cols-2 gap-x-3 gap-y-7">
             {!loading ? (
               products.length > 0 ? (
                 products.map((product) => (
@@ -183,19 +183,19 @@ const Page = () => {
                     className="group"
                     key={product.id}
                   >
-                    <div className="aspect-w-7 aspect-h-8 w-[217px] h-[287px] overflow-hidden bg-gray-300">
+                    <div className="aspect-h-1 aspect-w-1 w-[147px] h-[206px] overflow-hidden bg-gray-300">
                       <img
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                         alt={product.product_name}
-                        width="217"
-                        height="287"
+                        width="147"
+                        height="389"
                         className="object-cover w-full h-full group-hover:opacity-75"
                       />
                     </div>
-                    <h3 className="mt-2 text-sm font-semibold text-center text-gray-900">
+                    <h3 className="mt-2 text-sm font-semibold  text-gray-900">
                       {product.product_name}
                     </h3>
-                    <h3 className="mt-2 text-sm font-medium text-center text-gray-900">
+                    <h3 className="mt-2 text-xs font-medium  text-gray-900">
                       {new Intl.NumberFormat("id-ID", {
                         style: "currency",
                         currency: "IDR",
@@ -209,11 +209,11 @@ const Page = () => {
             ) : (
               Array.from({ length: 4 }).map((_, index) => (
                 <div key={index} className="animate-pulse">
-                  <div className="aspect-w-7 aspect-h-8 w-[217px] h-[287px] overflow-hidden bg-gray-300">
+                  <div className="aspect-w-1 aspect-h-1  w-[147px] h-[206px] overflow-hidden bg-gray-300">
                     <div className="w-full h-full bg-gray-400"></div>
                   </div>
-                  <h3 className="mt-2 text-sm font-semibold text-center text-gray-900 bg-gray-400 w-32 h-4"></h3>
-                  <h3 className="mt-2 text-sm font-medium text-center text-gray-900 bg-gray-400 w-20 h-4"></h3>
+                  <h3 className="mt-2 text-sm font-semibold  text-gray-900 bg-gray-400 w-32 h-4"></h3>
+                  <h3 className="mt-2 text-sm font-medium  text-gray-900 bg-gray-400 w-20 h-4"></h3>
                 </div>
               ))
             )}

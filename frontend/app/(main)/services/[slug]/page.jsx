@@ -55,7 +55,7 @@ const Page = ({ params }) => {
     return (
         <>
             {/* Desktop */}
-            <div className="hidden tablet:block relative mx-16 py-10">
+            <div className="hidden tablet:block relative mx-16 py-0">
                 <div className="grid grid-cols-2 gap-10">
                     <div className="max-w-xl w-full h-fit ">
                         <img

@@ -41,8 +41,8 @@ const Page = () => {
 
   return (
     <>
-     <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-10 laptop:pt-3">
-      <h1 className="pt-20 laptop:pt-5  tablet:pt-9 font-bold tracking-wide laptop:tracking-tight leading-none text-6xl laptop:text-[70px] text-[#FFB62B]">
+     <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-16 laptop:pt-3">
+      <h1 className="pt-20 laptop:pt-5 tablet:pt-9 font-bold tracking-wide laptop:tracking-tight leading-none text-4xl laptop:text-[70px] text-[#FFB62B]">
         Services For You
       </h1>
       <ul className="pt-5 pl-1 inline-flex font-medium text-[12px] laptop:text-sm gap-4 tablet:gap-7">

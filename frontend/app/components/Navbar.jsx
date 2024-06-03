@@ -104,7 +104,7 @@ const Navbar = () => {
           isTop
             ? "translate-y-11 transition-transform duration-[70ms] "
             : " transform-none transition-transform"
-        }  inline-flex justify-between  items-center z-10 h-fit w-screen p-1 bg-[#D9D9D9] shadow-lg`}
+        }  inline-flex justify-between items-center z-10 h-fit w-screen p-1 bg-[#D9D9D9] shadow-lg`}
       >
         {/* Logo on the left */}
         <div className="inline-flex pl-2">
@@ -116,7 +116,7 @@ const Navbar = () => {
         </div>
 
         {/* Icon on the right */}
-        <div className="grid grid-flow-col gap-2  pr-2">
+        <div className="grid grid-flow-col gap-2 px-2">
           <Link href="/cek-status">
             <button className="w-24 mt-1.5 rounded-lg text-white text-center text-xs font-semibold p-2.5 bg-[#4A89B0]">
               Cek Resi
