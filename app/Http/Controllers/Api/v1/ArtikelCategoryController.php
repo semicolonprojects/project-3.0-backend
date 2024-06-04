@@ -16,7 +16,11 @@ class ArtikelCategoryController extends Controller
      */
     public function index()
     {
-        return new ArtikelCategoryCollection(ArtikelCategory::all());
+        if (request()->has('page')) {
+            return new ArtikelCategoryCollection(ArtikelCategory::latest()->paginate());
+        } else {
+            return new ArtikelCategoryCollection(ArtikelCategory::all());
+        }
     }
 
     /**

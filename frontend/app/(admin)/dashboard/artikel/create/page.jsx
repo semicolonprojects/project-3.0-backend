@@ -165,7 +165,7 @@ const Page = () => {
                   Category
                 </label>
                 <Link
-                  href="#"
+                  href="/dashboard/artikel/category"
                   className="text-right block mb-2 text-sm font-medium text-gray-900"
                 >
                   Manage Category
