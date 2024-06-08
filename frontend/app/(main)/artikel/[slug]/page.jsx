@@ -54,12 +54,15 @@ const Page = ({ params }) => {
         setLoading(true);
         const data = await showArtikel(params.slug);
         const res = await getAllArtikel(data.category_id);
-        console.log("🚀 ~ fetchData ~ res:", res);
-        const filteredArticles = res.filter((article) => {
-          return article.id === params.id;
-        });
         setGroupData(res);
         setGetArtikel(data);
+        const filteredArticles = res.filter((article) => {
+          return article.id !== getArtikel.id;
+        });
+        console.log(
+          "🚀 ~ filteredArticles ~ filteredArticles:",
+          filteredArticles
+        );
         const shuffledProducts = useShuffleArray(filteredArticles);
         setSlicedRandomProducts(shuffledProducts.slice(0, 3));
         setslicedRandomProductsMobile(shuffledProducts.slice(0, 2));
