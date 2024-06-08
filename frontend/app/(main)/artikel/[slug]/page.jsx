@@ -133,7 +133,7 @@ const Page = ({ params }) => {
           <p className="text-[#FFB62B] font-semibold text-lg md:text-xl lg:text-3xl my-5 mt-2">
             Similar Articles{" "}
           </p>
-          <div className="flex justify-between">
+          <div className="grid grid-cols-3">
             {!loading && slicedRandomProducts.length === 0 ? (
               <p>Artikel Lain Masih Belum Ada</p>
             ) : (
@@ -205,7 +205,7 @@ const Page = ({ params }) => {
           <p className="text-[#FFB62B] font-semibold text-[33px] my-5 mt-2">
             Similar Articles{" "}
           </p>
-          <div className="flex justify-between">
+          <div className="grid grid-cols-2">
             {!loading && slicedRandomProductsMobile.length === 0 ? (
               <p>Artikel Lain Masih Belum Ada</p>
             ) : (
