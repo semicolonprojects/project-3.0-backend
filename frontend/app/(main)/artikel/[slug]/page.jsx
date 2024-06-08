@@ -12,10 +12,11 @@ const Page = ({ params }) => {
   const [getArtikel, setGetArtikel] = useState("");
   const [groupData, setGroupData] = useState([]);
   const [slicedRandomProducts, setSlicedRandomProducts] = useState([]);
-  const [slicedRandomProductsMobile, setslicedRandomProductsMobile] = useState(
+  const [slicedRandomProductsMobile, setSlicedRandomProductsMobile] = useState(
     []
   );
   const [loading, setLoading] = useState(false);
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
   function join(date, options, separator) {
     function format(option) {
@@ -56,24 +57,31 @@ const Page = ({ params }) => {
         const res = await getAllArtikel(data.category_id);
         setGroupData(res);
         setGetArtikel(data);
-        const filteredArticles = res.filter((article) => {
-          return article.id !== getArtikel.id;
-        });
-        console.log(
-          "🚀 ~ filteredArticles ~ filteredArticles:",
-          filteredArticles
-        );
-        const shuffledProducts = useShuffleArray(filteredArticles);
-        setSlicedRandomProducts(shuffledProducts.slice(0, 3));
-        setslicedRandomProductsMobile(shuffledProducts.slice(0, 2));
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching artikel:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [params.slug]);
+
+  useEffect(() => {
+    setFilteredArticles(
+      groupData.filter((article) => {
+        return article.id !== getArtikel.id;
+      })
+    );
+  }, [groupData, getArtikel]);
+
+  useEffect(() => {
+    setLoading(true);
+    const shuffledProducts = useShuffleArray(filteredArticles);
+    setSlicedRandomProducts(shuffledProducts.slice(0, 3));
+    setSlicedRandomProductsMobile(shuffledProducts.slice(0, 2));
+    setLoading(false);
+  }, [filteredArticles]);
 
   return (
     <>
