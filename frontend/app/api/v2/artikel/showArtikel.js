@@ -11,3 +11,15 @@ export async function showArtikel(slug) {
     throw error;
   }
 }
+
+export async function getAllArtikel(categoryId) {
+  try {
+    const response = await axios.get(
+      `${API_URL}/api/v1/rekomendasiArtikel/${categoryId}`
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
+}

@@ -161,4 +161,10 @@ class ArtikelController extends Controller
 
         return response()->json('Deleted');
     }
+
+    public function rekomendasiArtikel(string $categoryId)
+    {
+        $articles = Artikel::where('category_id', $categoryId)->get();
+        return ArtikelResource::collection($articles);
+    }
 }
