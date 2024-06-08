@@ -64,7 +64,7 @@ const About = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-black opacity-[0.72] flex items-center justify-center">
           <div className="text-white text-center p-10 tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
             <div className="absolute inset-x-16 ">
-              <p className="text-center text-[#FFB62B] text-4xl font-bold">
+              <p className="text-center text-[#FFB62B] text-opacity-100 text-4xl font-bold">
                 Make Your Foot Sparks !
               </p>
             </div>

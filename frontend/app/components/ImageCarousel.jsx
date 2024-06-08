@@ -70,7 +70,7 @@ const ImageCarousel = () => {
         }}
         modules={[Pagination]}
         onSwiper={(swiper) => console.log(swiper)}
-        className="w-full flex justify-center items-center"
+        className="w-full flex justify-center items-center "
       >
         {groupedData.map((groupData, index) => (
           <SwiperSlide key={index}>
@@ -95,7 +95,7 @@ const ImageCarousel = () => {
                   className="w-96"
                   key={itemIndex}
                 >
-                    <div className="mb-2 text-2xl font-bold tracking-tight text-wrap text-gray-900">{item.judul}</div>
+                    <div className="mb-2 text-2xl font-bold tracking-tight text-wrap break-words text-gray-900">{item.judul}</div>
                 </Link>    
                     <p className="font-normal text-gray-700 dark:text-gray-400">
                       {item.description ?? "-"}

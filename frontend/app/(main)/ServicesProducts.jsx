@@ -41,11 +41,12 @@ const ServicesProducts = () => {
            <div></div>
           ) : (
             <iframe
-              src="https://drive.google.com/file/d/1b3qKpH58dw5o0f6MPwzFBPk0fpd0Gdpc/preview"
+            src="https://www.youtube-nocookie.com/embed/7P_raenzq60?vq=hd1080&modestbranding=1&rel=0&fs=0&color=white&controls=0"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
+              referrerpolicy="strict-origin-when-cross-origin"
               loading="lazy"
               className="w-full h-full"
             />
