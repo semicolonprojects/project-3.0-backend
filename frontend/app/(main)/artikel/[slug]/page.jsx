@@ -102,22 +102,19 @@ const Page = ({ params }) => {
             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
             alt={getArtikel.judul}
           />
-          <div className="p-10 pt-2">
+          <div className="p-14 pt-2">
             <p className="text-gray-700 text-lg leading-relaxed text-left ">
               {parse(`${getArtikel.isi_artikel}`)}
             </p>
           </div>
         </div>
-        <div></div>
-      </div>
-
-      <div className="mx-32 mt-10">
+        <div className="mx-32 my-10">
         <p className="text-[#FFB62B] font-semibold text-lg md:text-xl lg:text-3xl my-5 mt-2">
           Similar Articles{" "}
         </p>
         <div className="flex justify-between">
           {slicedRandomProducts.map((item, itemIndex) => (
-            <div className="max-w-sm border-gray-200 rounded-lg shadow">
+            <div className="max-w-sm bg-white border  border-gray-200 rounded-lg shadow">
               <Link
                 href={`/artikel/${item.slug}`}
                 className="w-96"
@@ -140,7 +137,7 @@ const Page = ({ params }) => {
                       {item.judul}
                     </div>
                   </Link>
-                  <p className="font-normal text-gray-700 dark:text-gray-400">
+                  <p className=" font-normal text-gray-700 dark:text-gray-400">
                     {item.description ?? "-"}
                   </p>
                 </div>
@@ -162,6 +159,9 @@ const Page = ({ params }) => {
           ))}
         </div>
       </div>
+      </div>
+
+     
 
       {/* Mobile View */}
       <div className="block tablet:hidden container">
@@ -186,7 +186,55 @@ const Page = ({ params }) => {
             </p>
           </div>
         </div>
-        <div></div>
+        <div className="ml-5 my-10">
+        <p className="text-[#FFB62B] font-semibold text-[33px] my-5 mt-2">
+          Similar Articles{" "}
+        </p>
+        <div className="flex justify-between">
+          {slicedRandomProducts.map((item, itemIndex) => (
+            <div className="max-w-[177px] bg-white border  border-gray-200 rounded-lg shadow w-full">
+              <Link
+                href={`/artikel/${item.slug}`}
+                className="w-full"
+                key={itemIndex}
+              >
+                <img
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
+                  alt={`${item.judul}`}
+                  className="w-full h-28 rounded-t-lg"
+                />
+              </Link>
+              <div className="p-2">
+                <div className="px-2 py-2">
+                  <Link
+                    href={`/artikel/${item.slug}`}
+                    className="w-full"
+                    key={itemIndex}
+                  >
+                    <div className="mb-2 text-sm font-bold tracking-tight text-wrap break-words text-gray-900">
+                      {item.judul}
+                    </div>
+                  </Link>
+                  
+                </div>
+                <span
+                  className={`inline-block bg-gray-200 rounded-full px-2 py-1 text-sm font-semibold text-gray-700 ml-1 mb-2 cursor-pointer
+                  }`}
+                >
+                  #{item.category}
+                </span>
+                <Link
+                  href={`/artikel/${item.slug}`}
+                  className="mt-1 px-1 block items-center text-sm font-bold text-blue-600 hover:underline "
+                  key={itemIndex}
+                >
+                  Read More
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
       </div>
     </>
   );
