@@ -147,10 +147,11 @@ const Page = ({ params }) => {
             </nav>
             <div className="flex">
               <h1 className="text-4xl capitalize font-bold">
-                {service.nama_service} {service.category}
+                {service.nama_service} 
               </h1>
             </div>
-            <div className="my-2">
+              <h2 className="font-semibold mt-1">{service.category}</h2> 
+            <div className="my-1">
               <div className="grid grid-flow-row">
                 <div className="max-w-md text-wrap">
                   <p className="text-xl font-bold pb-5">
@@ -305,11 +306,12 @@ const Page = ({ params }) => {
             </nav>
             <div className="flex">
               <h1 className="text-2xl tracking-tight font-bold">
-                {service.nama_service} {service.category}
+                {service.nama_service} 
               </h1>
             </div>
             <div className="">
               <div className="grid grid-flow-row">
+              {service.category}
                 <div className="max-w-md text-wrap">
                   <p className="text-md pb-2">{formatRupiah(service.price)}</p>
                   <div className="text-pretty whitespace-normal">

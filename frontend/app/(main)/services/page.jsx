@@ -121,7 +121,10 @@ const Page = () => {
                   />
                 </div>
                 <h3 className="mt-2 text-[13px] laptop:text-sm text-gray-900 font-semibold">
-                  {service.nama_service} {service.category}
+                  {service.nama_service} 
+                </h3>
+                <h3 className=" text-[13px] laptop:text-sm text-gray-900 ">
+                {service.category}
                 </h3>
               </Link>
             ))
