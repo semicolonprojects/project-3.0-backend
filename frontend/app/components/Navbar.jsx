@@ -5,7 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import Logo from "../../public/img/logo1.png";
+import Logo from "../../public/image/logo1.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import ModalSocials from "./Modal/ModalSocials";

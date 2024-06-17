@@ -4,7 +4,7 @@ import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import React, { useState } from "react";
-import logo from "/public/img/logo3.png";
+import logo from "/public/image/logo3.png";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import NomorWhatsapp from "./NomorWhatsapp";

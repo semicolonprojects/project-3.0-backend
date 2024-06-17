@@ -98,7 +98,7 @@ const NavbarServices = () => {
               {[...Array(8)].map((_, index) => (
                 <div
                   key={index}
-                  classNameName="w-[250px] h-[389px] bg-gray-300 animate-pulse"
+                  className="w-[250px] h-[389px] bg-gray-300 animate-pulse"
                 ></div>
               ))}
             </>

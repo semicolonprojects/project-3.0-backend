@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import WhiteShoes from "../../public/img/sepatu_putih(home).png";
-import gif from "../../public/img/video estetik.gif";
+import WhiteShoes from "../../public/image/sepatu_putih(home).png";
+import gif from "../../public/image/video estetik.gif";
 
 const About = () => {
   return (
@@ -46,7 +46,7 @@ const About = () => {
             Nettoyer.Shoes mulai melebarkan sayapnya ke Kota Purwokerto untuk
             membantu Masyarakat Purwokerto merawat Sepatu, tas, dan topinya.
             Cabang ke 2 ini mulai diperkenalkan pada tanggal 24 September 2022.
-          </p>  
+          </p>
         </div>
       </div>
 
@@ -72,16 +72,18 @@ const About = () => {
         </div>
       </div>
       <div className="block tablet:hidden px-7">
-        <p className="text-yellow-500 py-5 pb-2 font-bold text-2xl px-1">About Us</p>
+        <p className="text-yellow-500 py-5 pb-2 font-bold text-2xl px-1">
+          About Us
+        </p>
         <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal  max-w-96">
           <p>
             Nettoyer Shoes merupakan usaha di bidang jasa laundry sepatu, tas,
-            dan topi yang berdiri di kota Malang sejak tahun 2019.
-            Nettoyer Shoes beralamatkan di Jl. Danau Ranau VI G5i7 sawojajar,
-            Kota Malang, Jawa Timur. Saat ini kami sudah berhasil menangani
-            lebih dari ribuan pasang Sepatu, ratusan tas dan topi, yang berarti
-            sudah dipercaya oleh Masyarakat kota Malang untuk menjadi partner
-            mereka dalam perawatan Sepatu, tas, dan topi. Pada tahun 2022
+            dan topi yang berdiri di kota Malang sejak tahun 2019. Nettoyer
+            Shoes beralamatkan di Jl. Danau Ranau VI G5i7 sawojajar, Kota
+            Malang, Jawa Timur. Saat ini kami sudah berhasil menangani lebih
+            dari ribuan pasang Sepatu, ratusan tas dan topi, yang berarti sudah
+            dipercaya oleh Masyarakat kota Malang untuk menjadi partner mereka
+            dalam perawatan Sepatu, tas, dan topi. Pada tahun 2022
             Nettoyer.Shoes mulai melebarkan sayapnya ke Kota Purwokerto untuk
             membantu Masyarakat Purwokerto merawat Sepatu, tas, dan topinya.
             Cabang ke 2 ini mulai diperkenalkan pada tanggal 24 September 2022.

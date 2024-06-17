@@ -1,7 +1,7 @@
 "use client";
 
-import TravelKit from "../../public/img/travel_kit.png";
-import Services from "../../public/img/services(sepatu&sikat).jpg";
+import TravelKit from "../../public/image/travel_kit.png";
+import Services from "../../public/image/services(sepatu&sikat).jpg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { detectDevice } from "../utils/deviceUtils";
@@ -38,10 +38,10 @@ const ServicesProducts = () => {
       <div className="grid grid-cols-1 gap-2 tablet:grid-flow-col gap-x-10">
         <div className="w-full tablet:w-[825px] h-auto rounded overflow-hidden">
           {mobilePlayer ? (
-           <div></div>
+            <div></div>
           ) : (
             <iframe
-            src="https://www.youtube-nocookie.com/embed/7P_raenzq60?vq=hd1080&modestbranding=1&rel=0&fs=0&color=white&controls=0"
+              src="https://www.youtube-nocookie.com/embed/7P_raenzq60?vq=hd1080&modestbranding=1&rel=0&fs=0&color=white&controls=0"
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

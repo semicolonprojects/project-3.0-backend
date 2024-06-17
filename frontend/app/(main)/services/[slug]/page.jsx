@@ -3,7 +3,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { detailService } from "../../../api/v2/service/detailService";
-import { getService, getServicesAll } from "../../../api/v2/service/getService";
+import {
+  getServices,
+  getServicesAll,
+} from "../../../api/v2/service/getService";
 
 const Page = ({ params }) => {
   const [service, setService] = useState("");
@@ -34,9 +37,9 @@ const Page = ({ params }) => {
       }
     };
 
-    const getServices = async () => {
+    const getService = async () => {
       try {
-        const res = await getService();
+        const res = await getServices();
         console.log("🚀 ~ getServices ~ res:", res);
         setServices(res);
       } catch (error) {
@@ -44,7 +47,7 @@ const Page = ({ params }) => {
       }
     };
 
-    getServices();
+    getService();
     fetchService();
   }, []);
 
@@ -147,10 +150,10 @@ const Page = ({ params }) => {
             </nav>
             <div className="flex">
               <h1 className="text-4xl capitalize font-bold">
-                {service.nama_service} 
+                {service.nama_service}
               </h1>
             </div>
-              <h2 className="font-semibold mt-1">{service.category}</h2> 
+            <h2 className="font-semibold mt-1">{service.category}</h2>
             <div className="my-1">
               <div className="grid grid-flow-row">
                 <div className="max-w-md text-wrap">
@@ -306,12 +309,12 @@ const Page = ({ params }) => {
             </nav>
             <div className="flex">
               <h1 className="text-2xl tracking-tight font-bold">
-                {service.nama_service} 
+                {service.nama_service}
               </h1>
             </div>
             <div className="">
               <div className="grid grid-flow-row">
-              {service.category}
+                {service.category}
                 <div className="max-w-md text-wrap">
                   <p className="text-md pb-2">{formatRupiah(service.price)}</p>
                   <div className="text-pretty whitespace-normal">

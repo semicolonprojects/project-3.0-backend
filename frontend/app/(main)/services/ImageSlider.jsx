@@ -1,8 +1,8 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
-import Before from "/public/img/before.png";
-import After from "/public/img/after.png";
+import Before from "/public/image/before.png";
+import After from "/public/image/after.png";
 import Link from "next/link";
 
 function Services() {

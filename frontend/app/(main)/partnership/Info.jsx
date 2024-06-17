@@ -1,4 +1,4 @@
-import WhiteShoes from "../../../public/img/sepatu_putih(home).png";
+import WhiteShoes from "../../../public/image/sepatu_putih(home).png";
 import Image from "next/image";
 
 const Info = () => {
