@@ -31,12 +31,12 @@ const ServicesProducts = () => {
     }, []);
 
     return (
-        <div className="relative pt-12 pb-5 mx-3 tablet:mx-28 tablet:w-[85.9%] w-full">
-            <p className="text-yellow-500 py-2 font-bold text-2xl md:text-4xl lg:text-5xl">
+        <div className="relative pt-12 pb-5 mx-3 laptop:mx-44 laptop:ml-32 laptop-lg:mx-28 laptop-lg:w-[85.9%] w-full">
+            <p className="text-[#FFB62B] py-2 font-bold text-2xl md:text-4xl lg:text-4xl xl:text-5xl">
                 Our Services & Products
             </p>
-            <div className="grid grid-cols-1 gap-2 tablet:grid-flow-col gap-x-10">
-                <div className="w-full tablet:w-[825px] h-auto rounded overflow-hidden">
+            <div className="grid grid-cols-1 gap-2 grid-flow-col laptop-lg:gap-x-10">
+                <div className="w-full laptop:w-[525px] laptop-lg:w-[825px] h-auto rounded overflow-hidden">
                     {mobilePlayer ? (
                         <div></div>
                     ) : (
@@ -52,8 +52,8 @@ const ServicesProducts = () => {
                         />
                     )}
                 </div>
-                <div className="grid grid-flow-row gap-9 tablet:gap-5">
-                    <div className="relative w-[340px] tablet:w-[300px] tablet:h-[300px] h-full rounded overflow-hidden shadow-lg">
+                <div className="grid grid-flow-row gap-9 laptop:gap-10 laptop-lg:gap-5 laptop:mx-44 laptop-lg:mx-0">
+                    <div className="relative w-[340px] laptop:w-[270px] laptop-lg:w-[300px] laptop-lg:h-[300px] h-full rounded overflow-hidden shadow-lg">
                         <div className="absolute inset-0 bg-black opacity-40"></div>
                         <Image
                             src={TravelKit}
@@ -71,7 +71,7 @@ const ServicesProducts = () => {
                     </div>
                     <Link href="/services">
                         <div className="rounded overflow-hidden w-fit shadow-lg">
-                            <div className="relative w-[340px] tablet:w-[300px] tablet:h-[300px] h-full  rounded overflow-hidden">
+                            <div className="relative w-[340px] laptop:w-[270px] laptop-lg:w-[300px] laptop-lg:h-[300px] h-full  rounded overflow-hidden">
                                 <div className="absolute inset-0 bg-black opacity-40"></div>
                                 <Image
                                     src={Services}

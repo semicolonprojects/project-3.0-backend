@@ -48,7 +48,7 @@ const Page = () => {
                             value=""
                             onClick={handleClick}
                             className={`hover:underline ${
-                                getClickCategory === "" ? "text-yellow-500" : ""
+                                getClickCategory === "" ? "text-[#FFB62B]" : ""
                             } `}
                         >
                             All Products
@@ -63,7 +63,7 @@ const Page = () => {
                                         onClick={handleClick}
                                         className={`hover:underline ${
                                             getClickCategory === category.name
-                                                ? "text-yellow-500"
+                                                ? "text-[#FFB62B]"
                                                 : ""
                                         } `}
                                     >
@@ -143,7 +143,7 @@ const Page = () => {
                             onClick={handleClick}
                             value={""}
                             className={`hover:underline ${
-                                getClickCategory === "" ? "text-yellow-500" : ""
+                                getClickCategory === "" ? "text-[#FFB62B]" : ""
                             } `}
                         >
                             Show All
@@ -158,7 +158,7 @@ const Page = () => {
                                         value={category.name}
                                         className={`hover:underline ${
                                             getClickCategory === category.name
-                                                ? "text-yellow-500"
+                                                ? "text-[#FFB62B]"
                                                 : ""
                                         } `}
                                     >

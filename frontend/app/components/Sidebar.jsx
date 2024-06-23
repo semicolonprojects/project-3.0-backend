@@ -54,10 +54,10 @@ const Sidebar = () => {
         <>
             <div>
                 {isSidebarHidden ? null : (
-                    <div
-                        className={`hidden tablet:block md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20 ${
+                    <aside
+                        className={`hidden tablet:block md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${
                             isExpand ? "w-[36%]" : "w-16"
-                        } h-screen transition-all duration-300 ease-out`}
+                        } laptop-lg:h-screen transition-all duration-300 ease-out overflow-none`}
                     >
                         <div className="py-8 px-[23px] ">
                             <button
@@ -175,7 +175,7 @@ const Sidebar = () => {
                         </div>
                         {!isExpand && (
                             <>
-                                <div className="flex flex-col items-center  tablet:pt-64 laptop:pt-32 ">
+                                <div className="flex flex-col items-center pt-64 laptop:pt-28 laptop-lg:pt-36 ">
                                     <Link href="/">
                                         <Image
                                             src={Logo}
@@ -186,7 +186,7 @@ const Sidebar = () => {
                                         />
                                     </Link>
                                 </div>
-                                <div className="grid py-42 tablet:py-96 laptop:py-[288px] desktop:py-28 grid-flow-row justify-center gap-7">
+                                <div className="grid py-42 tablet:py-96  laptop:py-16 desktop:py-28 grid-flow-row justify-center gap-7">
                                     <div>
                                         <Link
                                             href="https://www.instagram.com/nettoyer.shoes/"
@@ -283,7 +283,7 @@ const Sidebar = () => {
                                 </div>
                             </>
                         )}
-                    </div>
+                    </aside>
                 )}
             </div>
             <ModalSocials showModal={showModal} setshowModal={setshowModal} />

@@ -51,7 +51,7 @@ const NavbarServices = () => {
                         value={""}
                         onClick={handleClick}
                         className={`hover:underline ${
-                            category === "" ? "text-yellow-500" : ""
+                            category === "" ? "text-[#FFB62B]" : ""
                         } `}
                     >
                         All Services
@@ -64,7 +64,7 @@ const NavbarServices = () => {
                             onClick={handleClick}
                             className={`hover:underline ${
                                 service.category === category
-                                    ? "text-yellow-500"
+                                    ? "text-[#FFB62B]"
                                     : ""
                             } `}
                         >

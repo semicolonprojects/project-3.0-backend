@@ -76,7 +76,7 @@ const About = () => {
                 </div>
             </div>
             <div className="block tablet:hidden px-7">
-                <p className="text-yellow-500 py-5 pb-2 font-bold text-2xl px-1">
+                <p className="text-[#FFB62B] py-5 pb-2 font-bold text-2xl px-1">
                     About Us
                 </p>
                 <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal  max-w-96">

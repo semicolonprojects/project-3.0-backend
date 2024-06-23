@@ -1,9 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getServices } from "../../api/v2/service/getService";
 import { getServiceByCategory } from "../../api/v2/service/getServiceByCategory";
+import Image from "next/image";
+import Before from "/public/image/before.png";
+import After from "/public/image/after.png";
 import Link from "next/link";
 
 const Page = () => {
@@ -11,6 +14,46 @@ const Page = () => {
     const [filteredServices, setFilteredServices] = useState([]);
     const [category, setCategory] = useState("");
     const [getClickCategory, setGetClickCategory] = useState("");
+    const [imageRevealFraq, setImageRevealFraq] = useState(0);
+    const imageContainer = useRef(null);
+
+    const slide = (xPosition) => {
+        const containerBoundingRect =
+            imageContainer.current?.getBoundingClientRect();
+
+        if (containerBoundingRect) {
+            setImageRevealFraq(() => {
+                if (xPosition < containerBoundingRect.left) {
+                    return 0;
+                } else if (xPosition > containerBoundingRect.right) {
+                    return 1;
+                } else {
+                    return (
+                        (xPosition - containerBoundingRect.left) /
+                        containerBoundingRect.width
+                    );
+                }
+            });
+        }
+    };
+
+    const handleTouchMove = (event) => {
+        slide(event.touches.item(0).clientX);
+    };
+
+    const handleMouseDown = () => {
+        window.onmousemove = handleMouseMove;
+        window.onmouseup = handleMouseUp;
+    };
+
+    const handleMouseMove = (event) => {
+        slide(event.clientX);
+    };
+
+    const handleMouseUp = () => {
+        window.onmousemove = null;
+        window.onmouseup = null;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -149,6 +192,66 @@ const Page = () => {
                                 ))}
                             </>
                         )}
+                    </div>
+                    <div className="pt-20 ">
+                        <div
+                            ref={imageContainer}
+                            className="max-w-lg w-full tablet:max-w-[989px] tablet:w-full h-3/6 mx-auto tablet:mx-7 relative select-none"
+                        >
+                            <Image
+                                src={Before}
+                                className="h-[250px] tablet:h-[600px] w-fill pointer-events-none"
+                                alt="..."
+                                loading="lazy"
+                                unoptimized
+                            />
+                            <Image
+                                src={After}
+                                style={{
+                                    clipPath: `polygon(0 0, ${
+                                        imageRevealFraq * 100
+                                    }% 0, ${
+                                        imageRevealFraq * 100
+                                    }% 100%, 0 100%)`,
+                                }}
+                                className="h-[250px] tablet:h-[600px] w-fill absolute inset-0  pointer-events-none"
+                                alt="..."
+                                loading="lazy"
+                                unoptimized
+                            />
+
+                            <div
+                                style={{ left: `${imageRevealFraq * 100}%` }}
+                                className="absolute inset-y-0"
+                            >
+                                <div className="relative h-full">
+                                    <div className="absolute inset-y-0 bg-white w-0.5 -ml-px opacity-50"></div>
+                                    <div
+                                        style={{ touchAction: "none" }}
+                                        onMouseDown={handleMouseDown}
+                                        onTouchMove={handleTouchMove}
+                                        className="h-10 w-10 -ml-5 -mt-5 rounded-full absolute top-1/2 shadow-2xl bg-white flex items-center justify-center cursor-pointer"
+                                    >
+                                        <svg
+                                            data-slot="icon"
+                                            fill="none"
+                                            strokeWidth="1.5"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            aria-hidden="true"
+                                            className="w-8 text-gray-500 rotate-90 transform"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                                            ></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

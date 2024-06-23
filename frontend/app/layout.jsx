@@ -12,9 +12,18 @@ export const metadata = {
     description: "Nettoyer Shoes | Cuci Sepatu Malang",
 };
 
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1.0,
+    height: 'device-height'
+    // Also supported by less commonly used
+    // interactiveWidget: 'resizes-visual',
+  }
+
 export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
+         
             <body className={`${monsterrat.className} bg-[#E1EAF3]`}>
                 <Toaster />
                 <CookiesProvider>{children}</CookiesProvider>
