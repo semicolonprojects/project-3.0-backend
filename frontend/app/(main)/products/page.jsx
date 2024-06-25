@@ -73,7 +73,7 @@ const Page = () => {
                             ))
                         ) : (
                             <li>
-                                <p>No categories found.</p>
+                                <p>Coming soon !</p>
                             </li>
                         )
                     ) : (
@@ -115,7 +115,7 @@ const Page = () => {
                                     </Link>
                                 ))
                             ) : (
-                                <p>No products found.</p>
+                                <p>Coming soon !</p>
                             )
                         ) : (
                             // Skeleton Loading Effect
@@ -167,7 +167,7 @@ const Page = () => {
                                 </li>
                             ))
                         ) : (
-                            <li>Categories Not Found</li>
+                            <li>Coming Soon !</li>
                         )
                     ) : (
                         <li>Loading categories...</li>
@@ -206,7 +206,7 @@ const Page = () => {
                                     </Link>
                                 ))
                             ) : (
-                                <p>Product Not Found</p>
+                                <p>Coming Soon !</p>
                             )
                         ) : (
                             Array.from({ length: 4 }).map((_, index) => (
