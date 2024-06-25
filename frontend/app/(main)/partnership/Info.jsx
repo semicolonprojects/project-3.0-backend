@@ -60,9 +60,9 @@ const Info = () => {
                         </div>
                     </div>
                 </div>
+            <div className="pb-20"></div>
             </div>
 
-            <div className="pb-20"></div>
         </>
     );
 };

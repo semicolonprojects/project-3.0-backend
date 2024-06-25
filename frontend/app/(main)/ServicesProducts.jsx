@@ -31,12 +31,12 @@ const ServicesProducts = () => {
     }, []);
 
     return (
-        <div className="relative pt-12 pb-5 mx-3 laptop:mx-44 laptop:ml-32 laptop-lg:mx-28 laptop-lg:w-[85.9%] w-full">
+        <div className="relative pt-12 pb-5 mx-3  laptop:mx-44 laptop:ml-32 laptop-lg:mx-28 laptop-lg:w-[85.9%] w-full">
             <p className="text-[#FFB62B] py-2 font-bold text-2xl md:text-4xl lg:text-4xl xl:text-5xl">
                 Our Services & Products
             </p>
             <div className="grid grid-cols-1 gap-2 grid-flow-col laptop-lg:gap-x-10">
-                <div className="w-full laptop:w-[525px] laptop-lg:w-[825px] h-auto rounded overflow-hidden">
+                <div className="hidden tablet:block laptop:w-[525px] laptop-lg:w-[825px] h-auto rounded overflow-hidden">
                     {mobilePlayer ? (
                         <div></div>
                     ) : (
