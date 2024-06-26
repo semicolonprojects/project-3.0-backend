@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation.js";
 import toast from "react-hot-toast";
 
 function EditPage({ params }) {
-
     const handleInputChange = (event) => {
         setServiceName(event.target.value);
         setServiceSlug(createSlug(event.target.value)); // Update slug on service name change
@@ -28,7 +27,6 @@ function EditPage({ params }) {
     const [serviceId, setServiceId] = useState("");
 
     const router = useRouter();
-
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -92,6 +90,9 @@ function EditPage({ params }) {
             toast.success(response.data, {
                 position: "bottom-right",
             });
+            await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
+            );
             router.push(`/dashboard/services`);
         } catch (error) {
             toast.dismiss();
@@ -227,9 +228,9 @@ function EditPage({ params }) {
                                         ))}
                                     </select>
                                 ) : (
-                                    <p
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    >Loading.... </p>// Display a loading message or placeholder
+                                    <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                        Loading....{" "}
+                                    </p> // Display a loading message or placeholder
                                 )}
                             </div>
                         </div>
@@ -240,7 +241,7 @@ function EditPage({ params }) {
                             <textarea
                                 id="deskripsi"
                                 value={serviceDesc}
-                                onChange={(e) => setServiceDesc(e.target.value)} 
+                                onChange={(e) => setServiceDesc(e.target.value)}
                                 rows="4"
                                 class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
                                 placeholder="Deskripsi Dari Service"
