@@ -41,4 +41,4 @@ Route::get('/storage-link', function () {
     }
 
     return response()->json(['message' => 'Files copied successfully.']);
-});
+})->name('storage-link');
