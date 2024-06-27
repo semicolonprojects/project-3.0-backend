@@ -38,7 +38,7 @@ const Page = () => {
     return (
         <>
             {/* Desktop View */}
-            <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-5 pb-10">
+            <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-12 pb-10">
                 <h1 className=" font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
                     Product For You
                 </h1>

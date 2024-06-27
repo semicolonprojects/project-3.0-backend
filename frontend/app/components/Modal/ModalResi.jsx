@@ -76,7 +76,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
           title="Cek Resi"
         >
 
-          <div className="grid grid-flow-col p-1 md:p-3 md:pt-0 gap-9 rounded-md justify-center mt-1.5 md:mt-1">
+          <div className="grid grid-flow-col p-1 md:p-3 md:pt-0 gap-9 rounded-md justify-center mt-1.5 md:mt-1 overflow-hidden">
             <div className="grid grid-flow-row gap-2 h-32 justify-center">
               <p className="font-semibold mt-3.5">Detail Status</p>
               <div className="pb-5">
@@ -90,7 +90,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                 <span className="inline-flex font-semibold">Atas Nama : <p className="font-normal ml-2">{details[0].nama_pelanggan}</p></span>
               </div>
               </div>
-              <div className="grid grid-flow-col gap-4 pb-5">
+              <div className="grid grid-flow-col gap-4.5 pb-5">
               <div className="text-[14px]">
                 <span className="inline-flex font-semibold">Pengirim : <p className="font-normal ml-2">{details[0].pengirim}</p></span>
               </div>

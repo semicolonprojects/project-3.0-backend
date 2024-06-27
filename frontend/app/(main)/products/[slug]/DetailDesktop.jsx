@@ -8,7 +8,7 @@ const DetailDesktop = ({
     randomProductsLoading,
 }) => {
     return (
-        <div className="relative mx-16 py-0">
+        <div className="relative mx-16 py-5">
             <div className="grid grid-cols-2 gap-5">
                 <div className="max-w-xl w-full h-fit">
                     <div className="">
