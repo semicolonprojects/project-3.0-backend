@@ -135,6 +135,7 @@ const Sidebar = () => {
                                             href="https://api.whatsapp.com/send?phone=6281232750957"
                                             title="WhatsApp"
                                             aria-label="Whatsapp"
+                                            target="_blank"
                                         >
                                             <svg
                                                 width="24"
@@ -192,6 +193,7 @@ const Sidebar = () => {
                                             href="https://www.instagram.com/nettoyer.shoes/"
                                             title="Instagram"
                                             aria-label="Instagram"
+                                            target="_blank"
                                         >
                                             <svg
                                                 width="24"
@@ -226,6 +228,7 @@ const Sidebar = () => {
                                             href="https://www.tiktok.com/@nettoyer.shoes"
                                             title="TikTok"
                                             aria-label="TikTok"
+                                            target="_blank"
                                         >
                                             <svg
                                                 width="24"
@@ -243,9 +246,10 @@ const Sidebar = () => {
                                     </div>
                                     <div>
                                         <Link
-                                            href="https://www.tiktok.com/@nettoyer.shoes"
+                                            href="https://www.youtube.com/@Nettoyer.Shoes_IDN"
                                             title="YouTube"
                                             aria-label="YouTube"
+                                            target="_blank"
                                         >
                                             <svg
                                                 width="24"

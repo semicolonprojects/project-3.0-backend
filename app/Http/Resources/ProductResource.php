@@ -5,8 +5,6 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Helpers\DecodeMessage as DecodeMessage;
-
 class ProductResource extends JsonResource
 {
     /**
@@ -22,7 +20,7 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'category' => $this->category,
             'price' => $this->price,
-            'whatsapp_link' => DecodeMessage::decodeMessageFromUrl($this->whatsapp_link),
+            'whatsapp_link' => $this->whatsapp_link,
             'description' => $this->description,
             'image' => $this->image,
             'created_at' => $this->created_at,

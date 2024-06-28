@@ -171,7 +171,10 @@ const Page = ({ params }) => {
                                 </div>
                             </div>
                             <div className="pt-10 grid grid-flow-col ">
-                                <Link href={`https://${service.link_wa}`}>
+                                <Link
+                                    href={`${service.link_wa}`}
+                                    target="_blank"
+                                >
                                     <button className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853] ">
                                         <div className="flex items-center justify-center gap-x-2">
                                             <svg
@@ -334,7 +337,10 @@ const Page = ({ params }) => {
                                 </div>
                             </div>
                             <div className="py-10 pb-2 grid grid-flow-col ">
-                                <Link href={`https://${service.link_wa}`}>
+                                <Link
+                                    href={`${service.link_wa}`}
+                                    target="_blank"
+                                >
                                     <button className="p-2 font-semibold text-sm text-white max-w-md w-full bg-[#34A853] ">
                                         <div className="flex items-center justify-center gap-x-2">
                                             <svg

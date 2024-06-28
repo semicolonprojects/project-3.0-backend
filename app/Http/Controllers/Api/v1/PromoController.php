@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Promo;
 use App\Http\Requests\StorePromoRequest;
 use App\Http\Requests\UpdatePromoRequest;
+use Carbon\Carbon;
 
 class PromoController extends Controller
 {
@@ -73,6 +74,12 @@ class PromoController extends Controller
 
     public function showPromoNavbar()
     {
-        return response()->json(Promo::latest()->where('is_visible', true)->first());
+        $promo = Promo::latest()
+            ->where('is_visible', true)
+            ->first();
+
+        if ($promo->valid_date >= date('Y-m-d')) {
+            return response()->json($promo);
+        }
     }
 }

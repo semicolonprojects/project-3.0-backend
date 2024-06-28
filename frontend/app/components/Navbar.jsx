@@ -16,6 +16,7 @@ const Navbar = () => {
     const [scrollY, setScrollY] = useState(0);
     const [showModal, setshowModal] = useState(false);
     const [showPromo, setShowPromo] = useState("");
+    const [promoDescription, setPromoDescription] = useState("");
 
     const router = usePathname();
 
@@ -63,6 +64,7 @@ const Navbar = () => {
             try {
                 const promo = await getPromo();
                 setShowPromo(promo.title);
+                setPromoDescription(promo.description);
             } catch (error) {
                 console.log(error);
             }
@@ -80,9 +82,12 @@ const Navbar = () => {
     return (
         <>
             {isTop && showPromo && (
-                <nav className="hidden tablet:block  translate-y-0 transition-transform touch-pan-y bg-[#D9D9D9] p-2.5 text-[#4A89B0] fixed w-full h-11 z-10">
+                <nav className="hidden tablet:block  translate-y-0 transition-transform touch-pan-y bg-[#D9D9D9] p-2.5 text-[#4A89B0] fixed w-full h-fit z-10">
                     {/* Your navbar content goes here */}
-                    <p className="text-center text-base">{showPromo}</p>
+                    <div className="text-center text-base font-semibold flex flex-col items-center">
+                        <p>{showPromo}</p>
+                        <p>{promoDescription}</p>
+                    </div>
                 </nav>
             )}
 
@@ -93,16 +98,19 @@ const Navbar = () => {
                     isTop
                         ? "translate-y-0 transition-transform duration-75 touch-pan-y"
                         : "transform-none transition-transform"
-                } z-20 left-0  absolute bg-[#D9D9D9] text-center p-3 h-11`}
+                } z-20 left-0  absolute bg-[#D9D9D9] text-center p-3 h-fit`}
                 tabIndex={10}
                 aria-hidden="true"
             >
-                <p className="text-[#4A89B0]">{showPromo}</p>
+                <div className="text-[#4A89B0] flex flex-col">
+                    <p>{showPromo}</p>
+                    <p>{promoDescription}</p>
+                </div>
             </div>
             <nav
                 className={`tablet:hidden fixed ${
                     isTop
-                        ? "translate-y-11 transition-transform duration-[70ms] "
+                        ? "translate-y-16 transition-transform duration-[70ms] "
                         : " transform-none transition-transform"
                 }  inline-flex justify-between items-center z-10 h-fit w-screen p-1 bg-[#D9D9D9] shadow-lg`}
             >
