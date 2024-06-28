@@ -86,7 +86,7 @@ const Page = ({ params }) => {
         <>
             {/* Desktop View */}
             <div className="hidden tablet:block container">
-                <div className="mx-32 mt-10">
+                <div className="mx-32 mt-16">
                     <nav className="relative " aria-label="Breadcrumb">
                         <ol className="inline-flex items-center space-x-0.5 ">
                             <li className="inline-flex items-center">
@@ -109,18 +109,18 @@ const Page = ({ params }) => {
                         </ol>
                     </nav>
                     <div className="text-center my-5 ">
-                        <span className="capitalize">
+                        <span className="font-semibold capitalize">
                             {getArtikel.category}
                         </span>
                         <h1 className="text-[#FFB62B] font-semibold text-3xl md:text-5xl lg:text-6xl text-center my-5 mt-2">
                             {getArtikel.judul}
                         </h1>
-                        <span className="capitalize mb-5">
+                        <span className="font-semibold capitalize mb-5">
                             {formatTanggal(getArtikel.created_at)}
                         </span>
                     </div>
                     <img
-                        className="block mx-10 mb-8 max-w-7xl max-h-96 rounded-xl w-full"
+                        className="block mx-10 mb-8 max-w-7xl max-h-[780px] rounded-xl w-full h-full"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
                         alt={getArtikel.judul}
                         unoptimized
@@ -132,7 +132,7 @@ const Page = ({ params }) => {
                     </div>
                 </div>
                 <div className="mx-32 my-10">
-                    <p className="text-[#FFB62B] font-semibold text-lg md:text-xl lg:text-3xl my-5 mt-2">
+                    <p className="text-[#FFB62B] font-bold text-lg md:text-xl lg:text-3xl my-5 mt-2">
                         Similar Articles{" "}
                     </p>
                     <div className="grid grid-cols-3">
@@ -151,7 +151,7 @@ const Page = ({ params }) => {
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                             alt={item.judul}
-                                            className="w-96 h-80 rounded-t-lg"
+                                            className="w-96 h-96 rounded-t-lg"
                                             unoptimized
                                         />
                                     </Link>
@@ -191,33 +191,33 @@ const Page = ({ params }) => {
             <div className="block tablet:hidden container">
                 <div className="mt-32">
                     <div className=" mx-5 ">
-                        <span className="text-lg capitalize">
+                        <span className="font-semibold text-lg capitalize">
                             {getArtikel.category}
                         </span>
-                        <h1 className="text-[#FFB62B] font-semibold text-[33px] my-2 mt-1">
+                        <h1 className="text-[#FFB62B] font-bold text-[33px] my-2 mt-1">
                             {getArtikel.judul}
                         </h1>
-                        <span className="text-lg capitalize mb-5">
+                        <span className="font-semibold text-lg capitalize mb-5">
                             {formatTanggal(getArtikel.created_at)}
                         </span>
                     </div>
                     <img
-                        className="block ml-4 mb-8 max-w-2xl max-h-80 rounded-xl w-full"
+                        className="block mt-5 ml-4 mb-8 max-w-2xl max-h-80 rounded-xl w-full"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
                         alt={getArtikel.judul}
                         unoptimized
                     />
-                    <div className="p-6 pt-2 pb-10">
+                    <div className="p-6 pt-2">
                         <p className="break-words tracking-tighter text-lg ">
                             {parse(`${getArtikel.isi_artikel}`)}
                         </p>
                     </div>
                 </div>
-                <div className="ml-5 my-10">
-                    <p className="text-[#FFB62B] font-semibold text-[33px] my-5 mt-2">
+                <div className="ml-5 my-10 mt-5">
+                    <p className="text-[#FFB62B] font-bold text-[33px] my-2 ">
                         Similar Articles{" "}
                     </p>
-                    <div className="grid grid-cols-2">
+                    <div className="ml-1 grid grid-cols-2">
                         {!loading && slicedRandomProductsMobile.length === 0 ? (
                             <p>Artikel Lain Masih Belum Ada</p>
                         ) : (

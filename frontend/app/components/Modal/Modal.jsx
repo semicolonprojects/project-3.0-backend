@@ -13,7 +13,7 @@ const Modal = ({ isVisible, onClose, children, title }) => {
       id="wrapper"
       onClick={handleClose}
     >
-      <div className="bg-white rounded-md h-fit md:h-fit w-auto md:w-fit p-4">
+      <div className="bg-white rounded-md h-fit md:h-fit w-auto md:w-fit p-5">
         <div className="grid grid-flow-col p-4">
           <p className="font-bold text-lg md:text-xl lg:text-2xl">{title}</p>
           <XMarkIcon
@@ -23,7 +23,7 @@ const Modal = ({ isVisible, onClose, children, title }) => {
             height={28}
           />
         </div>
-        <div className="p-2 max-h-full overflow-y-auto">{children}</div>
+        <div className="p-2 max-h-full max-w-2xl overflow-y-auto">{children}</div>
       </div>
     </div>
   );

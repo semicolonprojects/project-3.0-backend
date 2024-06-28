@@ -199,9 +199,9 @@ const Promo = () => {
       </div>
 
       {/* Modal Create Promo */}
-      <Modal isVisible={isVisible} onClose={closeModal}>
-        <div className="text-center">
-          <p className="mb-4">{getPromoId ? "Edit Promo" : "Create Promo"}</p>
+      <Modal isVisible={isVisible} onClose={closeModal} >
+        <div className="">
+          <p className="font-bold mb-4">{getPromoId ? "Edit Promo" : "Create Promo"}</p>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
@@ -211,7 +211,7 @@ const Promo = () => {
                 Title
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 pl-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="title"
                 type="text"
                 placeholder="Enter title"
