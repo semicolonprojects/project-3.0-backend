@@ -49,7 +49,7 @@ class ArtikelController extends Controller
             'category_id' => 'required|exists:artikel_categories,id',
             'isi_artikel' => 'required|string',
             'description' => 'nullable|string',
-            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         //check if validation fails
@@ -108,7 +108,7 @@ class ArtikelController extends Controller
             'category_id' => 'required|exists:artikel_categories,id',
             'isi_artikel' => 'required|string',
             'description' => 'nullable|string',
-            'image' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         // If validation fails, return the validation errors

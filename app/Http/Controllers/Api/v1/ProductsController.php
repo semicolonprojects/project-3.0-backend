@@ -53,7 +53,7 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'whatsapp_link' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         //check if validation fails
@@ -112,7 +112,7 @@ class ProductsController extends Controller
             'price' => 'required|numeric|min:0',
             'whatsapp_link' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:5048',
         ]);
 
         if ($validator->fails()) {

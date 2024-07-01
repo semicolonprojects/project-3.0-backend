@@ -35,7 +35,7 @@ class ServiceCategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'slug' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
             'category_barang' => 'required|max:255',
            
         ]);
@@ -87,7 +87,7 @@ class ServiceCategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'slug' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
             'category_barang' => 'required|max:255',
            
         ]);
