@@ -101,7 +101,7 @@ const Navbar = () => {
                 tabIndex={10}
                 aria-hidden="true"
             >
-                <div className="font-semibold uppercase text-[#4A89B0] block">
+                <div className="text-sm font-semibold uppercase text-[#4A89B0] block">
                     <p>{showPromo} - {promoDescription}</p>
                 </div>
             </div>
