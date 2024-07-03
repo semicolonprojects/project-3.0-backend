@@ -35,6 +35,9 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::post('login', [AuthController::class, 'login']);
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('getUser/{token}', [AuthController::class, 'getUser'])->name('getUser');
+    Route::post('changePassword', [AuthController::class, 'changePassword'])->name('changePassword');
+
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });

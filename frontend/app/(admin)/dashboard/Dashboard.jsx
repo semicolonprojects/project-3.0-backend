@@ -1,17 +1,20 @@
 "use client";
+
 import axios from "axios";
 import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "/public/image/logo3.png";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import NomorWhatsapp from "./NomorWhatsapp";
+import GantiPassword from "./GantiPassword";
 
 function Dashboard() {
     const [showMenu, setshowMenu] = useState(false);
     const [showMulti, setshowMulti] = useState(false);
+    const [username, setUsername] = useState("");
     const cookies = useCookies();
 
     const router = useRouter();
@@ -39,6 +42,21 @@ function Dashboard() {
                 toast.apply(error);
             });
     };
+
+    useEffect(() => {
+        const getUser = async () => {
+            try {
+                const user = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getUser/${token}`
+                );
+                setUsername(user.data.name);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+
+        getUser();
+    }, [token]);
 
     const toggleMenu = () => {
         setshowMenu((showMenu) => !showMenu);
@@ -112,13 +130,7 @@ function Dashboard() {
                                                 className="text-sm text-gray-900 "
                                                 role="none"
                                             >
-                                                Neil Sims
-                                            </p>
-                                            <p
-                                                className="text-sm font-medium text-gray-900 truncate "
-                                                role="none"
-                                            >
-                                                neil.sims@flowbite.com
+                                                {username}
                                             </p>
                                         </div>
                                         <ul className="py-1" role="none">
@@ -133,6 +145,9 @@ function Dashboard() {
                                             </li>
                                             <li>
                                                 <NomorWhatsapp />
+                                            </li>
+                                            <li>
+                                                <GantiPassword />
                                             </li>
                                             <li>
                                                 <button

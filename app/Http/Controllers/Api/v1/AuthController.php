@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Carbon;
-use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -58,26 +55,34 @@ class AuthController extends Controller
         }
     }
 
-    public function getUser(Request $request)
+    public function getUser(string $token)
     {
-        $hashedToken = 'aceb733dcad166a356b5de1b20d37208a473edb01a603dbc1d298f00a0751ab5';
+        $user = User::where('token', $token)->first();
 
-        // Retrieve the personal access token
-        $token = PersonalAccessToken::where('token', $hashedToken)->first();
+        return $user;
+    }
 
-        // If token exists and is associated with a user
-        if ($token && $token->tokenable_type === 'App\Models\User') {
-            $user = $token->tokenable;
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:8|different:current_password',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
 
-            return response()->json([
-                'success' => true,
-                'user' => $user,
-            ], Response::HTTP_OK);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'User not found for the given token',
-            ], Response::HTTP_NOT_FOUND);
+        $user = User::where('token', $request->token)->first();
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['error' => 'Current password does not match'], 401);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully'], 200);
     }
 }
