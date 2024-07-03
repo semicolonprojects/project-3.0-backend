@@ -244,7 +244,9 @@ const Page = ({ params }) => {
                                 </label>
                                 <input
                                     value={productPrice}
-                                    onChange={(e) => e.target.value}
+                                    onChange={(e) =>
+                                        setProductPrice(e.target.value)
+                                    }
                                     type="number"
                                     name="price"
                                     id="price"
