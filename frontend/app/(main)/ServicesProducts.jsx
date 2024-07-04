@@ -13,18 +13,14 @@ const ServicesProducts = () => {
     const handleResize = () => {
         const { deviceWidth } = detectDevice();
 
-        // Update the state based on the device width
         setmobilePlayer(deviceWidth < 600);
     };
 
     useEffect(() => {
-        // Call the handleResize function when the component mounts
         handleResize();
 
-        // Add event listener to detect changes in screen size
         window.addEventListener("resize", handleResize);
 
-        // Cleanup the event listener when the component unmounts
         return () => {
             window.removeEventListener("resize", handleResize);
         };
@@ -46,7 +42,7 @@ const ServicesProducts = () => {
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
-                            referrerpolicy="strict-origin-when-cross-origin"
+                            referrerPolicy="strict-origin-when-cross-origin"
                             loading="lazy"
                             className="w-full h-full"
                         />

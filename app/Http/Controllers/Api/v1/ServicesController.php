@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Helpers\WaLinkHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreServicesRequest;
 use App\Http\Resources\ServicesCollection;
 use App\Http\Resources\ServicesResource;
 use App\Models\ServiceCategory;
 use App\Models\Services;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ServicesController extends Controller
@@ -20,15 +18,29 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->data === 'all') {
-            return new ServicesCollection(Services::latest()->get());
-        } else if ($request->data) {
-            $category = ServiceCategory::where('category_barang', $request->data)->first();
-            $service = Services::where('category_id', $category->id)->get();
+        try {
+            if ($request->has('data') && $request->data === 'all') {
+                $services = Services::latest()->get();
+            } elseif ($request->has('data')) {
+                if ($request->data === 'Shoes') {
+                    $categories = ServiceCategory::where('category_barang', 'like', '%Shoes%')->get();
+                } else {
+                    $categories = ServiceCategory::where('category_barang', $request->data)->get();
+                }
 
-            return new ServicesCollection($service);
-        } else {
-            return new ServicesCollection(Services::latest()->paginate());
+                $serviceIds = $categories->pluck('id')->toArray();
+                $services = Services::whereIn('category_id', $serviceIds)->get();
+
+                if ($services->isEmpty()) {
+                    $services = [];
+                }
+            } else {
+                $services = Services::latest()->paginate();
+            }
+
+            return new ServicesCollection($services);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch services', 'message' => $e->getMessage()], 500);
         }
     }
 

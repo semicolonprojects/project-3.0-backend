@@ -10,10 +10,8 @@ import After from "/public/image/after.png";
 import Link from "next/link";
 
 const Page = () => {
-    const [services, setServices] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [category, setCategory] = useState("");
     const [getClickCategory, setGetClickCategory] = useState("");
     const [imageRevealFraq, setImageRevealFraq] = useState(0);
     const imageContainer = useRef(null);
@@ -61,15 +59,11 @@ const Page = () => {
             try {
                 setLoading(true);
                 if (getClickCategory) {
-                    // Fetch filtered data if category is set
                     const filteredRes = await getServiceByCategory(
                         getClickCategory
                     );
-                    console.log("🚀 ~ fetchData ~ filteredRes:", filteredRes);
                     setFilteredServices(filteredRes);
                 } else {
-                    // const res = await getServices();
-                    // setServices(res);
                     const filteredRes = await getServiceByCategory("all");
                     setFilteredServices(filteredRes);
                 }
@@ -81,7 +75,7 @@ const Page = () => {
         };
 
         fetchData();
-    }, [category, getClickCategory]);
+    }, [getClickCategory]);
 
     const handleClick = async (event) => {
         const clickedValue = event.target.value;
@@ -108,7 +102,7 @@ const Page = () => {
                     </li>
                     <li>
                         <button
-                            value={"Shoes & Sandals"}
+                            value="Shoes & Sandals"
                             onClick={handleClick}
                             className={`hover:underline ${
                                 getClickCategory === "Shoes & Sandals"
@@ -222,7 +216,6 @@ const Page = () => {
                     </div>
                     <div className="py-1 grid grid-cols-2 gap-x-3 gap-y-7 laptop:gap-x-20 laptop:grid-cols-4  tablet:justify-start tablet:items-start">
                         {loading ? (
-                            // Loading state: Render placeholders
                             <>
                                 {[...Array(8)].map((_, index) => (
                                     <div
@@ -232,7 +225,6 @@ const Page = () => {
                                 ))}
                             </>
                         ) : filteredServices.length > 0 ? (
-                            // Data loaded and services available: Render service items
                             filteredServices.map((service) => (
                                 <Link
                                     href={`services/${service.slug}`}
@@ -258,11 +250,9 @@ const Page = () => {
                                 </Link>
                             ))
                         ) : (
-                            // No services available: Render a message
                             <p>Coming soon!</p>
                         )}
                     </div>
-                  
                 </div>
             </div>
         </>
