@@ -2,6 +2,7 @@
 import Image from "next/image";
 import WhiteShoes from "../../public/image/sepatu_putih(home).png";
 import gif from "../../public/image/video estetik.gif";
+import Logo from "/public/image/logo1.png";
 
 const About = () => {
     return (
@@ -65,21 +66,31 @@ const About = () => {
                     className="w-full h-full"
                     unoptimized
                 />
-                <div className="absolute top-0 left-0 w-full h-full bg-black opacity-[0.72] flex items-center justify-center">
-                    <div className="text-white text-center p-10 tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
-                        <div className="absolute inset-x-16 ">
-                            <p className="text-center text-[#FFB62B] text-opacity-100 text-4xl font-bold">
+               <div className="absolute top-0 left-0 w-full h-full bg-slate-950 opacity-[0.72] flex items-center justify-center">
+                    <div className="items-center ">
+                    <Image
+                        src={Logo}
+                        height={300}
+                        width={300}
+                        alt="..."
+                        className="pt-32 mx-auto pb-36"
+                        unoptimized
+                    />
+                    <div className="text-white align-bottom tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
+                        <div className=" ">
+                            <p className="font-custom text-center text-[#f7941d] text-opacity-100 text-[30px] font-medium ">
                                 Make Your Foot Sparks !
                             </p>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
-            <div className="block tablet:hidden px-7">
+            <div className="block tablet:hidden px-11">
                 <p className="text-[#FFB62B] py-5 pb-2 font-bold text-2xl px-1">
                     About Us
                 </p>
-                <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal  max-w-96">
+                <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal break-words max-w-96">
                     <p>
                         Nettoyer Shoes merupakan usaha di bidang jasa laundry
                         sepatu, tas, dan topi yang berdiri di kota Malang sejak

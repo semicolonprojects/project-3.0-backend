@@ -154,14 +154,14 @@ const Page = () => {
                     </li>
                 </ul>
                 <div className="py-5 laptop:py-5 ">
-                    <div className="pb-5">
+                <div className="pb-5">
                         <div
                             ref={imageContainer}
-                            className="max-w-lg w-full tablet:max-w-[989px] tablet:w-full h-2/4 mx-auto tablet:mx-0 relative select-none"
+                            className="max-w-lg w-full tablet:max-w-5xl tablet:w-full h-3/4 mx-auto tablet:ml-5 relative select-none"
                         >
                             <Image
                                 src={Before}
-                                className="h-[220px] tablet:h-[470px] w-fill pointer-events-none"
+                                className="h-[220px] tablet:h-[520px] w-full pointer-events-none"
                                 alt="..."
                                 loading="lazy"
                                 unoptimized
@@ -175,7 +175,7 @@ const Page = () => {
                                         imageRevealFraq * 100
                                     }% 100%, 0 100%)`,
                                 }}
-                                className="h-[220px] tablet:h-[470px] w-fill absolute inset-0  pointer-events-none"
+                                className="h-[220px] tablet:h-[520px] w-full absolute inset-0  pointer-events-none"
                                 alt="..."
                                 loading="lazy"
                                 unoptimized
@@ -214,7 +214,7 @@ const Page = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="py-1 grid grid-cols-2 gap-x-3 gap-y-7 laptop:gap-x-20 laptop:grid-cols-4  tablet:justify-start tablet:items-start">
+                    <div className="py-1 grid grid-cols-2 gap-x-[3.35rem] gap-y-7 laptop:gap-x-20 laptop:grid-cols-4  tablet:justify-start tablet:items-start">
                         {loading ? (
                             <>
                                 {[...Array(8)].map((_, index) => (
@@ -231,7 +231,7 @@ const Page = () => {
                                     className="group"
                                     key={service.id}
                                 >
-                                    <div className="aspect-h-1 aspect-w-1 w-[157px] h-[236px] laptop:w-[250px] laptop:h-[389px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                                    <div className="aspect-h-1 aspect-w-1 w-[167px] h-[236px] laptop:w-[250px] laptop:h-[389px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${service.category_image}`}
                                             alt="Service Image"

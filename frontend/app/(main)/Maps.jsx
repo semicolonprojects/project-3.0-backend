@@ -33,7 +33,7 @@ const Maps = () => {
     }, []);
 
     return (
-        <div className="pb-10 relative px-7 md:px-8  xl:px-16 desktop:px-20 flex laptop:justify-end xl:justify-end rounded-md">
+        <div className="pb-10 relative px-14 md:px-8  xl:px-16 desktop:px-20 flex laptop:justify-end xl:justify-end rounded-md">
             <div className="grid grid-flow-col gap-4 md:gap-8 lg:gap-12">
                 <div className="min-w-0 tablet:min-w-[600px] w-full md:w-full lg:w-auto xl:w-auto">
                     <p className="py-5 pt-0 pb-3 text-[#FFB62B] font-bold text-2xl md:text-4xl lg:text-4xl xl:text-5xl">

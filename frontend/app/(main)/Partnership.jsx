@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Partnership = () => {
   return (
-    <div className="py-10 pt-5 px-9 tablet:px-8 laptop:px-32 laptop-lg:px-16 desktop:px-32 flex flex-col h-auto laptop:h-60 laptop-lg:h-96 w-full">
+    <div className="py-10 pt-2 px-14 tablet:px-8 laptop:px-32 laptop-lg:px-16 desktop:px-32 flex flex-col h-auto laptop:h-60 laptop-lg:h-96 w-full">
       <p className="text-[#FFB62B] font-bold text-[22px] laptop:text-4xl laptop-lg:text-5xl">
         Our Partnership Program
       </p>
