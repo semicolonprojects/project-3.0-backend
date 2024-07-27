@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { detailServiceCategory, updateCategory  } from "../../_api/api";
+import { detailServiceCategory, updateCategory } from "../../_api/api";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -11,7 +11,6 @@ import axios from "axios";
 function Edit({ params }) {
     const fileTypes = ["jpg", "png", "jpeg"];
 
-  
     const handleInputChange = (event) => {
         setShowCategory(event.target.value);
         setCategorySlug(createSlug(event.target.value)); // Update slug on service name change
@@ -29,31 +28,28 @@ function Edit({ params }) {
     const [categoryId, setCategoryId] = useState("");
     const router = useRouter();
 
-
     const handleChange = (file) => {
         setFile(file);
     };
-    
+
     useEffect(() => {
+        const detail = async () => {
+            try {
+                const serviceData = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${params.id}`
+                );
+                const res = serviceData.data.data;
+                console.log(res);
+                setShowCategory(res.name);
+                setCategoryId(res.id);
+                setCategorySlug(res.slug);
+                setCategoryFor(res.category_barang);
+            } catch (error) {
+                console.log(error);
+            }
+        };
 
-      const detail = async () => {
-        try {
-            const serviceData = await axios.get(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${params.id}`
-          );
-            const res = serviceData.data.data;
-            console.log(res);
-            setShowCategory(res.name);
-            setCategoryId(res.id);
-            setCategorySlug(res.slug);
-            setCategoryFor(res.category_barang);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    detail();
-
+        detail();
     }, []);
 
     const handleUpdate = async (e) => {
@@ -70,14 +66,18 @@ function Edit({ params }) {
         formData.append("image", file);
         formData.append("_method", "PUT");
 
-
         try {
             const res = await axios.post(
-              `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${categoryId}`,
-              formData
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${categoryId}`,
+                formData
             );
+
+            await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
+            );
+
             console.log("🚀 ~ handleUpdate ~ res:", res);
-            
+
             toast.dismiss();
             toast.success(`Category updated successfully`, {
                 position: "bottom-right",
