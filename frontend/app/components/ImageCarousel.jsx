@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+import Coming from "/public/image/coming-soon.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -10,6 +12,7 @@ import { getArtikelCategory } from "../api/v2/artikel-category/getArtikelCategor
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { detectDevice } from "../utils/deviceUtils";
+
 
 const ImageCarousel = () => {
     const [artikelData, setArtikelData] = useState([]);
@@ -90,9 +93,9 @@ const ImageCarousel = () => {
                 >
                     {groupedData.map((groupData, index) => (
                         <SwiperSlide key={index}>
-                            <div className="grid grid-cols-1 laptop:grid-cols-3 laptop-lg:grid-cols-3 ">
+                            <div className="grid grid-cols-1 laptop:grid-cols-3 laptop-lg:grid-cols-3  ">
                                 {groupData.map((item, itemIndex) => (
-                                    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow ">
+                                    <div className="max-w-sm desktop-md:max-w-[500px] desktop-md:max-h-[980px] bg-white border border-gray-200 rounded-lg shadow ">
                                         <Link
                                             href={`/artikel/${item.slug}`}
                                             className="w-96"
@@ -101,7 +104,7 @@ const ImageCarousel = () => {
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                                 alt={`${item.judul}`}
-                                                className="w-96 h-80 rounded-t-lg"
+                                                className="w-96 h-80 rounded-t-lg desktop-md:w-full desktop-md:h-[450px]"
                                                 unoptimized
                                             />
                                         </Link>
@@ -145,7 +148,14 @@ const ImageCarousel = () => {
                     ))}
                 </Swiper>
             ) : (
-                <p>Coming Soon !</p>
+                <div className="bg-white border border-gray-200 rounded-xl shadow ">
+                    <Image
+                        src={Coming}
+                        alt="..."
+                        className="w-screen h-[470px] desktop-md:h-[580px] rounded-t-lg"
+                        unoptimized
+                    />
+            </div>
             )}
         </>
     );

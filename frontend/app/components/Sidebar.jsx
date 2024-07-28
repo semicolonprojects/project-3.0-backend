@@ -54,12 +54,7 @@ const Sidebar = () => {
         <>
                 {isSidebarHidden ? null : (
             <div
-                id="wrapper"
-                className={`fixed inset-0  ${
-                    isExpand
-                        ? "bg-opacity-25 backdrop-brightness-50 overflow-auto"
-                        : "bg-opacity-100 backdrop-blur-none"
-                } flex z-20`}
+               
             >
                     <aside
                         className={`hidden tablet:fixed md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${

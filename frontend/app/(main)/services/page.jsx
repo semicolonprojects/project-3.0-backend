@@ -84,7 +84,7 @@ const Page = () => {
 
     return (
         <>
-            <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-16 laptop:pt-3">
+            <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-16 laptop:pt-3 desktop-md:pb-80">
                 <h1 className="pt-20 laptop:pt-10 tablet:pt-9 font-bold tracking-wide laptop:tracking-tight leading-none text-4xl laptop:text-[70px] text-[#FFB62B]">
                     Services For You
                 </h1>

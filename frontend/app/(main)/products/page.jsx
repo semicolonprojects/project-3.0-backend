@@ -38,7 +38,7 @@ const Page = () => {
     return (
         <>
             {/* Desktop View */}
-            <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-12 pb-10">
+            <div className="hidden tablet:block overflow-hidden px-5 laptop:px-44 py-12 desktop-md:pb-96">
                 <h1 className=" font-bold tracking-tight leading-none text-xl tablet:text-[70px] text-[#FFB62B]">
                     Product For You
                 </h1>
@@ -84,7 +84,7 @@ const Page = () => {
                 </ul>
                 <div className="py-5">
                     {/*  Cards Service 1 */}
-                    <div className="py-2 grid grid-cols-2 gap-x-32 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4">
+                    <div className="py-2 grid grid-cols-2 gap-x-32 gap-y-10 tablet:grid-cols-4 laptop:grid-cols-4 desktop:grid-cols-4 desktop-md:gap-x-1 desktop-md:grid-cols-4">
                         {!loading ? (
                             products.length > 0 ? (
                                 products.map((product) => (
@@ -93,7 +93,7 @@ const Page = () => {
                                         className="group"
                                         key={product.id}
                                     >
-                                        <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] desktop-sm:w-[285px]  overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                                        <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] desktop-sm:w-[285px] desktop-md:w-[329px] desktop-md:h-[400px]  overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                                                 alt={product.product_name}
