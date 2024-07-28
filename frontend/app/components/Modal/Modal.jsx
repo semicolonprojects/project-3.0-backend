@@ -14,8 +14,8 @@ const Modal = ({ isVisible, onClose, children, title }) => {
       onClick={handleClose}
     >
       <div className="bg-white rounded-md h-fit md:h-fit w-auto md:w-fit p-5">
-        <div className="grid grid-flow-col p-4">
-          <p className="font-bold text-lg md:text-xl lg:text-2xl">{title}</p>
+        <div className="grid grid-flow-col p-5">
+          <p className="font-bold text-lg md:text-xl lg:text-3xl">{title}</p>
           <XMarkIcon
             onClick={() => onClose()}
             className="place-self-end cursor-pointer"

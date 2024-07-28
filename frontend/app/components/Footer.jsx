@@ -3,7 +3,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <>
-      <footer className="p-3 self-end inset-x-0 bottom-0 h-16 text-center font-medium text-sm">
+      <footer className="p-3 desktop-sm:fixed inset-x-0 left-0 bottom-0 h-16 text-center font-medium text-sm">
         <div className="grid grid-rows-2 justify-items-center gap-2.5">
           <div className="grid grid-cols-4 gap-8">
             <Link href="/">

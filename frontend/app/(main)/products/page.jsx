@@ -93,7 +93,7 @@ const Page = () => {
                                         className="group"
                                         key={product.id}
                                     >
-                                        <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                                        <div className="aspect-h-1 aspect-w-1 w-[250px] h-[389px] desktop-sm:w-[285px]  overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                                                 alt={product.product_name}
@@ -222,6 +222,7 @@ const Page = () => {
                     </div>
                 </div>
             </div>
+            <div></div>
         </>
     );
 };

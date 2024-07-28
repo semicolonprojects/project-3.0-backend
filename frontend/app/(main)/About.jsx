@@ -14,41 +14,41 @@ const About = () => {
                         src={WhiteShoes}
                         alt="White Shoes"
                         unoptimized
-                        className="w-full h-auto tablet:w-full desktop:w-full object-fill"
+                        className="w-full h-auto tablet:w-full desktop-md:w-full desktop-md:h-[990px] object-fill"
                     />
                 </div>
             </div>
 
-            <div className="hidden tablet:block text-[#FFB62B] font-bold tablet:absolute tablet:px-32 px-3 py-10 tablet:py-20 ">
+            <div className="hidden tablet:block text-[#FFB62B] font-bold tablet:absolute tablet:px-32 desktop-md:px-48 px-3 py-10 tablet:py-20 ">
                 <div className="inline-flex tablet:grid tablet:grid-rows-2">
-                    <p className="text-4xl tablet:text-5xl lg:text-5xl xl:text-6xl">
+                    <p className="text-4xl tablet:text-5xl lg:text-5xl xl:text-6xl desktop-md:text-7xl">
                         Nettoyer
                     </p>
                     <div className="block px-3 tablet:px-0 tablet:relative tablet:flex items-center">
-                        <p className="text-4xl tablet:text-5xl lg:text-5xl xl:text-6xl">
+                        <p className="text-4xl tablet:text-5xl lg:text-5xl xl:text-6xl desktop-md:text-7xl">
                             Shoes
                         </p>
-                        <div className="hidden tablet:block tablet:h-10 bg-blue-500 w-1 ml-1.5 tablet:ml-2 mt-2 "></div>
+                        <div className="hidden tablet:block tablet:h-10 desktop-md:h-12 bg-blue-500 w-1 ml-1.5 tablet:ml-2 mt-2 "></div>
                         <div className="pl-0 tablet:pl-1">
-                            <p className="text-[#FFB62B] text-base mt-1 tablet:mt-2 -ml-[175px] tablet:ml-0 tablet:relative tablet:text-base ">
+                            <p className="text-[#FFB62B] text-base mt-1 tablet:mt-2 -ml-[175px] tablet:ml-0 tablet:relative tablet:text-base desktop-md:text-lg ">
                                 Make Your Foot <br /> Sparks
                             </p>
                         </div>
                     </div>
                 </div>
-                <div className="pt-2 font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base tracking-tighter leading-relaxed max-w-96">
+                <div className="pt-2 font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base desktop-md:text-[22px] desktop-md:tracking-normal  tracking-tighter leading-relaxed max-w-96 desktop-md:max-w-[540px]">
                     <p>
                         Nettoyer Shoes merupakan usaha di bidang jasa laundry
-                        sepatu, tas, dan topi yang berdiri di kota Malang sejak
+                        sepatu, tas, dan topi yang berdiri di Kota Malang sejak
                         tahun 2019. Nettoyer.Shoes beralamatkan di Jl. Danau
-                        Ranau VI G5i7 sawojajar, Kota Malang, Jawa Timur. Saat
+                        Ranau VI G5i7 Sawojajar, Kota Malang, Jawa Timur. Saat
                         ini kami sudah berhasil menangani lebih dari ribuan
-                        pasang Sepatu, ratusan tas dan topi, yang berarti sudah
+                        pasang sepatu, ratusan tas dan topi, yang berarti sudah
                         dipercaya oleh Masyarakat kota Malang untuk menjadi
-                        partner mereka dalam perawatan Sepatu, tas, dan topi.
-                        Pada tahun 2022 Nettoyer.Shoes mulai melebarkan sayapnya
+                        partner mereka dalam perawatan sepatu, tas, dan topi.
+                        Pada tahun 2022 Nettoyer Shoes mulai melebarkan sayapnya
                         ke Kota Purwokerto untuk membantu Masyarakat Purwokerto
-                        merawat Sepatu, tas, dan topinya. Cabang ke 2 ini mulai
+                        merawat sepatu, tas, dan topinya. Cabang ke 2 ini mulai
                         diperkenalkan pada tanggal 24 September 2022.
                     </p>
                 </div>
@@ -86,8 +86,8 @@ const About = () => {
                     </div>
                 </div>
             </div>
-            <div className="block tablet:hidden px-11">
-                <p className="text-[#FFB62B] py-5 pb-2 font-bold text-2xl px-1">
+            <div className="block tablet:hidden px-8 phone2:px-10">
+                <p className="text-[#FFB62B] py-5 pb-2 font-bold text-2xl px-0">
                     About Us
                 </p>
                 <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal break-words max-w-96">

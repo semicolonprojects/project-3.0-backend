@@ -52,12 +52,19 @@ const Sidebar = () => {
 
     return (
         <>
-            <div>
                 {isSidebarHidden ? null : (
+            <div
+                id="wrapper"
+                className={`fixed inset-0  ${
+                    isExpand
+                        ? "bg-opacity-25 backdrop-brightness-50 overflow-auto"
+                        : "bg-opacity-100 backdrop-blur-none"
+                } flex z-20`}
+            >
                     <aside
-                        className={`hidden tablet:block md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${
-                            isExpand ? "w-[36%]" : "w-16"
-                        } laptop-lg:h-screen transition-all duration-300 ease-out overflow-none`}
+                        className={`hidden tablet:fixed md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${
+                            isExpand ? "w-[38%] " : "w-16"
+                        }  laptop-lg:h-screen transition-all duration-300 ease-out`}
                     >
                         <div className="py-8 px-[23px] ">
                             <button
@@ -66,7 +73,7 @@ const Sidebar = () => {
                             >
                                 <span
                                     className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
-                    h-0.5 w-5 rounded-sm ${
+                    h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "rotate-45 translate-y-1"
                             : "-translate-y-0.5"
@@ -74,13 +81,13 @@ const Sidebar = () => {
                                 ></span>
                                 <span
                                     className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
-                    h-0.5 w-5 rounded-sm my-0.5 ${
+                    h-0.5 w-6 rounded-sm my-0.5 ${
                         isExpand ? "opacity-0" : "opacity-100"
                     }`}
                                 ></span>
                                 <span
                                     className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
-                    h-0.5 w-5 rounded-sm ${
+                    h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "-rotate-45 -translate-y-1"
                             : "translate-y-0.5"
@@ -90,19 +97,28 @@ const Sidebar = () => {
                         </div>
                         {isExpand && (
                             <>
-                                <div className="absolute px-20 py-4">
-                                    <Link href="/">
-                                        <p className="font-bold text-4xl text-[#FFB62B] cursor-pointer">
-                                            NETTOYER{" "}
-                                        </p>
-                                    </Link>
-                                </div>
-                                <div className="my-20 grid grid-flow-row font-bold text-4xl px-20 text-[#4A89B0]  gap-y-6">
-                                    <Link href="/">
-                                        <button className="text-left hover:text-[#FFB62B]">
-                                            About Us
+                                <div className="absolute px-[400px] desktop-sm:px-[435px] desktop-md:px-[615px] py-3 desktop-md:py-2">
+                                    <Link href="/cek-status">
+                                        <button className="w-24 mt-1.5 rounded-lg text-white text-center text-xs desktop-md:text-base font-semibold p-2.5 bg-[#4A89B0]">
+                                            Cek Resi
                                         </button>
                                     </Link>
+                                </div>
+                                <div className="px-[79px] py-10 pb-2">
+                                    <Link href="/">
+                                        <div className="grid grid-flow-row items-center">
+                                            <Image
+                                                src={Logo}
+                                                height={60}
+                                                width={60}
+                                                alt="..."
+                                                className="rotate-90 ml-6 desktop-md:w-24 "
+                                                unoptimized
+                                            />
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className=" mt-10 grid grid-flow-row font-bold text-5xl desktop-sm:text-5xl desktop-md:text-7xl desktop-md:mt-24 px-20 text-[#4A89B0]  gap-y-11 desktop-sm:gap-y-20">
                                     <Link href="/services">
                                         <button className="text-left hover:text-[#FFB62B]">
                                             Our Services
@@ -127,10 +143,10 @@ const Sidebar = () => {
                                 </div>
                             </>
                         )}
-                        <div className="grid grid-flow-row justify-center gap-7">
+                        <div className="grid grid-flow-row justify-center gap-8">
                             {!isExpand && (
                                 <>
-                                    <div>
+                                    <div className="items-center">
                                         <Link
                                             href="https://api.whatsapp.com/send?phone=6281232750957"
                                             title="WhatsApp"
@@ -138,8 +154,8 @@ const Sidebar = () => {
                                             target="_blank"
                                         >
                                             <svg
-                                                width="24"
-                                                height="24"
+                                                width="27"
+                                                height="27"
                                                 viewBox="0 0 24 24"
                                                 alt="Whatsapp"
                                                 fill="none"
@@ -165,8 +181,8 @@ const Sidebar = () => {
                                             aria-label="Cek Status"
                                         >
                                             <MagnifyingGlassIcon
-                                                width={26}
-                                                height={26}
+                                                width={27}
+                                                height={27}
                                                 className="text-[#4A89B0]"
                                             />
                                         </Link>
@@ -176,18 +192,18 @@ const Sidebar = () => {
                         </div>
                         {!isExpand && (
                             <>
-                                <div className="flex flex-col items-center pt-64 laptop:pt-28 laptop-lg:pt-36 ">
+                                <div className="flex flex-col items-center pt-64 laptop:pt-28 laptop-lg:pt-36 desktop-sm:pt-52 desktop-md:pt-[335px]">
                                     <Link href="/">
                                         <Image
                                             src={Logo}
-                                            height={50}
-                                            width={50}
+                                            height={53}
+                                            width={53}
                                             alt="..."
                                             unoptimized
                                         />
                                     </Link>
                                 </div>
-                                <div className="grid py-42 tablet:py-96  laptop:py-16 desktop:py-28 grid-flow-row justify-center gap-7">
+                                <div className="grid py-42 tablet:py-96  laptop:py-16 desktop:py-28 desktop-sm:pt-[275px] desktop-md:pt-[325px] grid-flow-row justify-center gap-8">
                                     <div>
                                         <Link
                                             href="https://www.instagram.com/nettoyer.shoes/"
@@ -196,8 +212,8 @@ const Sidebar = () => {
                                             target="_blank"
                                         >
                                             <svg
-                                                width="24"
-                                                height="24"
+                                                width="27"
+                                                height="27"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -231,8 +247,8 @@ const Sidebar = () => {
                                             target="_blank"
                                         >
                                             <svg
-                                                width="24"
-                                                height="24"
+                                                width="27"
+                                                height="27"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -252,8 +268,8 @@ const Sidebar = () => {
                                             target="_blank"
                                         >
                                             <svg
-                                                width="24"
-                                                height="24"
+                                                width="27"
+                                                height="27"
                                                 viewBox="0 0 24 24"
                                                 fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -288,8 +304,8 @@ const Sidebar = () => {
                             </>
                         )}
                     </aside>
-                )}
             </div>
+                )}
             <ModalSocials showModal={showModal} setshowModal={setshowModal} />
         </>
     );

@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
          
             <body className={`${monsterrat.className} bg-[#E1EAF3]`}>
                 <Toaster />
+                <main>
                 <CookiesProvider>{children}</CookiesProvider>
+                </main>
             </body>
         </html>
     );
