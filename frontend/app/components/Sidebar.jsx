@@ -52,53 +52,69 @@ const Sidebar = () => {
 
     return (
         <>
-                {isSidebarHidden ? null : (
-            <div
-               
-            >
+            {isSidebarHidden ? null : (
+                <div>
                     <aside
                         className={`hidden tablet:fixed md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${
                             isExpand ? "w-[38%] " : "w-16"
                         }  laptop-lg:h-screen transition-all duration-300 ease-out`}
                     >
-                        <div className="py-8 px-[23px] ">
-                            <button
-                                onClick={handleClick}
-                                className="flex flex-col justify-center items-center"
-                            >
-                                <span
-                                    className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                        <div
+                            className={`flex flex-row justify-between ${
+                                isExpand ? "p-4" : ""
+                            } `}
+                        >
+                            <div className="py-8 px-[23px] ">
+                                <button
+                                    onClick={handleClick}
+                                    className="flex flex-col justify-center items-center"
+                                >
+                                    <span
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "rotate-45 translate-y-1"
                             : "-translate-y-0.5"
                     }`}
-                                ></span>
-                                <span
-                                    className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                                    ></span>
+                                    <span
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm my-0.5 ${
                         isExpand ? "opacity-0" : "opacity-100"
                     }`}
-                                ></span>
-                                <span
-                                    className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                                    ></span>
+                                    <span
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
                     h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "-rotate-45 -translate-y-1"
                             : "translate-y-0.5"
                     }`}
-                                ></span>
-                            </button>
+                                    ></span>
+                                </button>
+                            </div>
+                            <Link
+                                href="/cek-status"
+                                style={
+                                    !isExpand
+                                        ? { display: "none" }
+                                        : { display: "" }
+                                }
+                            >
+                                <button className="w-24 mt-1.5 rounded-lg text-white text-center text-xs desktop-md:text-base font-semibold p-2.5 bg-[#4A89B0]">
+                                    Cek Resi
+                                </button>
+                            </Link>
                         </div>
                         {isExpand && (
                             <>
-                                <div className="absolute px-[400px] desktop-sm:px-[435px] desktop-md:px-[615px] py-3 desktop-md:py-2">
+                                {/* <div className="w-auto absolute px-[400px] desktop-sm:px-[435px] desktop-md:px-[600px] py-3 desktop-md:py-2">
                                     <Link href="/cek-status">
                                         <button className="w-24 mt-1.5 rounded-lg text-white text-center text-xs desktop-md:text-base font-semibold p-2.5 bg-[#4A89B0]">
                                             Cek Resi
                                         </button>
                                     </Link>
-                                </div>
+                                </div> */}
                                 <div className="px-[79px] py-10 pb-2">
                                     <Link href="/">
                                         <div className="grid grid-flow-row items-center">
@@ -299,8 +315,8 @@ const Sidebar = () => {
                             </>
                         )}
                     </aside>
-            </div>
-                )}
+                </div>
+            )}
             <ModalSocials showModal={showModal} setshowModal={setshowModal} />
         </>
     );
