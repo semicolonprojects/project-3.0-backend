@@ -15,7 +15,9 @@ const Sidebar = () => {
 
     const handleClick = () => {
         setisExpand(!isExpand);
+    
     };
+    
     useEffect(() => {
         const handleClickOutside = () => {
             if (isExpand) {
@@ -23,12 +25,22 @@ const Sidebar = () => {
             }
         };
 
-        document.addEventListener("click", handleClickOutside);
+       if (isExpand) {
+        document.body.style.overflow = 'hidden';
+       } else {
+        document.body.style.overflow = 'unset';
+       } 
 
+        document.addEventListener("click", handleClickOutside);
+        
         return () => {
             document.removeEventListener("click", handleClickOutside);
+         
         };
+
+        
     }, [isExpand]);
+
 
     const handleResize = () => {
         const { deviceWidth } = detectDevice();
@@ -50,10 +62,12 @@ const Sidebar = () => {
         };
     }, []);
 
+   
+
     return (
         <>
             {isSidebarHidden ? null : (
-                <div>
+                <div className="">
                     <aside
                         className={`hidden tablet:fixed md:flex flex-col bg-[#D9D9D9] text-zinc-50 fixed md:translate-x-0 z-20  ${
                             isExpand ? "w-[38%] " : "w-16"
@@ -107,6 +121,7 @@ const Sidebar = () => {
                             </Link>
                         </div>
                         {isExpand && (
+                            
                             <>
                                 {/* <div className="w-auto absolute px-[400px] desktop-sm:px-[435px] desktop-md:px-[600px] py-3 desktop-md:py-2">
                                     <Link href="/cek-status">
@@ -129,7 +144,7 @@ const Sidebar = () => {
                                         </div>
                                     </Link>
                                 </div>
-                                <div className=" mt-10 grid grid-flow-row font-bold text-5xl desktop-sm:text-5xl desktop-md:text-7xl desktop-md:mt-24 px-20 text-[#4A89B0]  gap-y-11 desktop-sm:gap-y-20">
+                                <div className=" mt-0 grid grid-flow-row font-bold text-5xl desktop-sm:text-5xl desktop-md:text-7xl desktop-md:mt-24 px-20 text-[#4A89B0]  gap-y-11 desktop-sm:gap-y-20">
                                     <Link href="/services">
                                         <button className="text-left hover:text-[#FFB62B]">
                                             Our Services
@@ -203,7 +218,7 @@ const Sidebar = () => {
                         </div>
                         {!isExpand && (
                             <>
-                                <div className="flex flex-col items-center pt-64 laptop:pt-28 laptop-lg:pt-36 desktop-sm:pt-52 desktop-md:pt-[335px]">
+                                <div className="flex flex-col align-middle items-center pt-64 laptop:pt-28 desktop:pt-32 laptop-lg:pt-36 desktop-sm:pt-52 desktop-md:pt-[335px]">
                                     <Link href="/">
                                         <Image
                                             src={Logo}
@@ -214,7 +229,7 @@ const Sidebar = () => {
                                         />
                                     </Link>
                                 </div>
-                                <div className="grid py-42 tablet:py-96  laptop:py-16 desktop:py-28 desktop-sm:pt-[275px] desktop-md:pt-[325px] grid-flow-row justify-center gap-8">
+                                <div className="grid py-42 tablet:py-96  laptop:py-16 desktop:py-[97px] desktop-sm:pt-[275px] desktop-md:pt-[325px] grid-flow-row justify-center gap-8">
                                     <div>
                                         <Link
                                             href="https://www.instagram.com/nettoyer.shoes/"
