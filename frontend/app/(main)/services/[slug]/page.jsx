@@ -69,7 +69,7 @@ const Page = ({ params }) => {
     return (
         <>
             {/* Desktop */}
-            <div className="hidden tablet:block relative mx-16 desktop-md:mx-44 py-5 desktop-md:pb-80">
+            <div className="hidden tablet:block relative mx-16 desktop-lg:mx-44 py-5 desktop-lg:pb-80">
                 <div className="grid grid-cols-2 gap-10">
                     <div className="max-w-xl w-full desktop-md:max-w-[660px] h-fit ">
                         <img
@@ -216,7 +216,7 @@ const Page = ({ params }) => {
                                         className="group w-fit"
                                         key={serviceList.id}
                                     >
-                                        <div className="aspect-h-1 aspect-w-1 w-28 h-40 desktop-sm:h-[227px] desktop-sm:w-[160px] desktop-md:h-[292px] desktop-md:w-[190px] overflow-hidden  bg-gray-300 ">
+                                        <div className="aspect-h-1 aspect-w-1 w-28 h-40 desktop-sm:h-[227px] desktop-sm:w-[160px] desktop-lg:h-[292px] desktop-lg:w-[190px] overflow-hidden  bg-gray-300 ">
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${serviceList.category_image}`}
                                                 alt="..."

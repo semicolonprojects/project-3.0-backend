@@ -93,9 +93,9 @@ const ImageCarousel = () => {
                 >
                     {groupedData.map((groupData, index) => (
                         <SwiperSlide key={index}>
-                            <div className="grid grid-cols-1 laptop:grid-cols-3 laptop-lg:grid-cols-3  ">
+                            <div className="grid grid-cols-1 laptop:grid-cols-3 laptop-lg:grid-cols-3 phone:gap-5">
                                 {groupData.map((item, itemIndex) => (
-                                    <div className="max-w-sm desktop-md:max-w-[500px] desktop-md:max-h-[980px] bg-white border border-gray-200 rounded-lg shadow ">
+                                    <div className=" max-w-sm desktop-md:max-w-96 desktop-md:max-h-[980px] desktop-lg:max-w-[500px] desktop-lg:max-h-[980px] bg-white border border-gray-200 rounded-lg  ">
                                         <Link
                                             href={`/artikel/${item.slug}`}
                                             className="w-96"
@@ -104,7 +104,7 @@ const ImageCarousel = () => {
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                                 alt={`${item.judul}`}
-                                                className="w-96 h-80 rounded-t-lg desktop-md:w-full desktop-md:h-[450px]"
+                                                className="w-96 h-80 rounded-t-lg  desktop-lg:w-full desktop-lg:h-[450px]"
                                                 unoptimized
                                             />
                                         </Link>
@@ -152,7 +152,7 @@ const ImageCarousel = () => {
                     <Image
                         src={Coming}
                         alt="..."
-                        className="w-screen h-[470px] desktop-md:h-[580px] rounded-t-lg"
+                        className="w-screen h-[470px] desktop-lg:h-[580px] rounded-t-lg"
                         unoptimized
                     />
             </div>

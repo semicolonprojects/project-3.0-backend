@@ -78,7 +78,7 @@ const Sidebar = () => {
                                 isExpand ? "p-4" : ""
                             } `}
                         >
-                            <div className="py-8 px-[23px] ">
+                            <div className="py-6 px-[23px] ">
                                 <button
                                     onClick={handleClick}
                                     className="flex flex-col justify-center items-center"
@@ -163,14 +163,14 @@ const Sidebar = () => {
                             </>
                         )}
                         {!isExpand && (
-                        <div className="flex flex-col justify-between h-full space-y-3">
-                            <div className="grid grid-flow-row gap-3">
+                        <div className="flex flex-col justify-between h-full ">
+                            <div className="grid grid-flow-row gap-6">
                                 <Link
                                     href="https://api.whatsapp.com/send?phone=6281232750957"
                                     title="WhatsApp"
                                     aria-label="Whatsapp"
                                     target="_blank"
-                                    className="flex justify-center items-center"
+                                    className="flex justify-center items-center pl-1"
                                 >
                                     <Image
                                         src={WhatsApp}
@@ -182,7 +182,7 @@ const Sidebar = () => {
                                     href="/cek-status"
                                     title="Cek Status"
                                     aria-label="Cek Status"
-                                    className="flex justify-center items-center"
+                                    className="flex justify-center items-center pl-1"
                                 >
                                     <MagnifyingGlassIcon
                                         width={27}
@@ -205,7 +205,7 @@ const Sidebar = () => {
                                     />
                                 </Link>
                             </div>
-                            <div className="grid grid-flow-row gap-3 py-2">
+                            <div className="grid grid-flow-row gap-6 py-4">
                                 <Link
                                     href="https://www.instagram.com/nettoyer.shoes/"
                                     title="Instagram"

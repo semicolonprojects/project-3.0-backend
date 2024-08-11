@@ -8,15 +8,15 @@ const DetailDesktop = ({
     randomProductsLoading,
 }) => {
     return (
-        <div className="relative mx-16 desktop-md:mx-44 py-5  desktop-md:pb-80">
-            <div className="grid grid-cols-2 gap-5 desktop-md:gap-0">
+        <div className="relative mx-16 desktop-lg:mx-44 py-5  desktop-lg:pb-80">
+            <div className="grid grid-cols-2 gap-5 desktop-lg:gap-0">
                 <div className="max-w-xl desktop-md:max-w-[660px] w-full h-fit">
                     <div className="">
                         <div className="h-[600px] w-full relative">
                             <img
                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                                 alt={product.product_name}
-                                className="h-[600px] desktop-sm:h-[650px] desktop-md:h-[700px] w-full"
+                                className="h-[600px] desktop-sm:h-[650px] desktop-lg:h-[700px] w-full"
                                 unoptimized
                             />
                         </div>
@@ -167,7 +167,7 @@ const DetailDesktop = ({
                                                 className="group"
                                                 key={index}
                                             >
-                                                <div className="aspect-h-1 aspect-w-1 w-28 h-40 desktop-sm:h-[222px] desktop-sm:w-[210px] desktop-md:h-[292px] desktop-md:w-[190px] overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                                                <div className="aspect-h-1 aspect-w-1 w-28 h-40 desktop-sm:h-[200px] desktop-sm:w-[150px] desktop-lg:h-[292px] desktop-lg:w-[190px] overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                                     <img
                                                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${random.image}`}
                                                         alt={

@@ -84,7 +84,7 @@ const Page = () => {
 
     return (
         <>
-            <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-16 laptop:pt-3 desktop-md:pb-80">
+            <div className="relative overflow-hidden px-5 py-16 laptop:px-44 laptop:py-16 laptop:pt-3 desktop-lg:pb-80">
                 <h1 className="pt-20 laptop:pt-10 tablet:pt-9 font-bold tracking-wide laptop:tracking-tight leading-none text-4xl laptop:text-[70px] text-[#FFB62B]">
                     Services For You
                 </h1>
@@ -157,11 +157,11 @@ const Page = () => {
                 <div className="pb-5">
                         <div
                             ref={imageContainer}
-                            className="max-w-lg w-full tablet:max-w-5xl  tablet:w-full desktop-md:max-w-[1460px] desktop-md:w-full h-3/4 mx-auto tablet:ml-5 relative select-none"
+                            className="max-w-lg w-full tablet:max-w-5xl  tablet:w-full desktop-md:max-w-[1100px] desktop-lg:max-w-[1460px] desktop-lg:w-full h-3/4 mx-auto tablet:ml-5 relative select-none"
                         >
                             <Image
                                 src={Before}
-                                className="h-[220px] tablet:h-[520px] desktop-md:h-full w-full pointer-events-none"
+                                className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full pointer-events-none"
                                 alt="..."
                                 loading="lazy"
                                 unoptimized
@@ -175,7 +175,7 @@ const Page = () => {
                                         imageRevealFraq * 100
                                     }% 100%, 0 100%)`,
                                 }}
-                                className="h-[220px] tablet:h-[520px] desktop-md:h-full w-full absolute inset-0  pointer-events-none"
+                                className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full absolute inset-0  pointer-events-none"
                                 alt="..."
                                 loading="lazy"
                                 unoptimized
@@ -214,7 +214,7 @@ const Page = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="py-1 grid grid-cols-2 gap-x-[3.35rem] gap-y-7 laptop:gap-x-20 laptop:grid-cols-4 desktop-sm:gap-x-5 desktop-sm:grid-cols-4 desktop-md:gap-x-1 desktop-md:grid-cols-4 tablet:justify-start tablet:items-start">
+                    <div className="py-1 grid grid-cols-2 gap-x-[3.35rem] gap-y-7 laptop:gap-x-20 laptop:grid-cols-4 desktop-sm:gap-x-5 desktop-sm:grid-cols-4 desktop-lg:gap-x-1 desktop-lg:grid-cols-4 tablet:justify-start tablet:items-start">
                         {loading ? (
                             <>
                                 {[...Array(8)].map((_, index) => (
@@ -231,7 +231,7 @@ const Page = () => {
                                     className="group"
                                     key={service.id}
                                 >
-                                    <div className="aspect-h-1 aspect-w-1 w-[167px] h-[236px] laptop:w-[250px] laptop:h-[389px] desktop-md:w-[329px] desktop-md:h-[400px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
+                                    <div className="aspect-h-1 aspect-w-1 w-[167px] h-[236px] laptop:w-[250px] laptop:h-[389px] desktop-lg:w-[329px] desktop-lg:h-[400px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${service.category_image}`}
                                             alt="Service Image"

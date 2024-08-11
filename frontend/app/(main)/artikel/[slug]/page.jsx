@@ -120,7 +120,7 @@ const Page = ({ params }) => {
                         </span>
                     </div>
                     <img
-                        className="block mx-10 mb-8 max-w-7xl max-h-[780px] rounded-xl w-full h-full desktop-md:w-screen desktop-md:max-w-[1590px]"
+                        className="block mx-10 mb-8 max-w-7xl max-h-[780px] rounded-xl w-full h-full desktop-lg:w-screen desktop-lg:max-w-[1590px]"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
                         alt={getArtikel.judul}
                         unoptimized
@@ -151,7 +151,7 @@ const Page = ({ params }) => {
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                             alt={item.judul}
-                                            className="w-96 h-96   rounded-t-lg"
+                                            className="w-96 h-96 rounded-t-lg"
                                             unoptimized
                                         />
                                     </Link>
