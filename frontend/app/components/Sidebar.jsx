@@ -131,13 +131,13 @@ const Sidebar = () => {
                                                 height={60}
                                                 width={60}
                                                 alt="..."
-                                                className="rotate-90 ml-6 desktop-md:w-24 "
+                                                className="rotate-90 ml-6 desktop-lg:w-24 "
                                                 unoptimized
                                             />
                                         </div>
                                     </Link>
                                 </div>
-                                <div className=" mt-0 grid grid-flow-row font-bold text-5xl desktop-sm:text-5xl desktop-md:text-7xl desktop-md:mt-24 px-20 text-[#4A89B0]  gap-y-11 desktop-sm:gap-y-20">
+                                <div className=" mt-0 grid grid-flow-row font-bold text-5xl desktop-sm:text-5xl desktop-lg:text-7xl desktop-lg:mt-24 px-20 text-[#4A89B0]  gap-y-11 desktop-sm:gap-y-20">
                                     <Link href="/services">
                                         <button className="text-left hover:text-[#FFB62B]">
                                             Our Services
