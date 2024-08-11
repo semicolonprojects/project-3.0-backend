@@ -54,6 +54,7 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
     Route::apiResource('service-category', ServiceCategoryController::class)->except(['getAll']);
+    Route::get('allServiceCategory', [ServiceCategoryController::class, 'getAll'])->name('getAllServiceCategory');
 
     Route::apiResource('cekresi', CekResiController::class)->except(['getResi', 'getDetail']);
     Route::get('getResi', [CekResiController::class, 'getData'])->name('getResi');

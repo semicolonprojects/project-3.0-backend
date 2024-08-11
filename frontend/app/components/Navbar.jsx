@@ -15,6 +15,7 @@ const Navbar = () => {
     const [showNavbar, setshowNavbar] = useState(false);
     const [scrollY, setScrollY] = useState(0);
     const [showModal, setshowModal] = useState(false);
+    const [disabledPromo, setDisabledPromo] = useState(true);
     const [showPromo, setShowPromo] = useState("");
     const [promoDescription, setPromoDescription] = useState("");
 
@@ -63,6 +64,9 @@ const Navbar = () => {
         const promo = async () => {
             try {
                 const promo = await getPromo();
+                if (promo !== 500) {
+                    setDisabledPromo(false);
+                }
                 setShowPromo(promo.title);
                 setPromoDescription(promo.description);
             } catch (error) {
@@ -81,11 +85,13 @@ const Navbar = () => {
 
     return (
         <>
-            {isTop && showPromo && (
+            {isTop && !disabledPromo && (
                 <nav className="hidden tablet:block  translate-y-0 transition-transform touch-pan-y bg-[#D9D9D9] p-2.5 text-[#4A89B0] fixed w-full h-fit z-10">
                     {/* Your navbar content goes here */}
                     <div className="text-center uppercase text-base font-semibold block  items-center">
-                        <p>{showPromo} - {promoDescription}</p> 
+                        <p>
+                            {showPromo} - {promoDescription}
+                        </p>
                     </div>
                 </nav>
             )}
@@ -102,7 +108,11 @@ const Navbar = () => {
                 aria-hidden="true"
             >
                 <div className="text-sm font-semibold uppercase text-[#4A89B0] block">
-                    <p>{showPromo} - {promoDescription}</p>
+                    {!disabledPromo && (
+                        <p>
+                            {showPromo} - {promoDescription}
+                        </p>
+                    )}
                 </div>
             </div>
             <nav

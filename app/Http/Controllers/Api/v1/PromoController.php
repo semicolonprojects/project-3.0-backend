@@ -80,6 +80,8 @@ class PromoController extends Controller
 
         if ($promo->valid_date >= date('Y-m-d')) {
             return response()->json($promo);
+        } else {
+            return response()->json(null, 500);
         }
     }
 }
