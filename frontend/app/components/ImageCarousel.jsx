@@ -70,7 +70,7 @@ const ImageCarousel = () => {
         <>
             {loading ? (
                 <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow animate-pulse">
-                    <div className="w-96 h-80 bg-gray-300 rounded-t-lg"></div>
+                    <div className="w-fit h-80 bg-gray-300 rounded-t-lg"></div>
                     <div className="p-5">
                         <div className="px-2 py-4">
                             <div className="mb-2 h-8 bg-gray-300 rounded"></div>

@@ -56,7 +56,7 @@ const About = () => {
 
             {/* Mobile  View */}
 
-            <div className="block tablet:hidden px-28 w-full h-screen">
+            <div className="block tablet:hidden px-28 w-full h-screen ">
                 <Image
                     src={gif}
                     alt="White Shoes"
