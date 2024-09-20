@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import WhiteShoes from "../../public/image/sepatu_putih(home).png";
+import GreyShoes from "../../public/image/sepatu_abu(home).png";
 import gif from "../../public/image/video estetik.gif";
 import Logo from "/public/image/logo1.png";
 
@@ -11,8 +11,8 @@ const About = () => {
             <div className="hidden tablet:block w-full h-auto">
                 <div className="hidden tablet:block relative">
                     <Image
-                        src={WhiteShoes}
-                        alt="White Shoes"
+                        src={GreyShoes}
+                        alt="Grey Shoes"
                         unoptimized
                         className="w-full h-auto tablet:w-full desktop-lg:w-full desktop-lg:h-[990px] object-fill"
                     />

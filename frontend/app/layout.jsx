@@ -8,7 +8,7 @@ const monsterrat = Montserrat({
 });
 
 export const metadata = {
-    title: "Nettoyer Shoes",
+    title: "Nettoyer Shoes | Cuci Sepatu Malang",
     description: "Nettoyer Shoes | Cuci Sepatu Malang",
 };
 

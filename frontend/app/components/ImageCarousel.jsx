@@ -23,8 +23,6 @@ const ImageCarousel = () => {
 
     const handleResize = () => {
         const { deviceWidth } = detectDevice();
-        console.log(deviceWidth);
-        // Update the state based on the device width
         setmobileArtikel(deviceWidth < 400);
     };
 

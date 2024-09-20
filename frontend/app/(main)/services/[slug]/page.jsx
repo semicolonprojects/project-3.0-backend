@@ -40,7 +40,6 @@ const Page = ({ params }) => {
         const getService = async () => {
             try {
                 const res = await getServices();
-                console.log("🚀 ~ getServices ~ res:", res);
                 setServices(res);
             } catch (error) {
                 console.log(error);
@@ -64,7 +63,7 @@ const Page = ({ params }) => {
 
     const shuffledProducts = useShuffleArray(serviceCarousel);
     const slicedRandomProducts = shuffledProducts.slice(0, 3);
-    console.log("🚀 ~ Page ~ slicedRandomProducts:", slicedRandomProducts);
+  
 
     return (
         <>
