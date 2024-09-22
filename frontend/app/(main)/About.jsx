@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import GreyShoes from "../../public/image/sepatu_abu(home).png";
+import WhiteShoes from "../../public/image/foto page depan new 1-Photoroom.png";
 import gif from "../../public/image/video estetik.gif";
 import Logo from "/public/image/logo1.png";
 
@@ -11,10 +12,10 @@ const About = () => {
             <div className="hidden tablet:block w-full h-auto">
                 <div className="hidden tablet:block relative">
                     <Image
-                        src={GreyShoes}
+                        src={WhiteShoes}
                         alt="Grey Shoes"
                         unoptimized
-                        className="w-full h-auto tablet:w-full desktop-lg:w-full desktop-lg:h-[990px] object-fill"
+                        className="w-full h-auto max-h-[700px] object-cover"
                     />
                 </div>
             </div>
@@ -36,8 +37,12 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-                <div className="pt-2 font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base desktop-lg:text-[22px] desktop-lg:tracking-normal  tracking-tighter leading-relaxed max-w-96 desktop-lg:max-w-[540px]">
-                    <p>
+                <div
+                    className="pt-2 font-semibold tablet:font-semibold tablet:pt-5
+                px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base
+                desktop-lg:text-[22px] desktop-lg:tracking-normal tracking-tighter leading-relaxed max-w-96 desktop-lg:max-w-[540px]"
+                >
+                    <p className="text-justify">
                         Nettoyer Shoes merupakan usaha di bidang jasa laundry
                         sepatu, tas, dan topi yang berdiri di Kota Malang sejak
                         tahun 2019. Nettoyer.Shoes beralamatkan di Jl. Danau
@@ -59,30 +64,32 @@ const About = () => {
             <div className="block tablet:hidden px-28 w-full h-screen ">
                 <Image
                     src={gif}
-                    alt="White Shoes"
+                    alt="GIF"
                     fill
                     objectFit="cover"
                     objectPosition="center"
                     className="w-full h-full"
-                    unoptimized
+                    unoptimized={true}
+                    loading="lazy"
                 />
-               <div className="absolute top-0 left-0 w-full h-full bg-slate-950 opacity-[0.72] flex items-center justify-center">
+
+                <div className="absolute top-0 left-0 w-full h-full bg-slate-900 opacity-[0.72] flex items-center justify-center">
                     <div className="items-center ">
-                    <Image
-                        src={Logo}
-                        height={300}
-                        width={300}
-                        alt="..."
-                        className="pt-32 mx-auto pb-36"
-                        unoptimized
-                    />
-                    <div className="text-white align-bottom tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
-                        <div className=" ">
-                            <p className="font-custom text-center text-[#f7941d] text-opacity-100 text-[30px] font-medium ">
-                                Make Your Foot Sparks !
-                            </p>
+                        <Image
+                            src={Logo}
+                            height={300}
+                            width={300}
+                            alt="..."
+                            className="pt-32 mx-auto pb-36"
+                            unoptimized
+                        />
+                        <div className="text-white align-bottom tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
+                            <div className=" ">
+                                <p className="font-custom text-center text-[#f7941d] text-opacity-100 text-[30px] font-medium ">
+                                    Make Your Foot Sparks !
+                                </p>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
@@ -91,7 +98,7 @@ const About = () => {
                     About Us
                 </p>
                 <div className="font-semibold tablet:font-semibold tablet:pt-5 px-1 tablet:px-0 text-[#4EAEFD] text-sm tablet:text-base text-pretty leading-normal break-words max-w-96">
-                    <p>
+                    <p className="text-justify">
                         Nettoyer Shoes merupakan usaha di bidang jasa laundry
                         sepatu, tas, dan topi yang berdiri di kota Malang sejak
                         tahun 2019. Nettoyer Shoes beralamatkan di Jl. Danau
