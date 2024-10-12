@@ -100,7 +100,6 @@ const Page = () => {
                                                 width="250"
                                                 height="389"
                                                 className="h-full w-full object-cover group-hover:opacity-75"
-                                                unoptimized
                                             />
                                         </div>
                                         <h3 className="mt-2 text-sm text-gray-900 font-semibold">
@@ -133,11 +132,11 @@ const Page = () => {
             </div>
 
             {/* Mobile View */}
-            <div class="fixed tablet:hidden py-28 px-3 ">
-                <h1 class="py-5 pb-2 font-bold tracking-tight leading-none text-4xl text-[#FFB62B]">
+            <div className="fixed tablet:hidden py-28 px-3 ">
+                <h1 className="py-5 pb-2 font-bold tracking-tight leading-none text-4xl text-[#FFB62B]">
                     Product For Your Shoes
                 </h1>
-                <ul class=" inline-flex font-medium text-[12px] gap-4 ">
+                <ul className=" inline-flex font-medium text-[12px] gap-4 ">
                     <li>
                         <button
                             onClick={handleClick}
@@ -191,7 +190,6 @@ const Page = () => {
                                                 width="147"
                                                 height="389"
                                                 className="object-cover w-full h-full group-hover:opacity-75"
-                                                unoptimized
                                             />
                                         </div>
                                         <h3 className="mt-2 text-sm font-semibold  text-gray-900">

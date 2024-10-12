@@ -10,6 +10,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import ModalSocials from "./Modal/ModalSocials";
 import { getPromo } from "../api/v2/promo/getPromo";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
     const [showNavbar, setshowNavbar] = useState(false);
@@ -64,14 +65,14 @@ const Navbar = () => {
         const promo = async () => {
             try {
                 const promo = await getPromo();
-                if (promo !== 500) {
+                if (promo.length !== undefined) {
                     setDisabledPromo(false);
+                    setShowPromo(promo.title);
+                    setPromoDescription(promo.description);
+                } else {
+                    setDisabledPromo(true);
                 }
-                setShowPromo(promo.title);
-                setPromoDescription(promo.description);
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) {}
         };
 
         closeNavbar();
@@ -165,12 +166,7 @@ const Navbar = () => {
                         />
                         <div className="flex flex-col justify-center items-start gap-5 font-bold text-4xl text-[#4A89B0]">
                             <div className="w-full flex justify-center items-center">
-                                <Image
-                                    src={Logo}
-                                    alt="Logo"
-                                    className="w-48"
-                                    unoptimized
-                                />
+                                <Image src={Logo} alt="Logo" className="w-48" />
                             </div>
                             <Link href="/">
                                 <motion.button

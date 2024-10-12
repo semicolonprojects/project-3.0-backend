@@ -16,15 +16,12 @@ const NavbarServices = () => {
         const fetchData = async () => {
             try {
                 if (getClickCategory) {
-                    // Fetch filtered data if category is set
                     const filteredRes = await getServiceByCategory(
                         getClickCategory
                     );
                     console.log("🚀 ~ fetchData ~ filteredRes:", filteredRes);
                     setFilteredServices(filteredRes);
                 } else {
-                    // const res = await getServices();
-                    // setServices(res);
                     const filteredRes = await getServiceByCategory("all");
                     setFilteredServices(filteredRes);
                 }
@@ -90,7 +87,6 @@ const NavbarServices = () => {
                                         width="200"
                                         height="389"
                                         className="h-full w-full object-cover  group-hover:opacity-75"
-                                        unoptimized
                                     />
                                 </div>
                                 <h3 className="mt-2 text-sm text-gray-900 font-semibold">
@@ -108,52 +104,7 @@ const NavbarServices = () => {
                             ))}
                         </>
                     )}
-
-                    {/* <Link href="/services/reglue" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/2.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Services For Your Bags
-            </h3>
-          </Link>
-          <Link href="" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/3.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Services For Your Hats
-            </h3>
-          </Link>
-          <Link href="" className="group">
-            <div className="aspect-h-1 aspect-w-1  w-[250px] h-[389px]  overflow-hidden  bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
-              <Image
-                src="/img/3.png"
-                alt="..."
-                width="200"
-                height="389"
-                className="h-full w-full object-cover  group-hover:opacity-75"
-              />
-            </div>
-            <h3 className="mt-2 text-sm text-gray-900 font-semibold">
-              Other Services
-            </h3>
-          </Link> */}
                 </div>
-                {/* <ImageSlider /> */}
-                {/*  Cards Service 1 */}
             </div>
         </>
     );

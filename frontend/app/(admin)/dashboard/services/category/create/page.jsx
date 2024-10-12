@@ -1,81 +1,88 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createServiceCategory } from "../_api/api";
+import { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+
+const fileTypes = ["jpg", "png", "jpeg"];
 
 function CreateCategory() {
-    const fileTypes = ["jpg", "png", "jpeg"];
-
-    const handleInputChange = (event) => {
-        setShowCategory(event.target.value);
-        setCategorySlug(createSlug(event.target.value));
-    };
-
-    const createSlug = (showCategory) => {
-        const slug = showCategory.replace(/[^a-zA-Z0-9]/gi, "-");
-        return slug.trim().toLowerCase().replace(/-+ /g, "-");
-    };
-
-    const handleChange = (file) => {
-        setFile(file);
-    };
-
     const [showCategory, setShowCategory] = useState("");
-    const [file, setFile] = useState("");
+    const [file, setFile] = useState(null);
     const [categorySlug, setCategorySlug] = useState("");
     const [categoryFor, setCategoryFor] = useState("");
     const router = useRouter();
 
+    const handleInputChange = (event) => {
+        const value = event.target.value;
+        setShowCategory(value);
+        setCategorySlug(createSlug(value));
+    };
+
+    const createSlug = (input) => {
+        return input
+            .replace(/[^a-zA-Z0-9]/gi, "-")
+            .trim()
+            .toLowerCase()
+            .replace(/-+/g, "-");
+    };
+
+    const handleChange = (event) => {
+        setFile(event);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        toast.loading("Loading ... ", {
-            position: "bottom-right",
-        });
+        toast.loading("Loading ...", { position: "bottom-right" });
 
         const formData = new FormData();
-
         formData.append("name", showCategory);
-        formData.append("slug", `${categorySlug}-${categoryFor.toLowerCase()}`);
+        formData.append(
+            "slug",
+            `${categorySlug}-${categoryFor
+                .replace(/[^a-zA-Z0-9]/gi, "-")
+                .trim()
+                .toLowerCase()
+                .replace(/-+/g, "-")}`
+        );
         formData.append("category_barang", categoryFor);
         formData.append("image", file);
 
         try {
-            const res = await createServiceCategory(formData);
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category`,
+                formData
+            );
 
             await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
             );
 
-            console.log("🚀 ~ handleSubmit ~ res:", res);
             toast.dismiss();
-            toast.success(`Category created successfully`, {
+            toast.success("Category created successfully", {
                 position: "bottom-right",
             });
             router.push(`/dashboard/services/category`);
         } catch (error) {
             toast.dismiss();
-            if (
-                error.response && // Check if response exists
-                error.response.status === 422 && // Check if response status is 422
-                error.response.data.errors
-            ) {
-                const errors = error.response.data.errors;
-                Object.keys(errors).forEach((field) => {
-                    errors[field].forEach((errorMessage) => {
-                        toast.error(`${field}: ${errorMessage}`, {
-                            position: "bottom-right",
-                        });
-                    });
+            handleError(error);
+        }
+    };
+
+    const handleError = (error) => {
+        if (error?.response?.status === 422) {
+            const errors = error?.response?.data;
+            Object.values(errors).forEach((messages) => {
+                messages.forEach((message) => {
+                    toast.error(message, { position: "bottom-right" });
                 });
-            } else {
-                toast.error("An error occurred. Please try again.", {
-                    position: "bottom-right",
-                });
-            }
+            });
+        } else {
+            toast.error("An error occurred. Please try again.", {
+                position: "bottom-right",
+            });
         }
     };
 
@@ -103,23 +110,6 @@ function CreateCategory() {
                             required
                         />
                     </div>
-                    {/* <div className="mb-4 ">
-            <label
-              htmlFor="name"
-              className="block text-gray-700 text-sm font-medium mb-2"
-            >
-              Slug
-            </label>
-            <input
-              type="text"
-              id="slug"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter category slug"
-              //  onChange={(e) => setCategorySlug(e.target.value)}
-              value={categorySlug}
-              required
-            />
-          </div> */}
                 </div>
                 <div className="mb-4 ">
                     <label
@@ -131,16 +121,16 @@ function CreateCategory() {
                     <select
                         type="text"
                         name="categoryFor"
-                        defaultValue={categoryFor}
+                        value={categoryFor}
                         onChange={(e) => setCategoryFor(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         required
                     >
-                        <option selected>Select Category</option>
-                        <option>Shoes & Sandals</option>
-                        <option>Bag</option>
-                        <option>Hat</option>
-                        <option>Others</option>
+                        <option value="">Select Category</option>
+                        <option value="Shoes & Sandals">Shoes & Sandals</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Hat">Hat</option>
+                        <option value="Others">Others</option>
                     </select>
                 </div>
                 <div className="relative z-0 max-w-md mb-5">

@@ -77,11 +77,7 @@ const Page = ({ params }) => {
 
                     <caption className="p-5 text-lg font-semibold text-left  text-gray-900 bg-">
                         <div className="h-64 w-96 relative">
-                            <img
-                                src={productImage}
-                                alt={productName}
-                                unoptimized
-                            />
+                            <img src={productImage} alt={productName} />
                         </div>
                     </caption>
                 </table>

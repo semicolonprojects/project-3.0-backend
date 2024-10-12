@@ -19,9 +19,8 @@ const Sidebar = () => {
 
     const handleClick = () => {
         setisExpand(!isExpand);
-    
     };
-    
+
     useEffect(() => {
         const handleClickOutside = () => {
             if (isExpand) {
@@ -62,8 +61,6 @@ const Sidebar = () => {
         };
     }, []);
 
-   
-
     return (
         <>
             {isSidebarHidden ? null : (
@@ -84,7 +81,7 @@ const Sidebar = () => {
                                     className="flex flex-col justify-center items-center"
                                 >
                                     <span
-                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "rotate-45 translate-y-1"
@@ -92,13 +89,13 @@ const Sidebar = () => {
                     }`}
                                     ></span>
                                     <span
-                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-sm my-0.5 ${
                         isExpand ? "opacity-0" : "opacity-100"
                     }`}
                                     ></span>
                                     <span
-                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out 
+                                        className={`bg-[#4A89B0] block transition-all duration-300 ease-out
                     h-0.5 w-6 rounded-sm ${
                         isExpand
                             ? "-rotate-45 -translate-y-1"
@@ -121,7 +118,6 @@ const Sidebar = () => {
                             </Link>
                         </div>
                         {isExpand && (
-                            
                             <>
                                 <div className="px-[79px] py-10 pb-2">
                                     <Link href="/">
@@ -132,7 +128,6 @@ const Sidebar = () => {
                                                 width={60}
                                                 alt="..."
                                                 className="rotate-90 ml-6 desktop-lg:w-24 "
-                                                unoptimized
                                             />
                                         </div>
                                     </Link>
@@ -163,92 +158,77 @@ const Sidebar = () => {
                             </>
                         )}
                         {!isExpand && (
-                        <div className="flex flex-col justify-between h-full ">
-                            <div className="grid grid-flow-row gap-6">
-                                <Link
-                                    href="https://api.whatsapp.com/send?phone=6281232750957"
-                                    title="WhatsApp"
-                                    aria-label="Whatsapp"
-                                    target="_blank"
-                                    className="flex justify-center items-center pl-1"
-                                >
-                                    <Image
-                                        src={WhatsApp}
-                                        alt="WhatsApp"
-                                        unoptimized
-                                    />
-                                </Link>
-                                <Link
-                                    href="/cek-status"
-                                    title="Cek Status"
-                                    aria-label="Cek Status"
-                                    className="flex justify-center items-center pl-1"
-                                >
-                                    <MagnifyingGlassIcon
-                                        width={27}
-                                        height={27}
-                                        className="text-[#4A89B0]"
-                                    />
-                                </Link>
+                            <div className="flex flex-col justify-between h-full ">
+                                <div className="grid grid-flow-row gap-6">
+                                    <Link
+                                        href="https://api.whatsapp.com/send?phone=6281232750957"
+                                        title="WhatsApp"
+                                        aria-label="Whatsapp"
+                                        target="_blank"
+                                        className="flex justify-center items-center pl-1"
+                                    >
+                                        <Image src={WhatsApp} alt="WhatsApp" />
+                                    </Link>
+                                    <Link
+                                        href="/cek-status"
+                                        title="Cek Status"
+                                        aria-label="Cek Status"
+                                        className="flex justify-center items-center pl-1"
+                                    >
+                                        <MagnifyingGlassIcon
+                                            width={27}
+                                            height={27}
+                                            className="text-[#4A89B0]"
+                                        />
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link
+                                        className="flex justify-center items-center"
+                                        href="/"
+                                    >
+                                        <Image
+                                            src={Logo}
+                                            height={53}
+                                            width={53}
+                                            alt="..."
+                                        />
+                                    </Link>
+                                </div>
+                                <div className="grid grid-flow-row gap-6 py-4">
+                                    <Link
+                                        href="https://www.instagram.com/nettoyer.shoes/"
+                                        title="Instagram"
+                                        aria-label="Instagram"
+                                        target="_blank"
+                                        className="flex justify-center items-center"
+                                    >
+                                        <Image
+                                            src={Instagram}
+                                            alt="Instagram"
+                                        />
+                                    </Link>
+                                    <Link
+                                        href="https://www.tiktok.com/@nettoyer.shoes"
+                                        title="TikTok"
+                                        aria-label="TikTok"
+                                        target="_blank"
+                                        className="flex justify-center items-center"
+                                    >
+                                        <Image src={Tiktok} alt="Tiktok" />
+                                    </Link>
+                                    <Link
+                                        href="https://www.youtube.com/@Nettoyer.Shoes_IDN"
+                                        title="YouTube"
+                                        aria-label="YouTube"
+                                        target="_blank"
+                                        className="flex justify-center items-center"
+                                    >
+                                        <Image src={Youtube} alt="Youtube" />
+                                    </Link>
+                                </div>
                             </div>
-                            <div>
-                                <Link
-                                    className="flex justify-center items-center"
-                                    href="/"
-                                >
-                                    <Image
-                                        src={Logo}
-                                        height={53}
-                                        width={53}
-                                        alt="..."
-                                        unoptimized
-                                    />
-                                </Link>
-                            </div>
-                            <div className="grid grid-flow-row gap-6 py-4">
-                                <Link
-                                    href="https://www.instagram.com/nettoyer.shoes/"
-                                    title="Instagram"
-                                    aria-label="Instagram"
-                                    target="_blank"
-                                    className="flex justify-center items-center"
-                                >
-                                    <Image
-                                        src={Instagram}
-                                        alt="Instagram"
-                                        unoptimized
-                                    />
-                                </Link>
-                                <Link
-                                    href="https://www.tiktok.com/@nettoyer.shoes"
-                                    title="TikTok"
-                                    aria-label="TikTok"
-                                    target="_blank"
-                                    className="flex justify-center items-center"
-                                >
-                                    <Image
-                                        src={Tiktok}
-                                        alt="Tiktok"
-                                        unoptimized
-                                    />
-                                </Link>
-                                <Link
-                                    href="https://www.youtube.com/@Nettoyer.Shoes_IDN"
-                                    title="YouTube"
-                                    aria-label="YouTube"
-                                    target="_blank"
-                                    className="flex justify-center items-center"
-                                >
-                                    <Image
-                                        src={Youtube}
-                                        alt="Youtube"
-                                        unoptimized
-                                    />
-                                </Link>
-                            </div>
-                        </div>
                         )}
-                        
                     </aside>
                 </div>
             )}

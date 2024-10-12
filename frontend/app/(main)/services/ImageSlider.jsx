@@ -57,7 +57,6 @@ function Services() {
                 className="h-[300px] tablet:h-[730px] w-fill pointer-events-none"
                 alt="..."
                 loading="lazy"
-                unoptimized
             />
 
             <Image
@@ -70,7 +69,6 @@ function Services() {
                 className="h-[300px] tablet:h-[730px] w-fill absolute inset-0  pointer-events-none"
                 alt="..."
                 loading="lazy"
-                unoptimized
             />
 
             <div

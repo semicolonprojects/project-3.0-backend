@@ -101,7 +101,7 @@ function Dashboard() {
                                 <Image
                                     className="w-16 h-10 mr-2.5"
                                     src={logo}
-                                    unoptimized
+                                    alt="Logo"
                                 />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
                                     Nettoyer
@@ -119,7 +119,6 @@ function Dashboard() {
                                             className="w-8 h-8 rounded-full"
                                             src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                                             alt="user photo"
-                                            unoptimized
                                         />
                                     </button>
                                 </div>

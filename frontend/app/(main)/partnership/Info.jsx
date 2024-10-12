@@ -12,7 +12,6 @@ const Info = () => {
                     objectFit="cover"
                     objectPosition="center"
                     className="w-full h-full"
-                    unoptimized
                 />
                 <div className="absolute top-0 left-0 w-full h-full bg-black opacity-[0.72] flex items-center justify-center">
                     <div className="text-white text-center p-10 tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
@@ -60,9 +59,8 @@ const Info = () => {
                         </div>
                     </div>
                 </div>
-            <div className="pb-20"></div>
+                <div className="pb-20"></div>
             </div>
-
         </>
     );
 };

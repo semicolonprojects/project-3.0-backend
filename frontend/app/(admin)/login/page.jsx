@@ -60,7 +60,6 @@ const Login = () => {
                                 className="w-16 h-10 mr-2.5"
                                 src={logo}
                                 alt="logo"
-                                unoptimized
                             />
                             Nettoyer
                         </a>
@@ -124,7 +123,6 @@ const Login = () => {
                             src={illustration}
                             className="tablet:h-[540px] w-fill"
                             alt="ilustrasi_login"
-                            unoptimized
                         />
                     </div>
                 </div>

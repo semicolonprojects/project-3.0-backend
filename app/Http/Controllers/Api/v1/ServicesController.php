@@ -87,7 +87,6 @@ class ServicesController extends Controller
      */
     public function show(Services $slug)
     {
-
         return new ServicesResource($slug);
     }
 
@@ -124,6 +123,26 @@ class ServicesController extends Controller
         ]);
 
         return response()->json('Sukses Update');
+    }
+
+    public function getByCategoryId(int $category_id)
+    {
+        $model = Services::query()
+            ->where(['category_id' => $category_id])
+            ->get();
+
+        return response()->json($model);
+    }
+
+    public function getById($id = null)
+    {
+        if (empty($id)) {
+            $model = Services::latest()->first();
+        } else {
+            $model = Services::findOrFail($id);
+        }
+
+        return response()->json($model);
     }
 
     /**

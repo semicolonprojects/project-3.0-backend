@@ -123,7 +123,6 @@ const Page = ({ params }) => {
                         className="block mx-10 mb-8 max-w-7xl max-h-[780px] rounded-xl w-full h-full desktop-lg:w-screen desktop-lg:max-w-[1590px]"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
                         alt={getArtikel.judul}
-                        unoptimized
                     />
                     <div className="p-14 pt-2">
                         <p className="text-gray-700 text-lg leading-relaxed text-left ">
@@ -152,7 +151,6 @@ const Page = ({ params }) => {
                                             src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                             alt={item.judul}
                                             className="w-96 h-96 rounded-t-lg"
-                                            unoptimized
                                         />
                                     </Link>
                                     <div className="p-5">
@@ -205,7 +203,6 @@ const Page = ({ params }) => {
                         className="block mt-5 ml-4 mb-8 max-w-2xl max-h-80 rounded-xl w-full"
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${getArtikel.image}`}
                         alt={getArtikel.judul}
-                        unoptimized
                     />
                     <div className="p-6 pt-2">
                         <p className="break-words tracking-tighter text-lg ">
@@ -235,7 +232,6 @@ const Page = ({ params }) => {
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                                 alt={item.judul}
                                                 className="w-full h-28 rounded-t-lg"
-                                                unoptimized
                                             />
                                         </Link>
                                         <div className="p-2">

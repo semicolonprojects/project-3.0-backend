@@ -17,7 +17,6 @@ const DetailDesktop = ({
                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/products/${product.image}`}
                                 alt={product.product_name}
                                 className="h-[600px] desktop-sm:h-[650px] desktop-lg:h-[700px] w-full"
-                                unoptimized
                             />
                         </div>
                     </div>
@@ -177,7 +176,6 @@ const DetailDesktop = ({
                                                         height="160"
                                                         loading="lazy"
                                                         className="h-full w-full object-cover  group-hover:opacity-75"
-                                                        unoptimized
                                                     />
                                                 </div>
                                                 <h3 className="mt-2 text-sm text-gray-900 font-semibold">

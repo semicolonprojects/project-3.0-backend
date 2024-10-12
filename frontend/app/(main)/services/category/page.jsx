@@ -41,7 +41,6 @@ const Page = ({ params }) => {
                                     height="389"
                                     className="h-full w-full object-cover  group-hover:opacity-75"
                                     loading="lazy"
-                                    unoptimized
                                 />
                             </div>
                             <h3 className="mt-2 text-sm text-gray-900 font-semibold">

@@ -46,12 +46,16 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('artikel_category', ArtikelCategoryController::class);
     Route::apiResource('artikel', ArtikelController::class)->except(['rekomendasiArtikel']);
     Route::get('rekomendasiArtikel/{categoryId}', [ArtikelController::class, 'rekomendasiArtikel'])->name('rekomendasiArtikel');
+    Route::get('getByCategoryId/{category_id}', [ServicesController::class, 'getByCategoryId']);
+    Route::get('getById/{id?}', [ServicesController::class, 'getById'])->name('getById');
     Route::apiResource('services', ServicesController::class)->parameters([
         'services' => 'slug',
     ]);
     Route::apiResource('products', ProductsController::class);
     Route::apiResource('productsCategory', ProductCategoryController::class);
 
+    Route::get('getSlug/{slug}', [ServiceCategoryController::class, 'getSlug'])->name('getSlug');
+    Route::get('getId/{name}', [ServiceCategoryController::class, 'getId'])->name('getId');
     Route::get('allProductsCategory', [ProductCategoryController::class, 'getAll'])->name('getAllProductCategory');
     Route::apiResource('service-category', ServiceCategoryController::class)->except(['getAll']);
     Route::get('allServiceCategory', [ServiceCategoryController::class, 'getAll'])->name('getAllServiceCategory');

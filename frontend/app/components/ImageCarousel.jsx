@@ -13,7 +13,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { detectDevice } from "../utils/deviceUtils";
 
-
 const ImageCarousel = () => {
     const [artikelData, setArtikelData] = useState([]);
     const [groupedData, setGroupedData] = useState([]);
@@ -103,7 +102,6 @@ const ImageCarousel = () => {
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
                                                 alt={`${item.judul}`}
                                                 className="w-96 h-80 rounded-t-lg  desktop-lg:w-full desktop-lg:h-[450px]"
-                                                unoptimized
                                             />
                                         </Link>
                                         <div className="p-5">
@@ -151,9 +149,8 @@ const ImageCarousel = () => {
                         src={Coming}
                         alt="..."
                         className="w-screen h-[470px] desktop-lg:h-[580px] rounded-t-lg"
-                        unoptimized
                     />
-            </div>
+                </div>
             )}
         </>
     );

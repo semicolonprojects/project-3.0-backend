@@ -78,10 +78,9 @@ class PromoController extends Controller
             ->where('is_visible', true)
             ->first();
 
-        if ($promo->valid_date >= date('Y-m-d')) {
+        if ($promo && $promo->valid_date >= now()->toDateString()) {
             return response()->json($promo);
-        } else {
-            return response()->json(null, 500);
         }
+        return response()->json(null);
     }
 }

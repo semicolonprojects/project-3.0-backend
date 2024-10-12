@@ -16,7 +16,6 @@ const DetailMobile = ({
                         alt={product.product_name}
                         className="h-[390px] w-full"
                         loading="lazy"
-                        unoptimized
                     />
                 </div>
             </div>
@@ -163,7 +162,6 @@ const DetailMobile = ({
                                         width="217"
                                         height="287"
                                         className="h-full w-full object-cover  group-hover:opacity-75"
-                                        unoptimized
                                     />
                                 </div>
                                 <h3 className="mt-2 text-sm text-gray-900 font-semibold ">

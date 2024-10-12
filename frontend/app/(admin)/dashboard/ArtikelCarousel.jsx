@@ -100,7 +100,6 @@ const ArtikelCarousel = () => {
                                 width={300}
                                 height={300}
                                 className="object-fill w-full"
-                                unoptimized
                             />
                             <h1 className="my-2 font-bold text-xl">
                                 {artikelSlider.judul}

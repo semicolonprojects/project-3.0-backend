@@ -55,7 +55,6 @@ const ServicesProducts = () => {
                             src={TravelKit}
                             alt="..."
                             className="w-full h-full bg-fill"
-                            unoptimized
                         />
                         <Link href="/products">
                             <div className="absolute inset-x-0 bottom-0 flex items-end justify-end font-bold text-white p-4 [writing-mode:vertical-rl] rotate-180">
@@ -73,7 +72,6 @@ const ServicesProducts = () => {
                                     src={Services}
                                     alt="..."
                                     className="w-full h-full object-fill"
-                                    unoptimized
                                 />
                                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-end font-bold text-white p-4 [writing-mode:vertical-rl] rotate-180">
                                     <p className="text-center text-[40px]">

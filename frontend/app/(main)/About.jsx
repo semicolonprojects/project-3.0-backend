@@ -14,7 +14,6 @@ const About = () => {
                     <Image
                         src={WhiteShoes}
                         alt="Grey Shoes"
-                        unoptimized
                         className="w-full h-auto max-h-[700px] object-cover"
                     />
                 </div>
@@ -69,7 +68,6 @@ const About = () => {
                     objectFit="cover"
                     objectPosition="center"
                     className="w-full h-full"
-                    unoptimized={true}
                     loading="lazy"
                 />
 
@@ -81,7 +79,6 @@ const About = () => {
                             width={300}
                             alt="..."
                             className="pt-32 mx-auto pb-36"
-                            unoptimized
                         />
                         <div className="text-white align-bottom tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">
                             <div className=" ">

@@ -37,18 +37,15 @@ class ServiceCategoryController extends Controller
             'slug' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
             'category_barang' => 'required|max:255',
-           
         ]);
 
-        //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-         //upload image
-         $image = $request->file('image');
-         $image->storeAs('public/service', $image->hashName());
-        //create post
+        $image = $request->file('image');
+        $image->storeAs('public/service', $image->hashName());
+
         ServiceCategory::create([
             'name' => $request->name,
             'slug' => $request->slug,
@@ -56,7 +53,6 @@ class ServiceCategoryController extends Controller
             'category_barang' => $request->category_barang,
         ]);
 
-        //return response
         return response()->json('Success', 200);
     }
 
@@ -83,35 +79,30 @@ class ServiceCategoryController extends Controller
     public function update(Request $request, $id)
     {
         $serviceCategory = ServiceCategory::findOrFail($id);
-        
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:255',
             'slug' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:5048',
             'category_barang' => 'required|max:255',
-           
+
         ]);
 
-       // Check if validation fails
-       if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
-    }
-
-    // Check if image is uploaded
-    if ($request->hasFile('image')) {
-        // Upload image
-        $image = $request->file('image');
-        $imagePath = $image->storeAs('public/service', $image->hashName());
-        $imageFileName = basename($imagePath);
-        // Delete previous image if exists
-        if ($serviceCategory->image) {
-            Storage::delete('public/service/' . $serviceCategory->image);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
         }
-    } else {
-        // Keep the existing image if no new image is uploaded
-        $imageFileName = $serviceCategory->image;
-    }
-        //create post
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->storeAs('public/service', $image->hashName());
+            $imageFileName = basename($imagePath);
+            if ($serviceCategory->image) {
+                Storage::delete('public/service/' . $serviceCategory->image);
+            }
+        } else {
+            $imageFileName = $serviceCategory->image;
+        }
+
         $serviceCategory->update([
             'name' => $request->name,
             'slug' => $request->slug,
@@ -119,8 +110,26 @@ class ServiceCategoryController extends Controller
             'category_barang' => $request->category_barang,
         ]);
 
-        //return response
         return response()->json('Success', 200);
+    }
+
+    public function getId(string $name)
+    {
+        $model = ServiceCategory::query()
+            ->where('name', $name)
+            ->pluck('id')
+            ->first();
+
+        return response()->json($model);
+    }
+
+    public function getSlug(string $slug)
+    {
+        $model = ServiceCategory::query()
+            ->where('slug', $slug)
+            ->first();
+
+        return response()->json($model);
     }
 
     /**
@@ -129,14 +138,26 @@ class ServiceCategoryController extends Controller
     public function destroy(string $id)
     {
         $serviceCategory = ServiceCategory::findOrFail($id);
-        
+
         $serviceCategory->delete();
 
         return response()->json(null, 204);
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
+        if ($request->has('category')) {
+            $query = ServiceCategory::query();
+
+            if ($request->category === 'Shoes') {
+                $query->where('category_barang', 'like', '%Shoes%');
+            } else {
+                $query->where('category_barang', $request->category);
+            }
+
+            return ServiceCategoryResource::collection($query->latest()->get());
+        }
+
         return ServiceCategoryResource::collection(ServiceCategory::latest()->get());
     }
 }

@@ -1,13 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
-import { getServices } from "../../api/v2/service/getService";
-import { getServiceByCategory } from "../../api/v2/service/getServiceByCategory";
 import Image from "next/image";
 import Before from "/public/image/before.png";
 import After from "/public/image/after.png";
 import Link from "next/link";
+import axios from "axios";
 
 const Page = () => {
     const [filteredServices, setFilteredServices] = useState([]);
@@ -20,55 +18,51 @@ const Page = () => {
         const containerBoundingRect =
             imageContainer.current?.getBoundingClientRect();
 
-        if (containerBoundingRect) {
-            setImageRevealFraq(() => {
-                if (xPosition < containerBoundingRect.left) {
-                    return 0;
-                } else if (xPosition > containerBoundingRect.right) {
-                    return 1;
-                } else {
-                    return (
-                        (xPosition - containerBoundingRect.left) /
-                        containerBoundingRect.width
-                    );
-                }
-            });
+        if (!containerBoundingRect) return;
+
+        const { left, right, width } = containerBoundingRect;
+        let revealFraction = 0;
+
+        if (xPosition > right) {
+            revealFraction = 1;
+        } else if (xPosition >= left) {
+            revealFraction = (xPosition - left) / width;
         }
+
+        setImageRevealFraq(revealFraction);
     };
 
     const handleTouchMove = (event) => {
-        slide(event.touches.item(0).clientX);
-    };
-
-    const handleMouseDown = () => {
-        window.onmousemove = handleMouseMove;
-        window.onmouseup = handleMouseUp;
+        slide(event.touches[0]?.clientX);
     };
 
     const handleMouseMove = (event) => {
         slide(event.clientX);
     };
 
+    const handleMouseDown = () => {
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseup", handleMouseUp);
+    };
+
     const handleMouseUp = () => {
-        window.onmousemove = null;
-        window.onmouseup = null;
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
     };
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
-                setLoading(true);
-                if (getClickCategory) {
-                    const filteredRes = await getServiceByCategory(
-                        getClickCategory
-                    );
-                    setFilteredServices(filteredRes);
-                } else {
-                    const filteredRes = await getServiceByCategory("all");
-                    setFilteredServices(filteredRes);
-                }
+                const categoryParam = getClickCategory
+                    ? `?category=${decodeURI(getClickCategory)}`
+                    : "";
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/allServiceCategory${categoryParam}`
+                );
+                setFilteredServices(response?.data?.data || []);
             } catch (error) {
-                console.error("Error fetching data:", error);
+                console.error("Error fetching services:", error);
             } finally {
                 setLoading(false);
             }
@@ -77,7 +71,7 @@ const Page = () => {
         fetchData();
     }, [getClickCategory]);
 
-    const handleClick = async (event) => {
+    const handleClick = (event) => {
         const clickedValue = event.target.value;
         setGetClickCategory(clickedValue);
     };
@@ -154,7 +148,7 @@ const Page = () => {
                     </li>
                 </ul>
                 <div className="py-5 laptop:py-5 ">
-                <div className="pb-5">
+                    <div className="pb-5">
                         <div
                             ref={imageContainer}
                             className="max-w-lg w-full tablet:max-w-5xl  tablet:w-full desktop-md:max-w-[1100px] desktop-lg:max-w-[1460px] desktop-lg:w-full h-3/4 mx-auto tablet:ml-5 relative select-none"
@@ -164,7 +158,6 @@ const Page = () => {
                                 className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full pointer-events-none"
                                 alt="..."
                                 loading="lazy"
-                                unoptimized
                             />
                             <Image
                                 src={After}
@@ -178,7 +171,6 @@ const Page = () => {
                                 className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full absolute inset-0  pointer-events-none"
                                 alt="..."
                                 loading="lazy"
-                                unoptimized
                             />
 
                             <div
@@ -225,27 +217,26 @@ const Page = () => {
                                 ))}
                             </>
                         ) : filteredServices.length > 0 ? (
-                            filteredServices.map((service) => (
+                            filteredServices.map((service, index) => (
                                 <Link
                                     href={`services/${service.slug}`}
                                     className="group"
-                                    key={service.id}
+                                    key={index}
                                 >
                                     <div className="aspect-h-1 aspect-w-1 w-[167px] h-[236px] laptop:w-[250px] laptop:h-[389px] desktop-lg:w-[329px] desktop-lg:h-[400px] overflow-hidden bg-gray-300 xl:aspect-h-8 xl:aspect-w-7">
                                         <img
-                                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${service.category_image}`}
-                                            alt="Service Image"
+                                            src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${service.image}`}
+                                            alt={`Service Image ${index}`}
                                             width="200"
                                             height="389"
                                             className="h-full w-full object-cover group-hover:opacity-75"
-                                            unoptimized
                                         />
                                     </div>
                                     <h3 className="mt-2 text-[13px] laptop:text-sm capitalize text-gray-900 font-semibold">
-                                        {service.nama_service}
+                                        {service.name}
                                     </h3>
                                     <h3 className="text-[13px] laptop:text-sm text-gray-900">
-                                        {service.category}
+                                        {service.category_barang}
                                     </h3>
                                 </Link>
                             ))

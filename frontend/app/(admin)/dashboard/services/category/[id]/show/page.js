@@ -38,7 +38,6 @@ function Show({ params }) {
                             src={categoryImage}
                             alt={categoryService.name}
                             className="h-[560px] w-96"
-                            unoptimized
                         />
                     </div>
                     <div className="relative mx-1">

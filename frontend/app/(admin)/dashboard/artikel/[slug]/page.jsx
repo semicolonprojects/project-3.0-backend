@@ -26,7 +26,6 @@ const Page = ({ params }) => {
                 <div className="flex justify-center items-center">
                     <img
                         src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${artikel.image}`}
-                        unoptimized
                     />
                 </div>
                 <div className="py-5">{parse(`${artikel.isi_artikel}`)}</div>
