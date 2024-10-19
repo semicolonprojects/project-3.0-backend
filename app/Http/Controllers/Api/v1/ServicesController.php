@@ -61,14 +61,10 @@ class ServicesController extends Controller
 
         ]);
 
-        //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-
-
-        //create post
         Services::create([
             'nama_service' => $request->nama_service,
             'slug' => $request->slug,
@@ -78,7 +74,6 @@ class ServicesController extends Controller
             'deskripsi' => $request->deskripsi
         ]);
 
-        //return response
         return response()->json('Success', 200);
     }
 
@@ -108,7 +103,6 @@ class ServicesController extends Controller
 
         ]);
 
-        //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }

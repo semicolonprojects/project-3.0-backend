@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCekResiRequest;
 use App\Http\Resources\CekResiCollection;
-use App\Http\Resources\CekResiResource;
 use App\Models\CekResi;
 use App\Models\ResiTemp;
 use Illuminate\Http\Request;
@@ -31,82 +29,55 @@ class CekResiController extends Controller
             'kode_resi' => 'required|unique:cek_resis,kode_resi',
             'nama_pelanggan' => 'required',
             'status_pengerjaan' => 'required',
-            'category_id' => 'required|exists:service_categories,id',
+            'service_id' => 'required|exists:services,id',
             'pengirim' => 'nullable',
-            'penerima' => 'nullable'
+            'penerima' => 'nullable',
         ]);
 
-        //check if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        CekResi::create([
-            'kode_resi' => $request->kode_resi,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'status_pengerjaan' => $request->status_pengerjaan,
-            'category_id' => $request->category_id,
-            'pengirim' => $request->pengirim,
-            'penerima' => $request->penerima,
-        ]);
+        CekResi::create($request->only([
+            'kode_resi',
+            'nama_pelanggan',
+            'status_pengerjaan',
+            'service_id',
+            'pengirim',
+            'penerima',
+        ]));
 
-        return response()->json('Success', 200);
+        return response()->json(null, 200);
     }
 
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     dd($id);
-    //     $cekResi = CekResi::findOrFail($id);
-
-    //     return new CekResiResource($cekResi);
-    // }
-
     public function show($kode_resi)
     {
-        $cekResi = CekResi::where('kode_resi', $kode_resi)->paginate();
-        $resiTemp = ResiTemp::where('kode_resi', $kode_resi)->paginate();
+        $cekResi = CekResi::where('kode_resi', $kode_resi)->get();
+        $resiTemp = ResiTemp::where('kode_resi', $kode_resi)->get();
 
         $result = [];
 
-        // Merge data from CekResi
-        foreach ($cekResi as $resi) {
-            $resiCode = $resi->kode_resi;
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $resi->created_at) {
+        foreach (array_merge($cekResi->toArray(), $resiTemp->toArray()) as $item) {
+            $resiCode = $item['kode_resi'];
+            $createdAt = \Carbon\Carbon::parse($item['created_at']);
+
+            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
                 $result[$resiCode] = [
-                    'kode_resi' => $resi->kode_resi,
-                    'nama_pelanggan' => $resi->nama_pelanggan,
-                    'status_pengerjaan' => $resi->status_pengerjaan,
-                    'category' => $resi->category->name,
-                    'pengirim' => $resi->pengirim,
-                    'penerima' => $resi->penerima,
-                    'tanggal' => $resi->created_at->format('Y-m-d H:i:s')
+                    'kode_resi' => $resiCode,
+                    'nama_pelanggan' => $item['nama_pelanggan'],
+                    'status_pengerjaan' => $item['status_pengerjaan'],
+                    'service_id' => $item['service_id'],
+                    'pengirim' => $item['pengirim'],
+                    'penerima' => $item['penerima'],
+                    'tanggal' => $createdAt->format('Y-m-d H:i:s'),
                 ];
             }
         }
 
-        // Merge data from ResiTemp
-        foreach ($resiTemp as $temp) {
-            $resiCode = $temp->kode_resi;
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $temp->created_at) {
-                $result[$resiCode] = [
-                    'kode_resi' => $temp->kode_resi,
-                    'nama_pelanggan' => $temp->nama_pelanggan,
-                    'status_pengerjaan' => $temp->status_pengerjaan,
-                    'category' => $temp->category->name,
-                    'pengirim' => $temp->pengirim,
-                    'penerima' => $temp->penerima,
-                    'tanggal' => $temp->created_at->format('Y-m-d H:i:s'),
-                ];
-            }
-        }
-
-        // Reindex the array to start from 0
-        $result = array_values($result);
-
-        return response()->json($result);
+        return response()->json(array_values($result));
     }
 
     /**
@@ -119,40 +90,38 @@ class CekResiController extends Controller
                 'kode_resi' => $request->kode_resi,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'status_pengerjaan' => $request->status_pengerjaan,
-                'category_id' => $request->category_id,
+                'service_id' => $request->service_id,
                 'pengirim' => $request->pengirim,
-                'penerima' => $request->penerima
+                'penerima' => $request->penerima,
             ]);
         } else {
-            $getResi = CekResi::where('kode_resi', $kode_resi)->first();
-            $cekResi = CekResi::findOrFail($getResi->id);
+            $cekResi = CekResi::where('kode_resi', $kode_resi)->firstOrFail();
+
             $validator = Validator::make($request->all(), [
                 'kode_resi' => 'required',
                 'nama_pelanggan' => 'required',
                 'status_pengerjaan' => 'required',
-                'category_id' => 'required|exists:service_categories,id',
+                'service_id' => 'required|exists:services,id',
                 'pengirim' => 'nullable',
-                'penerima' => 'nullable'
+                'penerima' => 'nullable',
             ]);
 
-            //check if validation fails
             if ($validator->fails()) {
                 return response()->json($validator->errors(), 422);
             }
 
             ResiTemp::where('kode_resi', $kode_resi)->delete();
 
-            $cekResi->update([
-                'kode_resi' => $request->kode_resi,
-                'nama_pelanggan' => $request->nama_pelanggan,
-                'status_pengerjaan' => $request->status_pengerjaan,
-                'category_id' => $request->category_id,
-                'pengirim' => $request->pengirim,
-                'penerima' => $request->penerima,
-            ]);
+            $cekResi->update($request->only([
+                'kode_resi',
+                'nama_pelanggan',
+                'status_pengerjaan',
+                'service_id',
+                'pengirim',
+                'penerima',
+            ]));
         }
 
-        // return new CekResiResource($cekResi);
         return response()->json('Sukses Update');
     }
 
@@ -173,40 +142,43 @@ class CekResiController extends Controller
 
     public function getData()
     {
-        $cekResi = CekResi::paginate();
-        $resiTemp = ResiTemp::paginate();
+        $cekResi = CekResi::with('service.category')->paginate();
+        $resiTemp = ResiTemp::with('service.category')->paginate();
 
         $result = [];
 
-        // Merge data from CekResi
         foreach ($cekResi as $resi) {
             $resiCode = $resi->kode_resi;
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $resi->created_at) {
+            $createdAt = $resi->created_at->format('Y-m-d H:i:s');
+            $serviceInfo = "{$resi->service?->nama_service} - {$resi->service?->category?->name}";
+
+            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
                 $result[$resiCode] = [
-                    'kode_resi' => $resi->kode_resi,
+                    'kode_resi' => $resiCode,
                     'nama_pelanggan' => $resi->nama_pelanggan,
                     'status_pengerjaan' => $resi->status_pengerjaan,
-                    'category' => $resi->category->name,
-                    'tanggal' => $resi->created_at->format('Y-m-d H:i:s')
+                    'service' => $serviceInfo,
+                    'tanggal' => $createdAt,
                 ];
             }
         }
 
-        // Merge data from ResiTemp
         foreach ($resiTemp as $temp) {
             $resiCode = $temp->kode_resi;
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $temp->created_at) {
+            $createdAt = $temp->created_at->format('Y-m-d H:i:s');
+            $serviceInfo = "{$temp->service?->nama_service} - {$temp->service?->category?->name}";
+
+            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
                 $result[$resiCode] = [
-                    'kode_resi' => $temp->kode_resi,
+                    'kode_resi' => $resiCode,
                     'nama_pelanggan' => $temp->nama_pelanggan,
                     'status_pengerjaan' => $temp->status_pengerjaan,
-                    'category' => $temp->category->name,
-                    'tanggal' => $temp->created_at->format('Y-m-d H:i:s'),
+                    'service' => $serviceInfo,
+                    'tanggal' => $createdAt,
                 ];
             }
         }
 
-        // Reindex the array to start from 0
         $result = array_values($result);
 
         return response()->json($result);
@@ -217,10 +189,7 @@ class CekResiController extends Controller
         $cekResi = CekResi::where('kode_resi', $kode_resi)->get();
         $resiTemp = ResiTemp::where('kode_resi', $kode_resi)->get();
 
-        // Combine both collections into one array
-        $resultArray = $cekResi->concat($resiTemp)->toArray();
-
-        $resultArray = collect($resultArray)->sortByDesc('created_at')->values()->all();
+        $resultArray = $cekResi->concat($resiTemp)->sortByDesc('created_at')->values()->all();
 
         return response()->json($resultArray);
     }

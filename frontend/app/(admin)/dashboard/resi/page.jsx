@@ -21,7 +21,7 @@ const Resi = () => {
                 setResis(combineResi);
                 setTotalPages(resisData.meta.last_page);
             } catch (error) {
-                console.error("Error fetching resis:", error);
+                throw error;
             }
         };
         fetchResis();
@@ -204,7 +204,7 @@ const Resi = () => {
                                         {resi.status_pengerjaan}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {resi.category}
+                                        {resi.service}
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">

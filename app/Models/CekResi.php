@@ -4,22 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class CekResi extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'kode_resi',
-        'nama_pelanggan',
-        'status_pengerjaan',
-        'category_id',
-        'pengirim',
-        'penerima'
-    ];
+    protected $guarded = ['id'];
 
-    public function category()
+    public function service(): HasOne
     {
-        return $this->belongsTo(ServiceCategory::class, 'category_id');
+        return $this->hasOne(Services::class, 'id', 'service_id');
     }
 }

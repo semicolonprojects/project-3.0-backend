@@ -2,13 +2,12 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { getCategory } from "../../_api/api.js";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Edit = ({ params }) => {
-    const [categories, setCategories] = useState([]);
+    const [services, setServices] = useState([]);
     const [resiData, setResiData] = useState({
         kode_resi: "",
         nama_pelanggan: "",
@@ -26,11 +25,10 @@ const Edit = ({ params }) => {
         const fetchCategories = async () => {
             try {
                 const { data } = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/allServiceCategory`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services?data=all`
                 );
-                setCategories(data.data);
+                setServices(data.data);
             } catch (error) {
-                console.error("Error fetching categories:", error.message);
                 toast.error(error.message);
             }
         };
@@ -42,16 +40,12 @@ const Edit = ({ params }) => {
                 );
                 const res = data[0];
 
-                const { data: category_id } = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getId/${res.category}`
-                );
-
                 setResiData({
                     kode_resi: res.kode_resi,
                     nama_pelanggan: res.nama_pelanggan,
                     title: res.kode_resi,
                     status_pengerjaan: res.status_pengerjaan,
-                    category_id: category_id,
+                    service_id: res.service_id,
                     penerima: res.penerima,
                     pengirim: res.pengirim,
                     id: res.id,
@@ -204,11 +198,9 @@ const Edit = ({ params }) => {
                                     placeholder="Status Pengerjaan"
                                     required
                                 >
-                                    <option value="Select Status">
-                                        Select Status
-                                    </option>
-                                    <option value="Dalam Antrian">
-                                        Dalam Antrian
+                                    <option value="">Select Status</option>
+                                    <option value="Belum Dikerjakan">
+                                        Belum Dikerjakan
                                     </option>
                                     <option value="Sedang Dikerjakan">
                                         Sedang Dikerjakan
@@ -223,32 +215,33 @@ const Edit = ({ params }) => {
                                         Category
                                     </label>
                                     <Link href="/dashboard/services/category">
-                                        <label className="text-right block mb-2 text-sm font-medium text-gray-900">
+                                        <p className="text-right block mb-2 text-sm font-medium text-gray-900">
                                             Manage Category
-                                        </label>
+                                        </p>
                                     </Link>
                                 </div>
 
-                                {categories.length > 0 ? (
+                                {services.length > 0 ? (
                                     <select
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        value={resiData.category_id}
+                                        value={resiData.service_id}
                                         onChange={(e) =>
                                             setResiData((prev) => ({
                                                 ...prev,
-                                                category_id: e.target.value,
+                                                service_id: e.target.value,
                                             }))
                                         }
                                     >
                                         <option value="">
                                             Select Category
                                         </option>
-                                        {categories.map((category) => (
+                                        {services.map((service, index) => (
                                             <option
-                                                key={category.id}
-                                                value={category.id}
+                                                key={index}
+                                                value={service.id}
                                             >
-                                                {category.name}
+                                                {service.nama_service} -{" "}
+                                                {service.category}
                                             </option>
                                         ))}
                                     </select>

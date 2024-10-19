@@ -32,7 +32,7 @@ export const updateCategory = async (id, formData) => {
 
 export const getAllCategory = async () => {
     const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/allServiceCategory`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services?data=all`
     );
 
     return response.data;

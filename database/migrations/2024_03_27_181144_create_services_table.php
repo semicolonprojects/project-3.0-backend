@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('slug');
             $table->string('nama_service');
             $table->foreignId('category_id')->constrained('service_categories')->onDelete('cascade');
-            $table->float('price');
+            $table->double('price');
             $table->longText('link_wa')->nullable();
             $table->longText('deskripsi');
             $table->timestamps();
