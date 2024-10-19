@@ -24,9 +24,10 @@ const Page = () => {
     useEffect(() => {
         const fetchCategory = async () => {
             try {
-                const categories = await getAllCategory();
-                const res = categories.data;
-                setGetCategory(res);
+                const services = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/allServiceCategory`
+                );
+                setGetCategory(services.data.data);
             } catch (error) {
                 console.log(error);
             }
