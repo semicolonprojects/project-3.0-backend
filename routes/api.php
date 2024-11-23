@@ -47,7 +47,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::apiResource('artikel', ArtikelController::class)->except(['rekomendasiArtikel']);
     Route::get('rekomendasiArtikel/{categoryId}', [ArtikelController::class, 'rekomendasiArtikel'])->name('rekomendasiArtikel');
     Route::get('getByCategoryId/{category_id}', [ServicesController::class, 'getByCategoryId']);
-    Route::get('getById/{id?}', [ServicesController::class, 'getById'])->name('getById');
+    Route::get('getById/{slug?}/{id?}', [ServicesController::class, 'getById'])->name('getById');
     Route::apiResource('services', ServicesController::class)->parameters([
         'services' => 'slug',
     ]);

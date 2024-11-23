@@ -5,6 +5,7 @@ import { getServicesAll } from "../../../api/v2/service/getService";
 import { DetailDesktop } from "./DetailDesktop";
 import { DetailMobile } from "./DetailMobile";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const Page = ({ params }) => {
     const [service, setService] = useState("");
@@ -49,15 +50,17 @@ const Page = ({ params }) => {
     };
 
     const fetchData = async (selectedValue) => {
+        setLoading(true);
         try {
-            const url = selectedValue
-                ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getById/${selectedValue}`
-                : `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getById`;
-
+            const url = `${
+                process.env.NEXT_PUBLIC_BACKEND_URL
+            }/api/v1/getById/${params.slug}${
+                selectedValue ? `/${selectedValue}` : ""
+            }`;
             const { data } = await axios.get(url);
             setDataService(data);
         } catch (error) {
-            throw error;
+            toast.error("Gagal Menampilkan Data", { position: "bottom-right" });
         } finally {
             setLoading(false);
         }

@@ -128,12 +128,16 @@ class ServicesController extends Controller
         return response()->json($model);
     }
 
-    public function getById($id = null)
+    public function getById(string $slug, $id = null)
     {
-        if (empty($id)) {
-            $model = Services::latest()->first();
-        } else {
+        $category = ServiceCategory::where('slug', $slug)->firstOrFail();
+
+        if ($id) {
             $model = Services::findOrFail($id);
+        } else {
+            $model = Services::where('category_id', $category->id)
+                ->latest('created_at')
+                ->firstOrFail();
         }
 
         return response()->json($model);
