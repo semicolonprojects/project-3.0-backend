@@ -8,122 +8,153 @@ import { CekResi } from "../../api/v2/cek-status/cekResiDetail";
 import toast from "react-hot-toast";
 
 const ModalResi = ({ showModal, inputValue, setshowModal }) => {
-  const [mobileInfo, setmobileInfo] = useState(false);
-  const [details, getDetails] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [clearInputValue, setClearInputValue] = useState("");
+    const [mobileInfo, setmobileInfo] = useState(false);
+    const [details, getDetails] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [clearInputValue, setClearInputValue] = useState("");
 
-  const handleResize = () => {
-    const { deviceWidth } = detectDevice();
+    const handleResize = () => {
+        const { deviceWidth } = detectDevice();
 
-    setmobileInfo(deviceWidth < 600);
-  };
+        setmobileInfo(deviceWidth < 600);
+    };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        toast.dismiss();
-        if (!inputValue) return;
-        toast.loading("Loading", { position: "bottom-right" });
-        setLoading(true);
-        const data = await CekResi(inputValue);
-        if (data.length <= 0) {
-          toast.dismiss();
-          setLoading(false);
-          return toast.error("Data Not Found", { position: "bottom-right" });
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                toast.dismiss();
+                if (!inputValue) return;
+                toast.loading("Loading", { position: "bottom-right" });
+                setLoading(true);
+                const data = await CekResi(inputValue);
+                if (data.length <= 0) {
+                    toast.dismiss();
+                    setLoading(false);
+                    return toast.error("Data Not Found", {
+                        position: "bottom-right",
+                    });
+                }
+                toast.dismiss();
+                getDetails(data);
+                setLoading(false);
+            } catch (error) {
+                toast.error("Error fetching data", {
+                    position: "bottom-right",
+                });
+            } finally {
+                inputValue === null;
+            }
+        };
+
+        if (inputValue) {
+            fetchData();
         }
-        toast.dismiss();
-        getDetails(data);
-        setLoading(false);
-      } catch (error) {
-        toast.error("Error fetching data", { position: "bottom-right" });
-      } finally {
-        inputValue === null;
-      }
-    };      
 
-    if (inputValue) {
-      fetchData();
+        handleResize();
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            getDetails([]);
+        };
+    }, [inputValue]);
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hour = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+
+        return `${day}/${month}/${year} - ${hour}:${minutes}:${seconds}`;
     }
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+    return (
+        <>
+            {!loading && details.length > 0 && (
+                <Modal
+                    isVisible={showModal}
+                    onClose={() => setshowModal(false)}
+                    title="Cek Resi"
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 p-3 md:p-6 mt-2 md:mt-3 rounded-md justify-center overflow-hidden">
+                        <div className="grid gap-3 h-auto justify-center">
+                            <p className="font-semibold text-base md:text-lg mt-2">
+                                Detail Status
+                            </p>
+                            <div className="pb-2">
+                                <p className="mt-1 text-lg font-extrabold text-yellow-400">
+                                    No. Resi {details[0].kode_resi}
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 pb-4">
+                                <div className="text-sm md:text-base">
+                                    <span className="inline-flex font-semibold">
+                                        Status :
+                                        <p className="font-normal ml-2">
+                                            {details[0].status_pengerjaan}
+                                        </p>
+                                    </span>
+                                </div>
+                                <div className="text-sm md:text-base">
+                                    <span className="inline-flex font-semibold">
+                                        Atas Nama :
+                                        <p className="font-normal ml-2">
+                                            {details[0].nama_pelanggan}
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      getDetails([]);
-    };
-  }, [inputValue]);
+                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 pb-4">
+                                <div className="text-sm md:text-base">
+                                    <span className="inline-flex font-semibold">
+                                        Pengirim :
+                                        <p className="font-normal ml-2">
+                                            {details[0].pengirim}
+                                        </p>
+                                    </span>
+                                </div>
+                                <div className="text-sm md:text-base">
+                                    <span className="inline-flex font-semibold">
+                                        Penerima :
+                                        <p className="font-normal ml-2">
+                                            {details[0].penerima}
+                                        </p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
 
-  function formatDate(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hour = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
+                        {/* Timeline Section */}
+                        <div className="grid grid-rows-auto bg-slate-50 rounded-md p-3 md:p-6 overflow-y-auto">
+                            <p className="font-semibold text-base md:text-lg mb-3">
+                                Riwayat Status Pengerjaan
+                            </p>
 
-    return `${day}/${month}/${year} - ${hour}:${minutes}:${seconds}`;
-  }
-
-  return (
-    <>
-      {!loading && details.length > 0 && (
-        <Modal
-          isVisible={showModal}
-          onClose={() => setshowModal(false)}
-          title="Cek Resi"
-        >
-
-          <div className="grid grid-flow-col p-1 md:p-3 md:pt-0 gap-9 rounded-md justify-center mt-1.5 md:mt-1 overflow-hidden">
-            <div className="grid grid-flow-row gap-2 h-32 justify-center">
-              <p className="font-semibold mt-3.5">Detail Status</p>
-              <div className="pb-5">
-              <p className="mt-1.5 text-xl font-extrabold text-yellow-400">No. Resi {details[0].kode_resi}</p>
-              </div>
-              <div className="grid grid-flow-col gap-5 pb-5">
-              <div className="text-[14px]">
-              <span className="inline-flex font-semibold">Status : <p className="font-normal ml-2">{details[0].status_pengerjaan}</p> </span>
-              </div>
-              <div className="text-[14px]">
-                <span className="inline-flex font-semibold">Atas Nama : <p className="font-normal ml-2">{details[0].nama_pelanggan}</p></span>
-              </div>
-              </div>
-              <div className="grid grid-flow-col gap-4.5 pb-5">
-              <div className="text-[14px]">
-                <span className="inline-flex font-semibold">Pengirim : <p className="font-normal ml-2">{details[0].pengirim}</p></span>
-              </div>
-              <div className=" text-[14px]">
-              <span className="inline-flex  font-semibold">Penerima : <p className="font-normal ml-2">{details[0].penerima}</p></span>
-              </div>
-              </div>
-             
-            </div>
-            <div className="grid grid-flow-row items-center p-4 mt-0 md:mt-0 bg-slate-50 rounded-md overflow-y-auto">
-              <p className="font-semibold mb-4">Riwayat Status Pengerjaan</p>
-              {details.map((data, index) => (
-                <div className="bg-none border-s border-gray-400 max-w-md" key={index}>
-                  <ol className="relative border-gray-200">
-                    <li className="mb-10 ms-4">
-                      <div className="absolute w-3 h-3 rounded-full mt-1.5 -start-1.5 border border-yellow-400 bg-yellow-400"></div>
-                      <time className="mb-1 text-sm font-normal leading-none text-gray-400">
-                        {formatDate(data.created_at)}
-                      </time>
-                      <h3 className="text-lg font-semibold text-gray-900"></h3>
-                      <p className="mb-4 text-base font-normal text-gray-500 ">
-                        {data.status_pengerjaan}
-                      </p>
-                    </li>
-                  </ol>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Modal>
-      )}
-    </>
-  );
+                            <div className="relative border-l-2 border-gray-300">
+                                {details.map((data, index) => (
+                                    <div key={index} className="mb-6 pl-6">
+                                        <div className="absolute w-2.5 h-2.5 rounded-full mt-1 -left-2 border-4 border-yellow-400 bg-yellow-400"></div>
+                                        <time className="text-xs font-normal leading-none text-gray-400">
+                                            {formatDate(data.created_at)}
+                                        </time>
+                                        <div className="mt-2">
+                                            <p className="text-sm font-semibold text-gray-900">
+                                                {data.status_pengerjaan}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
+            )}
+        </>
+    );
 };
 
 export default ModalResi;

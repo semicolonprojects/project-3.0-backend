@@ -163,11 +163,11 @@ function Edit({ params }) {
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         required
                     >
-                        <option selected>Select Category</option>
-                        <option>Shoes</option>
-                        <option>Sandals</option>
-                        <option>Bag</option>
-                        <option>Hat</option>
+                        <option value="">Select Category</option>
+                        <option value="Shoes & Sandals">Shoes & Sandals</option>
+                        <option value="Bag">Bag</option>
+                        <option value="Hat">Hat</option>
+                        <option value="Others">Others</option>
                     </select>
                 </div>
                 <div class="relative z-0 max-w-md mb-5">

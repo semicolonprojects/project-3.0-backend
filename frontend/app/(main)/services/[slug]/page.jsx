@@ -50,7 +50,6 @@ const Page = ({ params }) => {
     };
 
     const fetchData = async (selectedValue) => {
-        setLoading(true);
         try {
             const url = `${
                 process.env.NEXT_PUBLIC_BACKEND_URL
