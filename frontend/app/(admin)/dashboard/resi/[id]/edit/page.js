@@ -5,9 +5,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getStatusPengerjaan } from "../../../services/category/_api/api";
 
 const Edit = ({ params }) => {
     const [services, setServices] = useState([]);
+    const [statusPengerjaanOptions, setStatusPengerjaanOptions] = useState([]);
     const [resiData, setResiData] = useState({
         kode_resi: "",
         nama_pelanggan: "",
@@ -27,6 +29,8 @@ const Edit = ({ params }) => {
                 const { data } = await axios.get(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services?data=all`
                 );
+                const statusPengerjaan = await getStatusPengerjaan();
+                setStatusPengerjaanOptions(statusPengerjaan);
                 setServices(data.data);
             } catch (error) {
                 toast.error(error.message);
@@ -158,7 +162,7 @@ const Edit = ({ params }) => {
                                     }
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                     placeholder="Resi Code"
-                                    required
+                                    disabled
                                 />
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
@@ -176,17 +180,19 @@ const Edit = ({ params }) => {
                                     }
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                     placeholder="Nama Pelanggan"
-                                    required
                                 />
                             </div>
                         </div>
                         <div className="grid md:grid-flow-col max-w-4xl gap-5 ">
                             <div className="relative z-0 w-full mb-5 group">
-                                <label className="block mb-2 text-sm font-medium text-gray-900">
+                                <label
+                                    htmlFor="statusPengerjaan"
+                                    className="block mb-2 text-sm font-medium text-gray-900"
+                                >
                                     Status Pengerjaan
                                 </label>
                                 <select
-                                    type="text"
+                                    id="statusPengerjaan"
                                     value={resiData.status_pengerjaan}
                                     onChange={(e) =>
                                         setResiData((prev) => ({
@@ -195,20 +201,22 @@ const Edit = ({ params }) => {
                                         }))
                                     }
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                    placeholder="Status Pengerjaan"
-                                    required
+                                    aria-label="Status Pengerjaan"
                                 >
                                     <option value="">Select Status</option>
-                                    <option value="Belum Dikerjakan">
-                                        Belum Dikerjakan
-                                    </option>
-                                    <option value="Sedang Dikerjakan">
-                                        Sedang Dikerjakan
-                                    </option>
-                                    <option value="Dikirim">Dikirim</option>
-                                    <option value="Selesai">Selesai</option>
+                                    {statusPengerjaanOptions.map(
+                                        (option, index) => (
+                                            <option
+                                                key={index}
+                                                value={option.value}
+                                            >
+                                                {option.value}
+                                            </option>
+                                        )
+                                    )}
                                 </select>
                             </div>
+
                             <div className="relative z-0 w-full mb-5 group">
                                 <div className="grid grid-flow-col w-full">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">

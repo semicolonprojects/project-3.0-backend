@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
+use App\Helpers\GenerateResi;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CekResiCollection;
 use App\Models\CekResi;
@@ -35,7 +36,7 @@ class CekResiController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json($validator->errors()->first(), 400);
         }
 
         CekResi::create($request->only([
@@ -192,5 +193,19 @@ class CekResiController extends Controller
         $resultArray = $cekResi->concat($resiTemp)->sortByDesc('created_at')->values()->all();
 
         return response()->json($resultArray);
+    }
+
+    public function statusPengerjaan()
+    {
+        $statusPengerjaans = CekResi::getStatusesAsArray();
+
+        return response()->json($statusPengerjaans);
+    }
+
+    public function generateResi()
+    {
+        $resi = GenerateResi::generateResi();
+
+        return response()->json($resi);
     }
 }

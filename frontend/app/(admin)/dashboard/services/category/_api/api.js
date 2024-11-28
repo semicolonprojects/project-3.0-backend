@@ -38,6 +38,14 @@ export const getAllCategory = async () => {
     return response.data;
 };
 
+export const getStatusPengerjaan = async () => {
+    const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/status-pengerjaan`
+    );
+
+    return response.data;
+};
+
 export const createServiceCategory = async (formData) => {
     const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category`,

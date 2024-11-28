@@ -31,7 +31,8 @@
         },
         "files": [
             "app/Helpers/WaLinkHelper.php",
-            "app/Helpers/DecodeMessage.php"
+            "app/Helpers/DecodeMessage.php",
+            "app/Helpers/GenerateResi.php"
         ]
     },
     "autoload-dev": {

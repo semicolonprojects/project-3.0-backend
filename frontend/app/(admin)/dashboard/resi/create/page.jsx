@@ -1,55 +1,102 @@
 "use client";
 
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { getAllCategory } from "../../services/category/_api/api";
+import {
+    getAllCategory,
+    getStatusPengerjaan,
+} from "../../services/category/_api/api";
+import axios from "axios";
 
 function Page() {
-    const [resiCode, setResiCode] = useState("");
-    const [resiName, setResiName] = useState("");
-    const [resiStatus, setResiStatus] = useState("");
-    // const [category, setCategory] = useState("");
-    const [service, setService] = useState("");
-    const [recipient, setRecipient] = useState("");
-    const [sender, setSender] = useState("");
+    const [resiData, setResiData] = useState({
+        resiCode: "",
+        resiName: "",
+        resiStatus: "",
+        service: "",
+        recipient: "",
+        sender: "",
+    });
+
     const [getCategory, setGetCategory] = useState([]);
+    const [getNomorResi, setNomorResi] = useState("");
+    const [getStatusPengerjaanOptions, setGetStatusPengerjaanOptions] =
+        useState([]);
+
     const router = useRouter();
 
-    const handleResiChange = (event) => {
-        setResiCode(event.target.value);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setResiData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     useEffect(() => {
         const fetchCategory = async () => {
+            const controller = new AbortController();
+            const { signal } = controller;
+
             try {
-                const categories = await getAllCategory();
-                const res = categories.data;
-                setGetCategory(res);
+                const [
+                    categoriesResponse,
+                    statusPengerjaanResponse,
+                    nomorResiResponse,
+                ] = await Promise.all([
+                    getAllCategory({ signal }),
+                    getStatusPengerjaan({ signal }),
+                    axios.get(
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate-resi`
+                    ),
+                ]);
+
+                const { data: categories } = categoriesResponse;
+                const statusPengerjaan = statusPengerjaanResponse;
+                const { data: nomorResi } = nomorResiResponse;
+                setNomorResi(nomorResi);
+
+                if (categories && statusPengerjaan) {
+                    setGetCategory(categories);
+                    setGetStatusPengerjaanOptions(statusPengerjaan);
+                }
             } catch (error) {
-                throw error;
+                if (error.name !== "AbortError") {
+                    toast.error("Error", { position: "bottom-right" });
+                }
             }
+
+            return () => controller.abort();
         };
+
         fetchCategory();
     }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        toast.loading("Loading ...", {
+
+        const loadingToast = toast.loading("Loading ...", {
             position: "bottom-right",
         });
 
         const formData = new FormData();
-        const formattedResi = `NETT-${resiCode}`;
+        const formattedResi = getNomorResi;
 
         formData.append("kode_resi", formattedResi);
-        formData.append("nama_pelanggan", resiName);
-        formData.append("status_pengerjaan", resiStatus);
-        formData.append("service_id", service);
-        formData.append("pengirim", sender);
-        formData.append("penerima", recipient);
+        formData.append("nama_pelanggan", resiData.resiName);
+        formData.append("status_pengerjaan", resiData.resiStatus);
+        formData.append("service_id", resiData.service);
+        formData.append("pengirim", resiData.sender);
+        formData.append("penerima", resiData.recipient);
+
+        const showToast = (message, type = "success") => {
+            toast.dismiss(loadingToast);
+            toast[type](message, {
+                position: "bottom-right",
+            });
+        };
 
         try {
             const response = await axios.post(
@@ -58,35 +105,20 @@ function Page() {
             );
 
             if (response.status === 200) {
-                toast.dismiss();
-                toast.success("Berhasil Menambahkan Resi", {
-                    position: "bottom-right",
-                });
+                showToast("Berhasil Menambahkan Resi", "success");
                 router.push(`/dashboard/resi`);
             } else {
-                toast.dismiss();
-                toast.error("Gagal Menambahkan Resi", {
-                    position: "bottom-right",
-                });
+                showToast("Gagal Menambahkan Resi", "error");
             }
         } catch (error) {
-            toast.dismiss();
-            if (error.response.status === 422 && error.response.data.errors) {
-                const errors = error.response.data.errors;
-                Object.keys(errors).forEach((field) => {
-                    errors[field].forEach((errorMessage) => {
-                        toast.error(`${field}: ${errorMessage}`, {
-                            position: "bottom-right",
-                        });
-                    });
-                });
-            } else {
-                toast.error("An error occurred. Please try again.", {
-                    position: "bottom-right",
-                });
-            }
+            const errorMessage =
+                error.response?.data || "Gagal Menambah Data Harap Coba Lagi";
+            showToast(errorMessage, "error");
+        } finally {
+            toast.dismiss(loadingToast);
         }
     };
+
     return (
         <>
             <div className="p-4 ml-80">
@@ -133,12 +165,11 @@ function Page() {
                                     </label>
                                     <input
                                         type="text"
-                                        id="resiCode"
-                                        value={resiCode}
-                                        onChange={handleResiChange}
+                                        name="resiCode"
+                                        value={getNomorResi}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                         placeholder="Resi Code"
-                                        required
+                                        disabled
                                     />
                                 </div>
                                 <div className="relative z-0 w-full mb-5 group">
@@ -147,14 +178,11 @@ function Page() {
                                     </label>
                                     <input
                                         type="text"
-                                        id="resiName"
-                                        value={resiName}
-                                        onChange={(e) =>
-                                            setResiName(e.target.value)
-                                        }
+                                        name="resiName"
+                                        value={resiData.resiName}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
                                         placeholder="Nama Pelanggan"
-                                        required
                                     />
                                 </div>
                             </div>
@@ -165,24 +193,24 @@ function Page() {
                                     </label>
                                     <select
                                         type="text"
-                                        id="resiStatus"
-                                        value={resiStatus}
-                                        onChange={(e) =>
-                                            setResiStatus(e.target.value)
-                                        }
+                                        name="resiStatus"
+                                        value={resiData.resiStatus}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="Status Pengerjaan"
-                                        required
                                     >
                                         <option value="">Select Status</option>
-                                        <option value="Belum Dikerjakan">
-                                            Belum Dikerjakan
-                                        </option>
-                                        <option value="Sedang Dikerjakan">
-                                            Sedang Dikerjakan
-                                        </option>
-                                        <option value="Dikirim">Dikirim</option>
-                                        <option value="Selesai">Selesai</option>
+
+                                        {getStatusPengerjaanOptions.map(
+                                            (option, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={option.value}
+                                                >
+                                                    {option.value}
+                                                </option>
+                                            )
+                                        )}
                                     </select>
                                 </div>
                                 <div className="relative z-0 w-full mb-5 group">
@@ -198,10 +226,9 @@ function Page() {
                                     </div>
                                     <select
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        value={service}
-                                        onChange={(e) =>
-                                            setService(e.target.value)
-                                        }
+                                        name="service"
+                                        value={resiData.service}
+                                        onChange={handleInputChange}
                                     >
                                         <option value="">
                                             Select Category
@@ -227,11 +254,9 @@ function Page() {
                                     </label>
                                     <input
                                         type="text"
-                                        id="sender"
-                                        value={sender}
-                                        onChange={(e) =>
-                                            setSender(e.target.value)
-                                        }
+                                        name="sender"
+                                        value={resiData.sender}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="Nama Pengirim"
                                     />
@@ -242,17 +267,14 @@ function Page() {
                                     </label>
                                     <input
                                         type="text"
-                                        id="recipient"
-                                        value={recipient}
-                                        onChange={(e) =>
-                                            setRecipient(e.target.value)
-                                        }
+                                        name="recipient"
+                                        value={resiData.recipient}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="Nama Penerima"
                                     />
                                 </div>
                             </div>
-
                             <button
                                 type="submit"
                                 className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
