@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getStatusPengerjaan } from "../../../services/category/_api/api";
+import { FileUploader } from "react-drag-drop-files";
+import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 const Edit = ({ params }) => {
-    const [services, setServices] = useState([]);
+    const fileTypes = ["jpg", "png", "jpeg"];
+    const [fields, setFields] = useState([{ image: null, imagePreview: null }]);
     const [statusPengerjaanOptions, setStatusPengerjaanOptions] = useState([]);
     const [resiData, setResiData] = useState({
         kode_resi: "",
@@ -31,7 +33,6 @@ const Edit = ({ params }) => {
                 );
                 const statusPengerjaan = await getStatusPengerjaan();
                 setStatusPengerjaanOptions(statusPengerjaan);
-                setServices(data.data);
             } catch (error) {
                 toast.error(error.message);
             }
@@ -49,10 +50,10 @@ const Edit = ({ params }) => {
                     nama_pelanggan: res.nama_pelanggan,
                     title: res.kode_resi,
                     status_pengerjaan: res.status_pengerjaan,
-                    service_id: res.service_id,
                     penerima: res.penerima,
                     pengirim: res.pengirim,
                     id: res.id,
+                    image: res.images,
                 });
             } catch (error) {
                 toast.error(error, { position: "bottom-right" });
@@ -61,15 +62,43 @@ const Edit = ({ params }) => {
 
         fetchCategories();
         if (id) fetchResiDetails();
+
+        if (resiData.images && resiData.images.length > 0) {
+            const initialFields = resiData.image.map((img) => ({
+                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${img.name}`,
+                image: img,
+            }));
+            setFields(initialFields);
+        }
     }, [id]);
+
+    useEffect(() => {
+        if (resiData.image && resiData.image.length > 0) {
+            const initialFields = resiData.image.map((img) => ({
+                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${img.name}`,
+                image: img,
+            }));
+            setFields(initialFields);
+        }
+    }, [resiData]);
+
+
 
     const updateResi = async (e) => {
         e.preventDefault();
         toast.loading("Loading ...", { position: "bottom-right" });
 
         const formData = new FormData();
-        Object.entries(resiData).forEach(([key, value]) => {
-            formData.append(key, value);
+        formData.append("kode_resi", resiData.kode_resi);
+        formData.append("nama_pelanggan", resiData.nama_pelanggan);
+        formData.append("status_pengerjaan", resiData.status_pengerjaan);
+        formData.append("pengirim", resiData.penerima);
+        formData.append("penerima", resiData.pengirim);
+
+        fields.forEach((field, index) => {
+            if (field.image) {
+                formData.append("images[]", field.image);
+            }
         });
         formData.append("_method", "PUT");
 
@@ -80,7 +109,10 @@ const Edit = ({ params }) => {
             );
             toast.dismiss();
             toast.success(data, { position: "bottom-right" });
-            router.push("/dashboard/resi");
+            await axios.get(
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
+            );
+            router.push(`/dashboard/resi/form/${resiData.kode_resi}`)
         } catch (error) {
             toast.dismiss();
             handleErrorResponse(error);
@@ -106,6 +138,23 @@ const Edit = ({ params }) => {
                 position: "bottom-right",
             });
         }
+    };
+
+    const handleChange = (file, index) => {
+        const updatedFields = [...fields];
+        const preview = URL.createObjectURL(file);
+        updatedFields[index].image = file;
+        updatedFields[index].imagePreview = preview;
+        setFields(updatedFields);
+    };
+
+    const handleAddField = () => {
+        setFields([...fields, { imagePreview: null }]);
+    };
+
+    const handleRemoveField = (index) => {
+        const newFields = fields.filter((_, i) => i !== index);
+        setFields(newFields);
     };
 
     return (
@@ -216,49 +265,6 @@ const Edit = ({ params }) => {
                                     )}
                                 </select>
                             </div>
-
-                            <div className="relative z-0 w-full mb-5 group">
-                                <div className="grid grid-flow-col w-full">
-                                    <label className="block mb-2 text-sm font-medium text-gray-900">
-                                        Category
-                                    </label>
-                                    <Link href="/dashboard/services/category">
-                                        <p className="text-right block mb-2 text-sm font-medium text-gray-900">
-                                            Manage Category
-                                        </p>
-                                    </Link>
-                                </div>
-
-                                {services.length > 0 ? (
-                                    <select
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        value={resiData.service_id}
-                                        onChange={(e) =>
-                                            setResiData((prev) => ({
-                                                ...prev,
-                                                service_id: e.target.value,
-                                            }))
-                                        }
-                                    >
-                                        <option value="">
-                                            Select Category
-                                        </option>
-                                        {services.map((service, index) => (
-                                            <option
-                                                key={index}
-                                                value={service.id}
-                                            >
-                                                {service.nama_service} -{" "}
-                                                {service.category}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : (
-                                    <p className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                        Loading....
-                                    </p>
-                                )}
-                            </div>
                         </div>
                         <div className="grid md:grid-flow-col max-w-4xl gap-5">
                             <div className="relative z-0 max-w-4xl mb-5 group">
@@ -298,13 +304,75 @@ const Edit = ({ params }) => {
                                 />
                             </div>
                         </div>
+                        <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-5">
+                            <div className="relative z-0 w-full mb-5 group">
+                                {fields.map((field, index) => (
+                                    <div key={index} className="mb-5">
+                                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                                            Image {index + 1}
+                                        </label>
 
-                        <button
-                            type="submit"
-                            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
-                        >
-                            Submit
-                        </button>
+                                        <div className="flex items-center space-x-4">
+                                            <FileUploader
+                                                handleChange={(e) =>
+                                                    handleChange(e, index)
+                                                }
+                                                name={`image-${index}`}
+                                                types={fileTypes}
+                                                className="w-full border-2 border-gray-300 p-4 rounded-lg shadow-sm hover:border-blue-500 focus:border-blue-500"
+                                            />
+
+                                            {fields.length > 1 && (
+                                                <button
+                                                    type="button"
+                                                    onClick={() =>
+                                                        handleRemoveField(index)
+                                                    }
+                                                    className="p-2 text-red-600 hover:text-red-800"
+                                                >
+                                                    <TrashIcon className="h-5 w-5" />
+                                                    <span className="sr-only">
+                                                        Remove Image {index + 1}
+                                                    </span>
+                                                </button>
+                                            )}
+                                        </div>
+                                        {field.imagePreview && (
+                                            <div className="mt-4 relative z-0 w-full">
+                                                <img
+                                                    src={field.imagePreview}
+                                                    alt={`Image Preview ${
+                                                        index + 1
+                                                    }`}
+                                                    className="w-full h-auto max-w-full rounded-lg shadow-lg"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                type="button"
+                                onClick={handleAddField}
+                                className="flex items-center space-x-2 px-4 py-2 text-white bg-green-600 rounded-md hover:bg-green-700"
+                            >
+                                <PlusIcon className="h-5 w-5" />
+                                <span>Add Image</span>
+                            </button>
+                        </div>
+
+                        <div className="flex flex-row justify-between pt-6">
+                            <button
+                                type="submit"
+                                className="w-full sm:w-auto bg-blue-600 text-white font-semibold
+                                rounded-lg px-6 py-3 transition-all duration-300 ease-in-out transform
+                                hover:bg-blue-700 hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500"
+                            >
+                                Submit and Go to Manage Items
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

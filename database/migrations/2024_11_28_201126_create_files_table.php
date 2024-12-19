@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resi_temps', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_resi');
-            $table->string('nama_pelanggan');
-            $table->longText('nama_item')->nullable();
-            $table->string('status_pengerjaan');
-            $table->string('pengirim')->nullable();
-            $table->string('penerima')->nullable();
+            $table->string('name', 256);
+            $table->bigInteger('parent_id');
+            $table->string('parent_table', 256);
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resi_temps');
+        Schema::dropIfExists('files');
     }
 };

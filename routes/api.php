@@ -65,10 +65,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
     Route::get('/status-pengerjaan', [CekResiController::class, 'statusPengerjaan'])->name('status-pengerjaan');
     Route::get('/generate-resi', [CekResiController::class, 'generateResi'])->name('generate-resi');
+    Route::get('/items/{kode_resi}', [CekResiController::class, 'getItems'])->name('generate-resi');
 
     Route::apiResource('nomors', NomorController::class)->except(['getExistsNomor']);
     Route::get('getExistsNomor', [NomorController::class, 'getExistsNomor'])->name('getExistsNomor');
 
     Route::apiResource('promo', PromoController::class)->except(['showPromoNavbar']);
     Route::get('showPromoNavbar', [PromoController::class, 'showPromoNavbar'])->name('showPromoNavbar');
+
+    Route::get('/testing', [CekResiController::class, 'index']);
 })->middleware('cors');

@@ -15,10 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('kode_resi');
             $table->string('nama_pelanggan');
+            $table->longText('nama_item')->nullable();
             $table->string('status_pengerjaan');
-            $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->string('pengirim')->nullable();
             $table->string('penerima')->nullable();
+            $table->double('price')->nullable();
             $table->timestamps();
         });
     }

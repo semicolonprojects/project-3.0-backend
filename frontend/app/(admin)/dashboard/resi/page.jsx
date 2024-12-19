@@ -60,6 +60,7 @@ const Resi = () => {
         setCurrentPage(page);
     };
 
+
     return (
         <>
             <div className="p-4 ml-80">
@@ -178,7 +179,7 @@ const Resi = () => {
                                     Status Pengerjaan
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Category Resi
+                                    List Service
                                 </th>
                                 <th scope="col" className="px-12 py-3">
                                     Actions
@@ -204,7 +205,22 @@ const Resi = () => {
                                         {resi.status_pengerjaan}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {resi.service}
+                                        {resi.items?.map((item, index) => (
+                                            <>
+                                                <div key={index} className="space-y-2">
+                                                    <div className="text-lg">
+                                                        - {item.nama_item}
+                                                    </div>
+                                                    {item.service_id?.map((service, index) => (
+                                                        <div key={index} className="flex items-center space-x-2 text-sm text-gray-600">
+                                                            <span className="font-medium text-gray-800">{index + 1}.</span>
+                                                            <span>{service.nama_service}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <br />
+                                            </>
+                                        ))}
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">
@@ -212,12 +228,11 @@ const Resi = () => {
                                                 href={`./resi/${resi.kode_resi}/show`}
                                             >
                                                 <button
-                                                    className={`grid grid-flow-row text-gray-600 ${
-                                                        resi.status_pengerjaan ===
+                                                    className={`grid grid-flow-row text-gray-600 ${resi.status_pengerjaan ===
                                                         "Selesai"
-                                                            ? "hidden"
-                                                            : ""
-                                                    }`}
+                                                        ? "hidden"
+                                                        : ""
+                                                        }`}
                                                 >
                                                     <svg
                                                         className="w-6 h-6 ml-2"
@@ -314,11 +329,10 @@ const Resi = () => {
                                 onClick={() => handlePageChange(page)}
                                 disabled={currentPage === page}
                                 value={page}
-                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${
-                                    currentPage === page
-                                        ? "pointer-events-none" && "underline"
-                                        : ""
-                                }`}
+                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${currentPage === page
+                                    ? "pointer-events-none" && "underline"
+                                    : ""
+                                    }`}
                             >
                                 {page}
                             </button>

@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('resi_temps', function (Blueprint $table) {
+        Schema::create('resi_services', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_resi');
-            $table->string('nama_pelanggan');
-            $table->longText('nama_item')->nullable();
-            $table->string('status_pengerjaan');
-            $table->string('pengirim')->nullable();
-            $table->string('penerima')->nullable();
+            $table->unsignedBigInteger('resi_id');
+            $table->unsignedBigInteger('service_id');
             $table->timestamps();
+
+            $table->foreign('resi_id')->references('id')->on('cek_resis')->onDelete('cascade');
+            $table->foreign('service_id')->references('id')->on('services')->onDelete('cascade');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('resi_temps');
+        Schema::dropIfExists('resi_services');
     }
 };

@@ -16,6 +16,17 @@ class CekResi extends Model
 
     protected $guarded = ['id'];
 
+    protected $appends = ['images'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'nama_item' => 'array',
+    ];
+
     public static function getStatusesAsArray()
     {
         return [
@@ -23,6 +34,13 @@ class CekResi extends Model
             ['value' => self::STATUS_DIKERJAKAN],
             ['value' => self::STATUS_SELESAI],
         ];
+    }
+
+
+    public function getImagesAttribute()
+    {
+        $model = File::query()->where(['parent_id' => $this->id, 'parent_table' => $this->getTable()])->get();
+        return $model;
     }
 
     public function service(): HasOne
