@@ -79,64 +79,65 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                     onClose={() => setshowModal(false)}
                     title="Cek Resi"
                 >
-                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 p-3 md:p-6 mt-2 md:mt-3 rounded-md justify-center overflow-hidden">
-                        <div className="grid gap-3 h-auto justify-center">
-                            <p className="font-semibold text-base md:text-lg mt-2">
+                    <div className="grid grid-cols-1 gap-6 p-4 md:p-6 mt-4 md:mt-6 rounded-lg shadow-md bg-white max-h-[80vh] overflow-auto">
+                        <div className="grid gap-6">
+                            <p className="text-xl font-semibold text-gray-800">
                                 Detail Status
                             </p>
-                            <div className="pb-2">
-                                <p className="mt-1 text-lg font-extrabold text-yellow-400">
-                                    No. Resi {details[0].kode_resi}
+
+                            {/* No. Resi Section */}
+                            <div className="pb-3">
+                                <p className="text-2xl font-extrabold text-yellow-500">
+                                    No. Resi: {details[0].kode_resi}
                                 </p>
                             </div>
-                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 pb-4">
+
+                            {/* Status and Customer Info */}
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                                 <div className="text-sm md:text-base">
-                                    <span className="inline-flex font-semibold">
-                                        Status :
-                                        <p className="font-normal ml-2">
-                                            {details[0].status_pengerjaan}
-                                        </p>
-                                    </span>
+                                    <span className="font-semibold text-gray-600">Status:</span>
+                                    <p className="font-normal text-gray-800">{details[0].status_pengerjaan}</p>
                                 </div>
                                 <div className="text-sm md:text-base">
-                                    <span className="inline-flex font-semibold">
-                                        Atas Nama :
-                                        <p className="font-normal ml-2">
-                                            {details[0].nama_pelanggan}
-                                        </p>
-                                    </span>
+                                    <span className="font-semibold text-gray-600">Atas Nama:</span>
+                                    <p className="font-normal text-gray-800">{details[0].nama_pelanggan}</p>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 pb-4">
+                            {/* Sender and Receiver Info */}
+                            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                                 <div className="text-sm md:text-base">
-                                    <span className="inline-flex font-semibold">
-                                        Pengirim :
-                                        <p className="font-normal ml-2">
-                                            {details[0].pengirim}
-                                        </p>
-                                    </span>
+                                    <span className="font-semibold text-gray-600">Pengirim:</span>
+                                    <p className="font-normal text-gray-800">{details[0].pengirim}</p>
                                 </div>
                                 <div className="text-sm md:text-base">
-                                    <span className="inline-flex font-semibold">
-                                        Penerima :
-                                        <p className="font-normal ml-2">
-                                            {details[0].penerima}
-                                        </p>
-                                    </span>
+                                    <span className="font-semibold text-gray-600">Penerima:</span>
+                                    <p className="font-normal text-gray-800">{details[0].penerima}</p>
+                                </div>
+                                <div className="text-sm md:text-base">
+                                    <span className="font-semibold text-gray-600">Barang:</span>
+                                    <p className="font-normal text-gray-800">
+                                        {details[details.length - 1].nama_item.map((item, index) => (
+                                            <span key={index} className="block">
+                                                <span>{index + 1}. {item.nama_item}</span>
+                                                {item.service_id && item.service_id.length > 0 && item.service_id.map((service, serviceIndex) => (
+                                                    <span key={serviceIndex} className="ml-2 text-gray-600"> - {service.nama_service}</span>
+                                                ))}
+                                            </span>
+                                        ))}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Timeline Section */}
-                        <div className="grid grid-rows-auto bg-slate-50 rounded-md p-3 md:p-6 overflow-y-auto">
-                            <p className="font-semibold text-base md:text-lg mb-3">
+                        <div className="bg-slate-50 rounded-lg p-4 md:p-6 overflow-auto shadow-inner">
+                            <p className="font-semibold text-lg text-gray-800 mb-3">
                                 Riwayat Status Pengerjaan
                             </p>
-
-                            <div className="relative border-l-2 border-gray-300">
+                            <div className="relative border-l-2 border-gray-300 pl-6 max-h-64 overflow-auto">
                                 {details.map((data, index) => (
-                                    <div key={index} className="mb-6 pl-6">
+                                    <div key={index} className="mb-6">
                                         <div className="absolute w-2.5 h-2.5 rounded-full mt-1 -left-2 border-4 border-yellow-400 bg-yellow-400"></div>
                                         <time className="text-xs font-normal leading-none text-gray-400">
                                             {formatDate(data.created_at)}
