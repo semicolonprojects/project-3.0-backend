@@ -65,7 +65,7 @@ const Edit = ({ params }) => {
 
         if (resiData.images && resiData.images.length > 0) {
             const initialFields = resiData.image.map((img) => ({
-                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${img.name}`,
+                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/cek_resi/${img.name}`,
                 image: img,
             }));
             setFields(initialFields);
@@ -75,14 +75,12 @@ const Edit = ({ params }) => {
     useEffect(() => {
         if (resiData.image && resiData.image.length > 0) {
             const initialFields = resiData.image.map((img) => ({
-                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${img.name}`,
+                imagePreview: `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/cek_resi/${img.name}`,
                 image: img,
             }));
             setFields(initialFields);
         }
     }, [resiData]);
-
-
 
     const updateResi = async (e) => {
         e.preventDefault();
@@ -98,6 +96,7 @@ const Edit = ({ params }) => {
         fields.forEach((field, index) => {
             if (field.image) {
                 formData.append("images[]", field.image);
+                formData.append("names[]", field.image.name);
             }
         });
         formData.append("_method", "PUT");
@@ -112,7 +111,7 @@ const Edit = ({ params }) => {
             await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
             );
-            router.push(`/dashboard/resi/form/${resiData.kode_resi}`)
+            router.push(`/dashboard/resi/form/${resiData.kode_resi}`);
         } catch (error) {
             toast.dismiss();
             handleErrorResponse(error);
@@ -242,7 +241,7 @@ const Edit = ({ params }) => {
                                 </label>
                                 <select
                                     id="statusPengerjaan"
-                                    value={resiData.status_pengerjaan}
+                                    value={resiData.status_pengerjaan || ""}
                                     onChange={(e) =>
                                         setResiData((prev) => ({
                                             ...prev,
@@ -252,7 +251,6 @@ const Edit = ({ params }) => {
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                     aria-label="Status Pengerjaan"
                                 >
-                                    <option value="">Select Status</option>
                                     {statusPengerjaanOptions.map(
                                         (option, index) => (
                                             <option

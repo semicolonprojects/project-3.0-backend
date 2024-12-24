@@ -163,7 +163,7 @@ class CekResiController extends Controller
             return response()->json($validator->errors()->first(), 422);
         }
 
-        if ($request->status_pengerjaan !== 'Selesai') {
+        if ($request->status_pengerjaan !== 'Selesai' && $request->status_pengerjaan !== $cekResi->status_pengerjaan) {
             ResiTemp::create([
                 'kode_resi' => $request->kode_resi,
                 'nama_pelanggan' => $request->nama_pelanggan,
@@ -185,24 +185,35 @@ class CekResiController extends Controller
             ]));
         }
 
-        if ($request->hasFile('images')) {
-            File::where('parent_id', $cekResi->id)
+        if ($request->hasFile('images') || $request->names) {
+            $newImageNames = $request->names ?? [];
+
+            $oldFiles = File::where('parent_id', $cekResi->id)
                 ->where('parent_table', $cekResi->getTable())
-                ->delete();
+                ->whereNotIn('name', $newImageNames)
+                ->get();
 
-            $images = $request->file('images');
-            foreach ($images as $image) {
-                $name = $image->hashName();
-                $image->storeAs('public/cek_resi', $name);
+            foreach ($oldFiles as $oldFile) {
+                Storage::delete('public/cek_resi/' . $oldFile->name);
 
-                File::create([
-                    'name' => $name,
-                    'parent_id' => $cekResi->id,
-                    'parent_table' => $cekResi->getTable(),
-                ]);
+                $oldFile->delete();
+            }
+
+            if ($request->hasFile('images')) {
+                $images = $request->file('images');
+                foreach ($images as $image) {
+                    $name = $image->hashName();
+
+                    $image->storeAs('public/cek_resi', $name);
+
+                    File::create([
+                        'name' => $name,
+                        'parent_id' => $cekResi->id,
+                        'parent_table' => $cekResi->getTable(),
+                    ]);
+                }
             }
         }
-
 
         return response()->json('Sukses Update');
     }
