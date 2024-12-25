@@ -10,10 +10,9 @@ use App\Http\Controllers\Api\v1\ProductsController;
 use App\Http\Controllers\Api\v1\PromoController;
 use App\Http\Controllers\Api\v1\ServiceCategoryController;
 use App\Http\Controllers\Api\v1\ServicesController;
+use App\Http\Controllers\Api\v1\TokoController;
 use App\Http\Controllers\Api\v1\UserController;
-use App\Http\Middleware\CorsMiddleware;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -74,4 +73,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('showPromoNavbar', [PromoController::class, 'showPromoNavbar'])->name('showPromoNavbar');
 
     Route::get('/testing', [CekResiController::class, 'index']);
+
+    Route::resource('toko', TokoController::class);
 })->middleware('cors');
