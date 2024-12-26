@@ -41,7 +41,9 @@ const Page = () => {
         const searchLower = debouncedSearch.toLowerCase();
         return toko.filter(
             (toko_data) =>
-                toko_data.nama_toko.toLowerCase().includes(searchLower) || toko_data.alamat_toko.toLowerCase().includes(searchLower)
+                toko_data.nama_toko.toLowerCase().includes(searchLower)
+                || toko_data.alamat_toko.toLowerCase().includes(searchLower)
+                || toko_data.kode.toLowerCase().includes(searchLower)
         );
     }, [toko, debouncedSearch]);
 
@@ -178,6 +180,9 @@ const Page = () => {
                                     No.
                                 </th>
                                 <th scope="col" className="px-10 py-3">
+                                    Kode Toko
+                                </th>
+                                <th scope="col" className="px-10 py-3">
                                     Nama Toko
                                 </th>
                                 <th scope="col" className="px-6 py-3">
@@ -199,6 +204,12 @@ const Page = () => {
                                         className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap "
                                     >
                                         {index + 1}.
+                                    </th>
+                                    <th
+                                        scope="row"
+                                        className="px-10 py-4 font-medium text-gray-900 whitespace-nowrap "
+                                    >
+                                        {toko_data.kode}
                                     </th>
                                     <th
                                         scope="row"

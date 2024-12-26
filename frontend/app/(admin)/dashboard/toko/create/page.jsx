@@ -9,6 +9,7 @@ function Page() {
     const router = useRouter();
 
     const [tokoData, setTokoData] = useState({
+        kode: "",
         nama_toko: "",
         alamat_toko: "",
     });
@@ -30,6 +31,7 @@ function Page() {
 
         const formData = new FormData();
 
+        formData.append("kode", tokoData.kode);
         formData.append("nama_toko", tokoData.nama_toko);
         formData.append("alamat_toko", tokoData.alamat_toko);
 
@@ -101,6 +103,19 @@ function Page() {
                         onSubmit={handleSubmit}
                     >
                         <div className="mb-5 grid md:grid-flow-col max-w-4xl gap-5">
+                            <div className="relative z-0 w-full mb-5 group">
+                                <label className="block mb-2 text-sm font-medium text-gray-900">
+                                    Kode Toko
+                                </label>
+                                <input
+                                    type="text"
+                                    name="kode"
+                                    value={tokoData.kode}
+                                    onChange={handleInputChange}
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
+                                    placeholder="Kode Toko"
+                                />
+                            </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <label className="block mb-2 text-sm font-medium text-gray-900">
                                     Nama Toko
