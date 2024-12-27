@@ -24,7 +24,7 @@ class CekResiController extends Controller
      */
     public function index()
     {
-        return new CekResiCollection(CekResi::latest()->paginate(5));
+        return new CekResiCollection(CekResi::latest()->paginate());
     }
 
 
@@ -33,9 +33,8 @@ class CekResiController extends Controller
      */
     public function store(Request $request)
     {
-        $model = CekResi::query()->where('kode_resi', $request->kode_resi)->first();
-
         $validator = Validator::make($request->all(), [
+            'id_toko' => 'required|sometimes',
             'kode_resi' => 'required|sometimes',
             'nama_pelanggan' => 'required|sometimes',
             'status_pengerjaan' => 'required|sometimes',
@@ -49,18 +48,20 @@ class CekResiController extends Controller
             return response()->json(['error' => $validator->errors()->first()], 400);
         }
 
+        $kode_resi = $request->filled('kode_resi')
+            ? CekResi::where('kode_resi', $request->kode_resi)->first()->kode_resi
+            : GenerateResi::generateResi($request->id_toko);
+
+        $model = CekResi::firstOrNew(['kode_resi' => $kode_resi]);
+
         $namaItemData = null;
         if ($request->has('data')) {
             $namaItemData = json_decode($request->data, true);
 
             foreach ($namaItemData as &$item) {
                 if (isset($item['service_id']) && is_array($item['service_id'])) {
-
                     foreach ($item['service_id'] as &$service) {
-                        $id = $service['id'];
-
-                        $serviceModel = Services::findOrFail($id);
-
+                        $serviceModel = Services::findOrFail($service['id']);
                         $service['price'] = $serviceModel->price;
                         $service['nama_service'] = $serviceModel->nama_service;
                         $service['category'] = $serviceModel->category->name;
@@ -70,7 +71,7 @@ class CekResiController extends Controller
         }
 
         $cekResiData = [
-            'kode_resi' => $request->kode_resi ?? $model->kode_resi,
+            'id_toko' => $request->id_toko ?? $model->id_toko,
             'nama_pelanggan' => $request->nama_pelanggan ?? $model->nama_pelanggan,
             'status_pengerjaan' => $request->status_pengerjaan ?? $model->status_pengerjaan,
             'pengirim' => $request->pengirim ?? $model->pengirim,
@@ -78,7 +79,10 @@ class CekResiController extends Controller
             'nama_item' => $namaItemData,
         ];
 
-        $cekResi = CrudHelper::save(new CekResi(), $cekResiData, $model->id ?? null);
+        $cekResi = CekResi::updateOrCreate(
+            ['kode_resi' => $kode_resi],
+            $cekResiData
+        );
 
         if ($request->hasFile('images')) {
             $files = [];
@@ -97,7 +101,7 @@ class CekResiController extends Controller
             File::insert($files);
         }
 
-        return response()->json(null, 200);
+        return response()->json($cekResi);
     }
 
     /**
@@ -124,6 +128,7 @@ class CekResiController extends Controller
 
             if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
                 $result[$resiCode] = [
+                    'id_toko' => $item->id_toko,
                     'kode_resi' => $resiCode,
                     'nama_pelanggan' => $item->nama_pelanggan,
                     'status_pengerjaan' => $item->status_pengerjaan,
@@ -151,41 +156,67 @@ class CekResiController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
+            'id_toko' => 'sometimes|required',
             'kode_resi' => 'sometimes|required',
             'nama_pelanggan' => 'sometimes|required',
             'status_pengerjaan' => 'sometimes|required',
             'service_id' => 'sometimes|required|exists:services,id',
-            'pengirim' => 'nullable',
-            'penerima' => 'nullable',
+            'pengirim' => 'nullable|string',
+            'penerima' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->first(), 422);
+            return response()->json(['error' => $validator->errors()->first()], 422);
         }
 
-        if ($request->status_pengerjaan !== 'Selesai' && $request->status_pengerjaan !== $cekResi->status_pengerjaan) {
-            ResiTemp::create([
-                'kode_resi' => $request->kode_resi,
-                'nama_pelanggan' => $request->nama_pelanggan,
-                'status_pengerjaan' => $request->status_pengerjaan,
-                'service_id' => $request->service_id,
-                'pengirim' => $request->pengirim,
-                'penerima' => $request->penerima,
-            ]);
-        } else {
-            ResiTemp::where('kode_resi', $kode_resi)->delete();
+        $cekResi->status_pengerjaan = $request->status_pengerjaan;
 
-            $cekResi->update($request->only([
-                'kode_resi',
-                'nama_pelanggan',
-                'status_pengerjaan',
-                'service_id',
-                'pengirim',
-                'penerima',
-            ]));
+        $namaItemData = null;
+        if ($request->has('data')) {
+            $namaItemData = json_decode($request->data, true);
+
+            foreach ($namaItemData as &$item) {
+                if (isset($item['service_id']) && is_array($item['service_id'])) {
+                    foreach ($item['service_id'] as &$service) {
+                        $serviceModel = Services::findOrFail($service['id']);
+                        $service['price'] = $serviceModel->price;
+                        $service['nama_service'] = $serviceModel->nama_service;
+                        $service['category'] = $serviceModel->category->name;
+                    }
+                }
+            }
         }
 
-        if ($request->hasFile('images') || $request->names) {
+        if ($cekResi->isDirty()) {
+            ResiTemp::updateOrCreate(
+                [
+                    'kode_resi' => $kode_resi,
+                    'status_pengerjaan' => $request->status_pengerjaan
+                ],
+                $request->only([
+                    'id_toko',
+                    'kode_resi',
+                    'nama_pelanggan',
+                    'status_pengerjaan',
+                    'service_id',
+                    'pengirim',
+                    'penerima'
+                ])
+            );
+        }
+
+        $updateData = [
+            'id_toko' => $request->id_toko,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'service_id' => $request->service_id,
+            'pengirim' => $request->pengirim,
+            'penerima' => $request->penerima,
+            'nama_item' => $namaItemData ?? $cekResi->nama_item,
+        ];
+
+        CrudHelper::save(new CekResi(), $updateData, $cekResi->id);
+
+        if ($request->hasFile('images') || $request->has('names')) {
             $newImageNames = $request->names ?? [];
 
             $oldFiles = File::where('parent_id', $cekResi->id)
@@ -195,15 +226,12 @@ class CekResiController extends Controller
 
             foreach ($oldFiles as $oldFile) {
                 Storage::delete('public/cek_resi/' . $oldFile->name);
-
                 $oldFile->delete();
             }
 
             if ($request->hasFile('images')) {
-                $images = $request->file('images');
-                foreach ($images as $image) {
+                foreach ($request->file('images') as $image) {
                     $name = $image->hashName();
-
                     $image->storeAs('public/cek_resi', $name);
 
                     File::create([
@@ -295,13 +323,6 @@ class CekResiController extends Controller
         $statusPengerjaans = CekResi::getStatusesAsArray();
 
         return response()->json($statusPengerjaans);
-    }
-
-    public function generateResi()
-    {
-        $resi = GenerateResi::generateResi();
-
-        return response()->json($resi);
     }
 
     public function getItems($kode_resi)

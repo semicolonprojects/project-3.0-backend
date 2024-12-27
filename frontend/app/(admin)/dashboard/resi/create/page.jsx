@@ -16,7 +16,7 @@ const fileTypes = ["jpg", "png", "jpeg"];
 
 function Page() {
     const [resiData, setResiData] = useState({
-        resiCode: "",
+        id_toko: "",
         resiName: "",
         resiStatus: "",
         service: [],
@@ -24,12 +24,11 @@ function Page() {
         nama_item: [],
     });
 
-
-    const [getNomorResi, setNomorResi] = useState("");
     const [fields, setFields] = useState([{ image: null, imagePreview: null }]);
     const [services, setServices] = useState([{ id: "", service: "" }]);
 
     const [getCategory, setGetCategory] = useState([]);
+    const [getTokos, setGetTokos] = useState([]);
     const [getStatusPengerjaanOptions, setGetStatusPengerjaanOptions] =
         useState([]);
 
@@ -60,26 +59,6 @@ function Page() {
         setFields(updatedFields);
     };
 
-    const handleInputChangeService = (e) => {
-        const { name, value } = e.target;
-        const index = name.match(/\[(\d+)\]/)[1];
-
-        setResiData((prevData) => {
-            const updatedService = [...prevData.service];
-            updatedService[index] = value;
-            return { ...prevData, service: updatedService };
-        });
-    };
-
-    const handleAddFieldService = () => {
-        setServices([...services, { id: "", service: "" }]);
-    };
-
-    const handleRemoveFieldService = (index) => {
-        const newServices = services.filter((_, i) => i !== index);
-        setServices(newServices);
-    };
-
     useEffect(() => {
         const fetchCategory = async () => {
             const controller = new AbortController();
@@ -89,19 +68,18 @@ function Page() {
                 const [
                     categoriesResponse,
                     statusPengerjaanResponse,
-                    nomorResiResponse,
+                    tokos,
                 ] = await Promise.all([
                     getAllCategory({ signal }),
                     getStatusPengerjaan({ signal }),
                     axios.get(
-                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/generate-resi`
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko?all`
                     ),
                 ]);
 
                 const { data: categories } = categoriesResponse;
                 const statusPengerjaan = statusPengerjaanResponse;
-                const { data: nomorResi } = nomorResiResponse;
-                setNomorResi(nomorResi);
+                setGetTokos(tokos.data)
 
                 if (categories && statusPengerjaan) {
                     setGetCategory(categories);
@@ -127,9 +105,8 @@ function Page() {
         });
 
         const formData = new FormData();
-        const formattedResi = getNomorResi;
 
-        formData.append("kode_resi", formattedResi);
+        formData.append("id_toko", resiData.id_toko);
         formData.append("nama_pelanggan", resiData.resiName);
         formData.append("status_pengerjaan", resiData.resiStatus);
         formData.append("pengirim", resiData.sender);
@@ -157,13 +134,14 @@ function Page() {
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi`,
                 formData
             );
+            console.log("🚀 ~ handleSubmit ~ response:", response)
 
             if (response.status === 200) {
                 showToast("Berhasil Menambahkan Resi", "success");
                 await axios.get(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
                 );
-                router.push(`/dashboard/resi/form/${formattedResi}`)
+                router.push(`/dashboard/resi/form/${response.data.kode_resi}`)
             } else {
                 showToast("Gagal Menambahkan Resi", "error");
             }
@@ -218,16 +196,29 @@ function Page() {
                             <div className="mb-5 grid md:grid-flow-col max-w-4xl gap-5">
                                 <div className="relative z-0 w-full mb-5 group">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">
-                                        No Resi
+                                        Toko
                                     </label>
-                                    <input
+                                    <select
                                         type="text"
-                                        name="resiCode"
-                                        value={getNomorResi}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
-                                        placeholder="Resi Code"
-                                        disabled
-                                    />
+                                        name="id_toko"
+                                        value={resiData.id_toko}
+                                        onChange={handleInputChange}
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Status Pengerjaan"
+                                    >
+                                        <option value="">Select Toko</option>
+
+                                        {getTokos.map(
+                                            (toko, index) => (
+                                                <option
+                                                    key={index}
+                                                    value={toko.id}
+                                                >
+                                                    {toko.nama_toko}
+                                                </option>
+                                            )
+                                        )}
+                                    </select>
                                 </div>
                                 <div className="relative z-0 w-full mb-5 group">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">

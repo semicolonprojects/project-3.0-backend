@@ -63,7 +63,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('getResi', [CekResiController::class, 'getData'])->name('getResi');
     Route::get('getResiDetail/{kode_resi}', [CekResiController::class, 'getDetail'])->name('getDetail');
     Route::get('/status-pengerjaan', [CekResiController::class, 'statusPengerjaan'])->name('status-pengerjaan');
-    Route::get('/generate-resi', [CekResiController::class, 'generateResi'])->name('generate-resi');
     Route::get('/items/{kode_resi}', [CekResiController::class, 'getItems'])->name('generate-resi');
 
     Route::apiResource('nomors', NomorController::class)->except(['getExistsNomor']);

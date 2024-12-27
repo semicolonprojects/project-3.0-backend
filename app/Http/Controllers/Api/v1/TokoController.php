@@ -13,9 +13,13 @@ class TokoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $models = Toko::latest()->paginate();
+
+        if ($request->has('all')) {
+            $models = Toko::latest()->get();
+        }
 
         return response()->json($models);
     }

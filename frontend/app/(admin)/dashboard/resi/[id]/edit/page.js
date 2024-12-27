@@ -12,8 +12,9 @@ const Edit = ({ params }) => {
     const fileTypes = ["jpg", "png", "jpeg"];
     const [fields, setFields] = useState([{ image: null, imagePreview: null }]);
     const [statusPengerjaanOptions, setStatusPengerjaanOptions] = useState([]);
+    const [getTokos, setGetTokos] = useState([]);
     const [resiData, setResiData] = useState({
-        kode_resi: "",
+        id_toko: "",
         nama_pelanggan: "",
         title: "",
         status_pengerjaan: "",
@@ -31,8 +32,12 @@ const Edit = ({ params }) => {
                 const { data } = await axios.get(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services?data=all`
                 );
+                const tokos = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko?all`
+                );
                 const statusPengerjaan = await getStatusPengerjaan();
                 setStatusPengerjaanOptions(statusPengerjaan);
+                setGetTokos(tokos.data);
             } catch (error) {
                 toast.error(error.message);
             }
@@ -46,7 +51,7 @@ const Edit = ({ params }) => {
                 const res = data[0];
 
                 setResiData({
-                    kode_resi: res.kode_resi,
+                    id_toko: res.id_toko,
                     nama_pelanggan: res.nama_pelanggan,
                     title: res.kode_resi,
                     status_pengerjaan: res.status_pengerjaan,
@@ -87,7 +92,7 @@ const Edit = ({ params }) => {
         toast.loading("Loading ...", { position: "bottom-right" });
 
         const formData = new FormData();
-        formData.append("kode_resi", resiData.kode_resi);
+        formData.append("id_toko", resiData.id_toko);
         formData.append("nama_pelanggan", resiData.nama_pelanggan);
         formData.append("status_pengerjaan", resiData.status_pengerjaan);
         formData.append("pengirim", resiData.penerima);
@@ -103,7 +108,7 @@ const Edit = ({ params }) => {
 
         try {
             const { data } = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${resiData.kode_resi}`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${params.id}`,
                 formData
             );
             toast.dismiss();
@@ -111,7 +116,7 @@ const Edit = ({ params }) => {
             await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
             );
-            router.push(`/dashboard/resi/form/${resiData.kode_resi}`);
+            router.push(`/dashboard/resi/form/${params.id}`);
         } catch (error) {
             toast.dismiss();
             handleErrorResponse(error);
@@ -197,21 +202,29 @@ const Edit = ({ params }) => {
                         <div className="mb-5 grid md:grid-flow-col max-w-4xl gap-5">
                             <div className="relative z-0 w-full mb-5 group">
                                 <label className="block mb-2 text-sm font-medium text-gray-900">
-                                    No Resi
+                                    Toko
                                 </label>
-                                <input
+                                <select
                                     type="text"
-                                    defaultValue={resiData.kode_resi}
+                                    name="id_toko"
+                                    value={resiData.id_toko}
                                     onChange={(e) =>
                                         setResiData((prev) => ({
                                             ...prev,
-                                            kode_resi: e.target.value,
+                                            id_toko: e.target.value,
                                         }))
                                     }
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
-                                    placeholder="Resi Code"
-                                    disabled
-                                />
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="Status Pengerjaan"
+                                >
+                                    <option value="">Select Toko</option>
+
+                                    {getTokos.map((toko, index) => (
+                                        <option key={index} value={toko.id}>
+                                            {toko.nama_toko}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="relative z-0 w-full mb-5 group">
                                 <label className="block mb-2 text-sm font-medium text-gray-900">

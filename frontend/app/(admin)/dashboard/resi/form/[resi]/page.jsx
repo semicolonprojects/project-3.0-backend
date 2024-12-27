@@ -146,7 +146,6 @@ const Page = ({ params }) => {
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi`,
                 formData
             );
-            console.log("🚀 ~ handleSubmit ~ response:", response)
 
             if (response.status === 200) {
                 showToast("Berhasil Menambahkan Resi", "success");
