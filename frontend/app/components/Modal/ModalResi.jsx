@@ -124,7 +124,8 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                             <div key={index} className="block">
                                                 <span>{index + 1}. {item.nama_item}</span>
                                                 {item.service_id && item.service_id.length > 0 && item.service_id.map((service, serviceIndex) => (
-                                                    <p key={serviceIndex} className="ml-2 text-gray-600"> - {service.nama_service} {service.price ? `- Rp ${service.price.toLocaleString()}` : ''}</p>
+                                                    <p key={serviceIndex} className="ml-2 text-gray-600">
+                                                        - {service.nama_service} {service.price ? `- Rp ${service.price.toLocaleString()}` : ''}</p>
                                                 ))}
                                             </div>
                                         );
@@ -145,7 +146,9 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                 <span className="font-semibold text-gray-600">Pick Up & Delivery</span>
                                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm md:text-base mt-2 p-4 rounded-lg border border-gray-300 bg-slate-50">
                                     <div className="flex flex-col sm:flex-row sm:items-center">
-                                        <p className="ml-2 font-normal text-gray-800">Rp {details[0].ongkir.toLocaleString()}</p>
+                                        <p className="ml-2 font-normal text-gray-800">
+                                            Rp {details[0]?.ongkir?.toLocaleString() ?? '0'}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
