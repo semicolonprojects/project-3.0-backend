@@ -85,14 +85,13 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                 Detail Status
                             </p>
 
-                            {/* No. Resi Section */}
                             <div className="pb-3">
                                 <p className="text-2xl font-extrabold text-yellow-500">
                                     No. Resi: {details[0].kode_resi}
                                 </p>
                             </div>
 
-                            {/* Status and Customer Info */}
+                            {/* Status, Customer Info, and Price */}
                             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-6">
                                 <div className="text-sm md:text-base">
                                     <span className="font-semibold text-gray-600">Status:</span>
@@ -114,31 +113,42 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                     <span className="font-semibold text-gray-600">Penerima:</span>
                                     <p className="font-normal text-gray-800">{details[0].penerima}</p>
                                 </div>
-                                <div className="text-sm md:text-base">
-                                    <span className="font-semibold text-gray-600">Barang:</span>
-                                    <div className="font-normal text-gray-800">
-                                        {details[details.length - 1].nama_item.map((item, index) => (
+                            </div>
+
+                            <div className="text-sm md:text-base">
+                                <span className="font-semibold text-gray-600">Barang:</span>
+                                <div className="font-normal text-gray-800">
+                                    {details[details.length - 1].nama_item.map((item, index) => {
+                                        return (
                                             <div key={index} className="block">
                                                 <span>{index + 1}. {item.nama_item}</span>
                                                 {item.service_id && item.service_id.length > 0 && item.service_id.map((service, serviceIndex) => (
-                                                    <p key={serviceIndex} className="ml-2 text-gray-600"> - {service.nama_service}</p>
+                                                    <p key={serviceIndex} className="ml-2 text-gray-600"> - {service.nama_service} {service.price ? `- Rp ${service.price.toLocaleString()}` : ''}</p>
                                                 ))}
                                             </div>
-                                        ))}
+                                        );
+                                    })}
+
+                                    {/* Calculate the grand total */}
+                                    <div className="mt-4 font-semibold text-gray-800">
+                                        Total: Rp {details[details.length - 1].nama_item.reduce((total, item) => {
+                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + (service.price || 0), 0);
+                                            return total + (itemTotal || 0);
+                                        }, 0).toLocaleString()}
                                     </div>
                                 </div>
                             </div>
 
+
                             {/* Image Section */}
                             <div className="w-full mt-6">
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                                    {/* Loop through images */}
                                     {details[details.length - 1].images.map((image, index) => (
                                         <div key={index} className="relative w-full">
                                             <img
-                                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/cek_resi/${image.name}`} // Assuming `url` is the property for the image URL
+                                                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/cek_resi/${image.name}`}
                                                 alt={`Product Image ${index + 1}`}
-                                                className="object-contain w-full h-auto max-h-80 rounded-lg shadow-md" // object-contain ensures aspect ratio is kept
+                                                className="object-contain w-full h-auto max-h-80 rounded-lg shadow-md"
                                             />
                                         </div>
                                     ))}
@@ -168,7 +178,6 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                             </div>
                         </div>
                     </div>
-
                 </Modal>
             )}
         </>
