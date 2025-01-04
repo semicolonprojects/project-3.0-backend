@@ -209,7 +209,7 @@ class CekResiController extends Controller
                     'service_id' => $request->service_id,
                     'pengirim' => $request->pengirim,
                     'penerima' => $request->penerima,
-                    'data' => json_encode($namaItemData),
+                    'nama_item' =>$namaItemData ?? $cekResi->nama_item,
                 ]
             );
         }
