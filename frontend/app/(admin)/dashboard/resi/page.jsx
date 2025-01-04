@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { deleteResi, getResiData, getResis } from "./_api/api.js";
+import { deleteResi, getResiData } from "./_api/api.js";
 import { toast } from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation";
@@ -16,10 +16,9 @@ const Resi = () => {
     useEffect(() => {
         const fetchResis = async () => {
             try {
-                const resisData = await getResis(currentPage);
-                const combineResi = await getResiData();
-                setResis(combineResi);
-                setTotalPages(resisData.meta.last_page);
+                const combineResi = await getResiData(currentPage);
+                setResis(combineResi.data);
+                setTotalPages(combineResi.last_page);
             } catch (error) {
                 throw error;
             }
@@ -27,11 +26,16 @@ const Resi = () => {
         fetchResis();
     }, [currentPage]);
 
-    const filteredResis = resis.filter(
-        ({ nama_pelanggan, kode_resi }) =>
-            nama_pelanggan.toLowerCase().includes(search.toLowerCase()) ||
-            kode_resi.toLowerCase().includes(search.toLowerCase())
-    );
+    const filteredResis = Object.values(resis)
+        .map((resi, index) => ({
+            ...resi,
+            index
+        }))
+        .filter(
+            ({ nama_pelanggan, kode_resi }) =>
+                nama_pelanggan.toLowerCase().includes(search.toLowerCase()) ||
+                kode_resi.toLowerCase().includes(search.toLowerCase())
+        );
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
@@ -42,9 +46,9 @@ const Resi = () => {
 
         try {
             await deleteResi(id);
-            setResis((prevResis) =>
-                prevResis.filter((resi) => resi.kode_resi !== id)
-            );
+            const combineResi = await getResiData(currentPage);
+            setResis(combineResi.data);
+            setTotalPages(combineResi.last_page);
             toast.success("Resi Berhasil Dihapus", {
                 position: "bottom-right",
             });
@@ -187,9 +191,9 @@ const Resi = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredResis.map((resi, index) => (
+                            {filteredResis.map((resi) => (
                                 <tr
-                                    key={index}
+                                    key={resi.kode_resi}
                                     className="border-b hover:bg-white hover:bg-opacity-70"
                                 >
                                     <th
@@ -205,34 +209,25 @@ const Resi = () => {
                                         {resi.status_pengerjaan}
                                     </td>
                                     <td className="px-6 py-4">
-                                        {resi.items?.map((item, index) => (
-                                            <>
-                                                <div key={index} className="space-y-2">
-                                                    <div className="text-lg">
-                                                        - {item.nama_item}
-                                                    </div>
-                                                    {item.service_id?.map((service, index) => (
-                                                        <div key={index} className="flex items-center space-x-2 text-sm text-gray-600">
-                                                            <span className="font-medium text-gray-800">{index + 1}.</span>
-                                                            <span>{service.nama_service}</span>
-                                                        </div>
-                                                    ))}
+                                        {resi.items?.map((item, itemIndex) => (
+                                            <div key={item.kode_item || itemIndex} className="space-y-2">
+                                                <div className="text-lg">
+                                                    - {item.nama_item}
                                                 </div>
-                                                <br />
-                                            </>
+                                                {item.service_id?.map((service, serviceIndex) => (
+                                                    <div key={service.id || serviceIndex} className="flex items-center space-x-2 text-sm text-gray-600">
+                                                        <span className="font-medium text-gray-800">{serviceIndex + 1}.</span>
+                                                        <span>{service.nama_service}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         ))}
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">
-                                            <Link
-                                                href={`./resi/${resi.kode_resi}/show`}
-                                            >
+                                            <Link href={`./resi/${resi.kode_resi}/show`}>
                                                 <button
-                                                    className={`grid grid-flow-row text-gray-600 ${resi.status_pengerjaan ===
-                                                        "Selesai"
-                                                        ? "hidden"
-                                                        : ""
-                                                        }`}
+                                                    className={`grid grid-flow-row text-gray-600 ${resi.status_pengerjaan === "Selesai" ? "hidden" : ""}`}
                                                 >
                                                     <svg
                                                         className="w-6 h-6 ml-2"
@@ -255,14 +250,10 @@ const Resi = () => {
                                                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                                                         ></path>
                                                     </svg>
-                                                    <span className="inline-flex text-xs">
-                                                        Preview{" "}
-                                                    </span>
+                                                    <span className="inline-flex text-xs">Preview</span>
                                                 </button>
                                             </Link>
-                                            <Link
-                                                href={`./resi/${resi.kode_resi}/edit`}
-                                            >
+                                            <Link href={`./resi/${resi.kode_resi}/edit`}>
                                                 <button className="grid grid-flow-row text-gray-600">
                                                     <svg
                                                         className="w-6 h-6 "
@@ -280,18 +271,12 @@ const Resi = () => {
                                                             d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                                                         ></path>
                                                     </svg>
-                                                    <span className="inline-flex text-xs">
-                                                        Edit{" "}
-                                                    </span>
+                                                    <span className="inline-flex text-xs">Edit</span>
                                                 </button>
                                             </Link>
                                             <button
                                                 className="grid grid-flow-row text-gray-600"
-                                                onClick={() =>
-                                                    handleDeleteResi(
-                                                        resi.kode_resi
-                                                    )
-                                                }
+                                                onClick={() => handleDeleteResi(resi.kode_resi)}
                                             >
                                                 <svg
                                                     className="w-6 h-6 ml-2"
@@ -309,9 +294,7 @@ const Resi = () => {
                                                         d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
                                                     ></path>
                                                 </svg>
-                                                <span className="inline-flex text-xs">
-                                                    Delete
-                                                </span>
+                                                <span className="inline-flex text-xs">Delete</span>
                                             </button>
                                         </div>
                                     </td>

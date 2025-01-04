@@ -37,9 +37,9 @@ export const getCategory = async () => {
   return response.data;
 };
 
-export const getResiData = async () => {
+export const getResiData = async (currentPage) => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getResi`
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getResi?page=${currentPage}`
   );
   return response.data;
 };

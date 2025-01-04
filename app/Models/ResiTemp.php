@@ -12,6 +12,15 @@ class ResiTemp extends Model
 
     protected $guarded = ['id'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'nama_item' => 'array',
+    ];
+
     public function service(): HasOne
     {
         return $this->hasOne(Services::class, 'id', 'service_id');

@@ -8,12 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CekResiCollection;
 use App\Models\CekResi;
 use App\Models\File;
-use App\Models\ResiService;
 use App\Models\ResiTemp;
 use App\Models\Services;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -42,6 +42,8 @@ class CekResiController extends Controller
             'penerima' => 'nullable|string',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpg,png,jpeg,gif',
+        ], [
+            'id_toko.required' => 'Toko tidak boleh kosong',
         ]);
 
         if ($validator->fails()) {
@@ -61,10 +63,12 @@ class CekResiController extends Controller
             foreach ($namaItemData as &$item) {
                 if (isset($item['service_id']) && is_array($item['service_id'])) {
                     foreach ($item['service_id'] as &$service) {
-                        $serviceModel = Services::findOrFail($service['id']);
-                        $service['price'] = $serviceModel->price;
-                        $service['nama_service'] = $serviceModel->nama_service;
-                        $service['category'] = $serviceModel->category->name;
+                        $serviceModel = Services::find($service['id']);
+                        if ($serviceModel) {
+                            $service['price'] = $serviceModel->price;
+                            $service['nama_service'] = $serviceModel->nama_service;
+                            $service['category'] = $serviceModel->category->name;
+                        }
                     }
                 }
             }
@@ -83,6 +87,11 @@ class CekResiController extends Controller
             ['kode_resi' => $kode_resi],
             $cekResiData
         );
+
+        $resiTemp = ResiTemp::where('kode_resi', $kode_resi)->first();
+        if ($resiTemp) {
+            $resiTemp->update(['nama_item' => $namaItemData]);
+        }
 
         if ($request->hasFile('images')) {
             $files = [];
@@ -150,7 +159,6 @@ class CekResiController extends Controller
     public function update(Request $request, $kode_resi)
     {
         $cekResi = CekResi::where('kode_resi', $kode_resi)->first();
-
         if (!$cekResi) {
             return response()->json(['error' => 'CekResi not found'], 404);
         }
@@ -193,15 +201,16 @@ class CekResiController extends Controller
                     'kode_resi' => $kode_resi,
                     'status_pengerjaan' => $request->status_pengerjaan
                 ],
-                $request->only([
-                    'id_toko',
-                    'kode_resi',
-                    'nama_pelanggan',
-                    'status_pengerjaan',
-                    'service_id',
-                    'pengirim',
-                    'penerima'
-                ])
+                [
+                    'id_toko' => $request->id_toko,
+                    'kode_resi' => $kode_resi,
+                    'nama_pelanggan' => $request->nama_pelanggan,
+                    'status_pengerjaan' => $request->status_pengerjaan,
+                    'service_id' => $request->service_id,
+                    'pengirim' => $request->pengirim,
+                    'penerima' => $request->penerima,
+                    'data' => json_encode($namaItemData),
+                ]
             );
         }
 
@@ -242,7 +251,6 @@ class CekResiController extends Controller
                 }
             }
         }
-
         return response()->json('Sukses Update');
     }
 
@@ -261,51 +269,55 @@ class CekResiController extends Controller
         }
     }
 
-    public function getData()
+    public function getData(Request $request)
     {
-        $cekResi = CekResi::with('service.category')->paginate();
-        $resiTemp = ResiTemp::with('service.category')->paginate();
+        $cekResi = CekResi::with('service.category')->get();
+        $resiTemp = ResiTemp::with('service.category')->get();
 
-        $result = [];
+        $mergedResi = $cekResi->merge($resiTemp);
 
-        foreach ($cekResi as $resi) {
+        $result = $mergedResi->mapWithKeys(function ($resi) {
             $resiCode = $resi->kode_resi;
             $createdAt = $resi->created_at->format('Y-m-d H:i:s');
             $serviceInfo = "{$resi->service?->nama_service} - {$resi->service?->category?->name}";
 
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
-                $result[$resiCode] = [
+            return [
+                $resiCode => [
                     'kode_resi' => $resiCode,
                     'nama_pelanggan' => $resi->nama_pelanggan,
                     'status_pengerjaan' => $resi->status_pengerjaan,
                     'items' => $resi->nama_item,
                     'service' => $serviceInfo,
                     'tanggal' => $createdAt,
-                ];
-            }
-        }
+                ]
+            ];
+        });
 
-        foreach ($resiTemp as $temp) {
-            $resiCode = $temp->kode_resi;
-            $createdAt = $temp->created_at->format('Y-m-d H:i:s');
-            $serviceInfo = "{$temp->service?->nama_service} - {$temp->service?->category?->name}";
+        $result = $result->sortByDesc(function ($item) {
+            return strtotime($item['tanggal']);
+        });
 
-            if (!isset($result[$resiCode]) || $result[$resiCode]['tanggal'] < $createdAt) {
-                $result[$resiCode] = [
-                    'kode_resi' => $resiCode,
-                    'nama_pelanggan' => $temp->nama_pelanggan,
-                    'status_pengerjaan' => $temp->status_pengerjaan,
-                    'service' => $serviceInfo,
-                    'items' => $resi->nama_item,
-                    'tanggal' => $createdAt,
-                ];
-            }
-        }
+        $result = collect($result);
 
-        $result = array_values($result);
+        $result = $result->sortByDesc(function ($item) {
+            return strtotime($item['tanggal']);
+        });
 
+        $currentPage = $request->get('page', 1);
 
-        return response()->json($result);
+        $perPage = $request->limit ?? 5;
+
+        $currentItems = $result->slice(($currentPage - 1) * $perPage, $perPage);
+
+        $paginator = new LengthAwarePaginator(
+            $currentItems,
+            $result->count(),
+            $perPage,
+            $currentPage,
+            ['path' => Paginator::resolveCurrentPath()]
+        );
+
+        return response()->json($paginator);
     }
 
     public function getDetail($kode_resi)
