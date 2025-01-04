@@ -81,10 +81,10 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                 >
                     <div className="grid grid-cols-1 gap-6 p-4 md:p-6 mt-4 md:mt-6 rounded-lg shadow-md bg-white max-h-[80vh] overflow-auto">
                         <div className="grid gap-6">
-                            <p className="text-xl font-semibold text-gray-800">
-                                Detail Status
-                            </p>
+                            {/* Title */}
+                            <p className="text-xl font-semibold text-gray-800">Detail Status</p>
 
+                            {/* Resi Number */}
                             <div className="pb-3">
                                 <p className="text-2xl font-extrabold text-yellow-500">
                                     No. Resi: {details[0].kode_resi}
@@ -115,6 +115,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                 </div>
                             </div>
 
+                            {/* Items List */}
                             <div className="text-sm md:text-base">
                                 <span className="font-semibold text-gray-600">Barang:</span>
                                 <div className="font-normal text-gray-800">
@@ -129,7 +130,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                         );
                                     })}
 
-                                    {/* Calculate the grand total */}
+                                    {/* Total for items */}
                                     <div className="mt-4 font-semibold text-gray-800">
                                         Total: Rp {details[details.length - 1].nama_item.reduce((total, item) => {
                                             const itemTotal = item.service_id?.reduce((acc, service) => acc + (service.price || 0), 0);
@@ -139,6 +140,28 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                 </div>
                             </div>
 
+                            {/* Shipping Cost Information */}
+                            <div className="mt-6">
+                                <span className="font-semibold text-gray-600">Pick Up & Delivery</span>
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between text-sm md:text-base mt-2 p-4 rounded-lg border border-gray-300 bg-slate-50">
+                                    <div className="flex flex-col sm:flex-row sm:items-center">
+                                        <p className="ml-2 font-normal text-gray-800">Rp {details[0].ongkir.toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Grand Total */}
+                            <div className="mt-6 font-semibold text-gray-800">
+                                <span className="text-lg">Grand Total: </span>
+                                <span className="text-xl text-yellow-500">
+                                    Rp {(
+                                        details[details.length - 1].nama_item.reduce((total, item) => {
+                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + (service.price || 0), 0);
+                                            return total + (itemTotal || 0);
+                                        }, 0) + details[0].ongkir
+                                    ).toLocaleString()}
+                                </span>
+                            </div>
 
                             {/* Image Section */}
                             <div className="w-full mt-6">
@@ -158,9 +181,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
 
                         {/* Timeline Section */}
                         <div className="bg-slate-50 rounded-lg p-4 md:p-6 overflow-auto shadow-inner">
-                            <p className="font-semibold text-lg text-gray-800 mb-3">
-                                Riwayat Status Pengerjaan
-                            </p>
+                            <p className="font-semibold text-lg text-gray-800 mb-3">Riwayat Status Pengerjaan</p>
                             <div className="relative border-l-2 border-gray-300 pl-6 max-h-64 overflow-auto">
                                 {details.map((data, index) => (
                                     <div key={index} className="mb-6">
@@ -169,9 +190,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                             {formatDate(data.created_at)}
                                         </time>
                                         <div className="mt-2">
-                                            <p className="text-sm font-semibold text-gray-900">
-                                                {data.status_pengerjaan}
-                                            </p>
+                                            <p className="text-sm font-semibold text-gray-900">{data.status_pengerjaan}</p>
                                         </div>
                                     </div>
                                 ))}

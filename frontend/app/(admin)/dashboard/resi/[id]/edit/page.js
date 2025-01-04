@@ -22,6 +22,7 @@ const Edit = ({ params }) => {
         penerima: "",
         pengirim: "",
         id: "",
+        ongkir: "",
     });
     const router = useRouter();
     const id = params.id;
@@ -59,6 +60,7 @@ const Edit = ({ params }) => {
                     pengirim: res.pengirim,
                     id: res.id,
                     image: res.images,
+                    ongkir: res.ongkir,
                 });
             } catch (error) {
                 toast.error(error, { position: "bottom-right" });
@@ -97,6 +99,7 @@ const Edit = ({ params }) => {
         formData.append("status_pengerjaan", resiData.status_pengerjaan);
         formData.append("pengirim", resiData.penerima);
         formData.append("penerima", resiData.pengirim);
+        formData.append("ongkir", resiData.ongkir);
 
         fields.forEach((field, index) => {
             if (field.image) {
@@ -315,6 +318,26 @@ const Edit = ({ params }) => {
                                 />
                             </div>
                         </div>
+                        <div className="grid md:grid-flow-col max-w-4xl gap-5">
+                                <div className="relative z-0 max-w-4xl mb-5 group">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                                        Picku Up & Delivery
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="ongkir"
+                                        value={resiData.ongkir}
+                                        onChange={(e) =>
+                                            setResiData((prev) => ({
+                                                ...prev,
+                                                ongkir: e.target.value,
+                                            }))
+                                        }
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Picku Up & Delivery"
+                                    />
+                                </div>
+                            </div>
                         <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-5">
                             <div className="relative z-0 w-full mb-5 group">
                                 {fields.map((field, index) => (

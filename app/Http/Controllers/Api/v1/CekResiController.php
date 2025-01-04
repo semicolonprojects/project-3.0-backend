@@ -38,6 +38,7 @@ class CekResiController extends Controller
             'kode_resi' => 'required|sometimes',
             'nama_pelanggan' => 'required|sometimes',
             'status_pengerjaan' => 'required|sometimes',
+            'ongkir' => 'nullable|numeric',
             'pengirim' => 'nullable|string',
             'penerima' => 'nullable|string',
             'images' => 'nullable|array',
@@ -81,6 +82,7 @@ class CekResiController extends Controller
             'pengirim' => $request->pengirim ?? $model->pengirim,
             'penerima' => $request->penerima ?? $model->penerima,
             'nama_item' => $namaItemData,
+            'ongkir' => $request->ongkir ?? $model->ongkir ?? 0.00,
         ];
 
         $cekResi = CekResi::updateOrCreate(
@@ -144,6 +146,7 @@ class CekResiController extends Controller
                     'service_id' => $item->id,
                     'pengirim' => $item->pengirim,
                     'penerima' => $item->penerima,
+                    'ongkir' => $item->ongkir,
                     'tanggal' => $createdAt->format('Y-m-d H:i:s'),
                     'images' => $files
                 ];
@@ -168,6 +171,7 @@ class CekResiController extends Controller
             'kode_resi' => 'sometimes|required',
             'nama_pelanggan' => 'sometimes|required',
             'status_pengerjaan' => 'sometimes|required',
+            'ongkir' => 'numeric',
             'service_id' => 'sometimes|required|exists:services,id',
             'pengirim' => 'nullable|string',
             'penerima' => 'nullable|string',
@@ -209,7 +213,8 @@ class CekResiController extends Controller
                     'service_id' => $request->service_id,
                     'pengirim' => $request->pengirim,
                     'penerima' => $request->penerima,
-                    'nama_item' =>$namaItemData ?? $cekResi->nama_item,
+                    'nama_item' => $namaItemData ?? $cekResi->nama_item,
+                    'ongkir' => $request->ongkir ?? 0.00,
                 ]
             );
         }
@@ -221,6 +226,7 @@ class CekResiController extends Controller
             'pengirim' => $request->pengirim,
             'penerima' => $request->penerima,
             'nama_item' => $namaItemData ?? $cekResi->nama_item,
+            'ongkir' => $request->ongkir ?? 0.00,
         ];
 
         CrudHelper::save(new CekResi(), $updateData, $cekResi->id);
@@ -289,6 +295,7 @@ class CekResiController extends Controller
                     'items' => $resi->nama_item,
                     'service' => $serviceInfo,
                     'tanggal' => $createdAt,
+                    'ongkir' => $resi->ongkir
                 ]
             ];
         });

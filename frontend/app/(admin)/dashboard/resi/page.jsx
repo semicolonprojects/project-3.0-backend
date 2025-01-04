@@ -185,6 +185,9 @@ const Resi = () => {
                                 <th scope="col" className="px-6 py-3">
                                     List Service
                                 </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Pickup & Delivery
+                                </th>
                                 <th scope="col" className="px-12 py-3">
                                     Actions
                                 </th>
@@ -222,6 +225,9 @@ const Resi = () => {
                                                 ))}
                                             </div>
                                         ))}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        Rp {resi.ongkir ? resi.ongkir.toLocaleString() : '0'}
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">

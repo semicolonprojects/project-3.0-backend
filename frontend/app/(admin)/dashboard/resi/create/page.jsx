@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import {
     getAllCategory,
     getStatusPengerjaan,
@@ -22,10 +21,10 @@ function Page() {
         service: [],
         recipient: "",
         nama_item: [],
+        ongkir: "",
     });
 
     const [fields, setFields] = useState([{ image: null, imagePreview: null }]);
-    const [services, setServices] = useState([{ id: "", service: "" }]);
 
     const [getCategory, setGetCategory] = useState([]);
     const [getTokos, setGetTokos] = useState([]);
@@ -111,6 +110,7 @@ function Page() {
         formData.append("status_pengerjaan", resiData.resiStatus);
         formData.append("pengirim", resiData.sender);
         formData.append("penerima", resiData.recipient);
+        formData.append("ongkir", resiData.ongkir);
 
         fields.forEach((field, index) => {
             if (field.image) {
@@ -287,6 +287,21 @@ function Page() {
                                         onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                         placeholder="Nama Penerima"
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid md:grid-flow-col max-w-4xl gap-5">
+                                <div className="relative z-0 max-w-4xl mb-5 group">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900">
+                                        Pick Up & Delivery
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="ongkir"
+                                        value={resiData.ongkir}
+                                        onChange={handleInputChange}
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                        placeholder="Pick Up & Delivery"
                                     />
                                 </div>
                             </div>
