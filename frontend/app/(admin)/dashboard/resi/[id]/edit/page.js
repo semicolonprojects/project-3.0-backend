@@ -99,7 +99,7 @@ const Edit = ({ params }) => {
         formData.append("status_pengerjaan", resiData.status_pengerjaan);
         formData.append("pengirim", resiData.penerima);
         formData.append("penerima", resiData.pengirim);
-        formData.append("ongkir", resiData.ongkir);
+        formData.append("ongkir", resiData.ongkir || 0);
 
         fields.forEach((field, index) => {
             if (field.image) {
@@ -321,7 +321,7 @@ const Edit = ({ params }) => {
                         <div className="grid md:grid-flow-col max-w-4xl gap-5">
                                 <div className="relative z-0 max-w-4xl mb-5 group">
                                     <label className="block mb-2 text-sm font-medium text-gray-900">
-                                        Picku Up & Delivery
+                                        Pick Up & Delivery
                                     </label>
                                     <input
                                         type="number"

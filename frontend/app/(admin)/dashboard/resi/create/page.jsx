@@ -110,7 +110,7 @@ function Page() {
         formData.append("status_pengerjaan", resiData.resiStatus);
         formData.append("pengirim", resiData.sender);
         formData.append("penerima", resiData.recipient);
-        formData.append("ongkir", resiData.ongkir);
+        formData.append("ongkir", resiData.ongkir || 0);
 
         fields.forEach((field, index) => {
             if (field.image) {
