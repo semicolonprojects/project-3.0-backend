@@ -280,7 +280,7 @@ class CekResiController extends Controller
         $cekResi = CekResi::with('service.category')->get();
         $resiTemp = ResiTemp::with('service.category')->get();
 
-        $mergedResi = $cekResi->merge($resiTemp);
+        $mergedResi = $resiTemp->merge($cekResi);
 
         $result = $mergedResi->mapWithKeys(function ($resi) {
             $resiCode = $resi->kode_resi;
@@ -305,10 +305,6 @@ class CekResiController extends Controller
         });
 
         $result = collect($result);
-
-        $result = $result->sortByDesc(function ($item) {
-            return strtotime($item['tanggal']);
-        });
 
         $currentPage = $request->get('page', 1);
 
