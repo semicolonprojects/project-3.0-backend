@@ -280,12 +280,16 @@ class CekResiController extends Controller
         $cekResi = CekResi::with('service.category')->get();
         $resiTemp = ResiTemp::with('service.category')->get();
 
-        $mergedResi = $resiTemp->merge($cekResi);
+        $mergedResi = $cekResi->merge($resiTemp);
 
         $result = $mergedResi->mapWithKeys(function ($resi) {
             $resiCode = $resi->kode_resi;
             $createdAt = $resi->created_at->format('Y-m-d H:i:s');
-            $serviceInfo = "{$resi->service?->nama_service} - {$resi->service?->category?->name}";
+
+            $serviceName = $resi->service?->nama_service ?? 'Unknown Service';
+            $serviceCategory = $resi->service?->category?->name ?? 'Unknown Category';
+
+            $serviceInfo = "{$serviceName} - {$serviceCategory}";
 
             return [
                 $resiCode => [
