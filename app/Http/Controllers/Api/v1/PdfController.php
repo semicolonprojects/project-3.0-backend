@@ -18,7 +18,7 @@ class PdfController extends Controller
         $images = File::where(['parent_id' => $model->id, 'parent_table' => $model->getTable()])->get();
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.template', get_defined_vars());
 
-        return $pdf->stream("$kode_resi.pdf");
+        return $pdf->stream("$model->nama_pelanggan-$kode_resi.pdf");
         // return view('pdf.template', get_defined_vars());
     }
 }

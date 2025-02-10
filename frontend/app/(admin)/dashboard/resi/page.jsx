@@ -65,21 +65,29 @@ const Resi = () => {
         setCurrentPage(page);
     };
 
-    const handleExportResi = async (kodeResi) => {
+    const handleExportResi = async (namaPelanggan, kodeResi) => {
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pdf/${kodeResi}`, {
-              responseType: 'blob',
+                responseType: 'blob',
             });
 
             const file = new Blob([response.data], { type: 'application/pdf' });
             const fileURL = URL.createObjectURL(file);
 
-            window.open(fileURL);
+            const link = document.createElement('a');
+            link.href = fileURL;
+            link.setAttribute('download', `${namaPelanggan} - ${kodeResi}.pdf`);
+            document.body.appendChild(link);
 
-          } catch (error) {
+            link.click();
+
+            link.remove();
+            URL.revokeObjectURL(fileURL);
+
+        } catch (error) {
             console.error('Error generating the PDF:', error);
-          }
-      };
+        }
+    };
 
     return (
         <>
@@ -329,7 +337,7 @@ const Resi = () => {
                                         {/* Export to PDF Button */}
                                         <button
                                             className="grid grid-flow-row text-gray-600"
-                                            onClick={() => handleExportResi(resi.kode_resi)}
+                                            onClick={() => handleExportResi(resi.nama_pelanggan, resi.kode_resi)}
                                         >
                                             <svg
                                                 className="w-6 h-6"
