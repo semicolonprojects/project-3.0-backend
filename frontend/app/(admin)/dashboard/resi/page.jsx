@@ -5,6 +5,7 @@ import { deleteResi, getResiData } from "./_api/api.js";
 import { toast } from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const Resi = () => {
     const router = useRouter();
@@ -64,6 +65,21 @@ const Resi = () => {
         setCurrentPage(page);
     };
 
+    const handleExportResi = async (kodeResi) => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pdf/${kodeResi}`, {
+              responseType: 'blob',
+            });
+
+            const file = new Blob([response.data], { type: 'application/pdf' });
+            const fileURL = URL.createObjectURL(file);
+
+            window.open(fileURL);
+
+          } catch (error) {
+            console.error('Error generating the PDF:', error);
+          }
+      };
 
     return (
         <>
@@ -191,6 +207,9 @@ const Resi = () => {
                                 <th scope="col" className="px-12 py-3">
                                     Actions
                                 </th>
+                                <th scope="col" className="px-12 py-3">
+
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -231,13 +250,13 @@ const Resi = () => {
                                     </td>
                                     <td className="px-1 py-3 text-right">
                                         <div className="grid grid-flow-col gap-1">
+                                            {/* Preview Button */}
                                             <Link href={`./resi/${resi.kode_resi}/show`}>
                                                 <button
                                                     className={`grid grid-flow-row text-gray-600 ${resi.status_pengerjaan === "Selesai" ? "hidden" : ""}`}
                                                 >
                                                     <svg
                                                         className="w-6 h-6 ml-2"
-                                                        data-slot="icon"
                                                         fill="none"
                                                         strokeWidth="1.5"
                                                         stroke="currentColor"
@@ -259,11 +278,12 @@ const Resi = () => {
                                                     <span className="inline-flex text-xs">Preview</span>
                                                 </button>
                                             </Link>
+
+                                            {/* Edit Button */}
                                             <Link href={`./resi/${resi.kode_resi}/edit`}>
                                                 <button className="grid grid-flow-row text-gray-600">
                                                     <svg
-                                                        className="w-6 h-6 "
-                                                        data-slot="icon"
+                                                        className="w-6 h-6"
                                                         fill="none"
                                                         strokeWidth="1.5"
                                                         stroke="currentColor"
@@ -274,19 +294,20 @@ const Resi = () => {
                                                         <path
                                                             strokeLinecap="round"
                                                             strokeLinejoin="round"
-                                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
                                                         ></path>
                                                     </svg>
                                                     <span className="inline-flex text-xs">Edit</span>
                                                 </button>
                                             </Link>
+
+                                            {/* Delete Button */}
                                             <button
                                                 className="grid grid-flow-row text-gray-600"
                                                 onClick={() => handleDeleteResi(resi.kode_resi)}
                                             >
                                                 <svg
                                                     className="w-6 h-6 ml-2"
-                                                    data-slot="icon"
                                                     fill="none"
                                                     strokeWidth="1.5"
                                                     stroke="currentColor"
@@ -297,12 +318,36 @@ const Resi = () => {
                                                     <path
                                                         strokeLinecap="round"
                                                         strokeLinejoin="round"
-                                                        d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
+                                                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z"
                                                     ></path>
                                                 </svg>
                                                 <span className="inline-flex text-xs">Delete</span>
                                             </button>
                                         </div>
+                                    </td>
+                                    <td className="px-1 py-3 text-right">
+                                        {/* Export to PDF Button */}
+                                        <button
+                                            className="grid grid-flow-row text-gray-600"
+                                            onClick={() => handleExportResi(resi.kode_resi)}
+                                        >
+                                            <svg
+                                                className="w-6 h-6"
+                                                fill="none"
+                                                strokeWidth="1.5"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    d="M15.75 9V4.5a2.25 2.25 0 0 0-2.25-2.25h-3a2.25 2.25 0 0 0-2.25 2.25V9m-6 6h18m-9-9v9"
+                                                ></path>
+                                            </svg>
+                                            <span className="inline-flex text-xs">Export to PDF</span>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

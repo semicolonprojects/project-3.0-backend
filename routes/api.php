@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\v1\ArtikelController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\CekResiController;
 use App\Http\Controllers\Api\v1\NomorController;
+use App\Http\Controllers\Api\v1\PdfController;
 use App\Http\Controllers\Api\v1\ProductCategoryController;
 use App\Http\Controllers\Api\v1\ProductsController;
 use App\Http\Controllers\Api\v1\PromoController;
@@ -74,4 +75,6 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('/testing', [CekResiController::class, 'index']);
 
     Route::resource('toko', TokoController::class);
+
+    Route::get('/pdf/{kode_resi}', [PdfController::class, 'generatePdf']);
 })->middleware('cors');
