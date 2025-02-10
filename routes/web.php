@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\v1\PdfController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\File;
 
@@ -45,3 +46,7 @@ Route::get('/storage-link', function () {
 })->name('storage-link');
 
 Route::get('/test', [PdfController::class, 'generatePdf']);
+
+Route::get('/foo', function () {
+    Artisan::call('storage:link');
+});
