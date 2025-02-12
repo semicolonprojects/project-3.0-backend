@@ -9,6 +9,8 @@ import axios from "axios";
 
 const Resi = () => {
     const router = useRouter();
+    const [loadingButtons, setLoadingButtons] = useState({});
+    const [progress, setProgress] = useState({});
     const [resis, setResis] = useState([]);
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -66,26 +68,40 @@ const Resi = () => {
     };
 
     const handleExportResi = async (namaPelanggan, kodeResi) => {
+        setLoadingButtons((prev) => ({ ...prev, [kodeResi]: true }));
+        setProgress((prev) => ({ ...prev, [kodeResi]: 10 }));
+
         try {
             const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/pdf/${kodeResi}`, {
-                responseType: 'blob',
+                responseType: "blob",
+                onDownloadProgress: (progressEvent) => {
+                    if (progressEvent.total) {
+                        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        setProgress((prev) => ({ ...prev, [kodeResi]: percentCompleted }));
+                    }
+                }
             });
 
-            const file = new Blob([response.data], { type: 'application/pdf' });
+            setProgress((prev) => ({ ...prev, [kodeResi]: 100 }));
+
+            const file = new Blob([response.data], { type: "application/pdf" });
             const fileURL = URL.createObjectURL(file);
 
-            const link = document.createElement('a');
+            const link = document.createElement("a");
             link.href = fileURL;
-            link.setAttribute('download', `${namaPelanggan} - ${kodeResi}.pdf`);
+            link.setAttribute("download", `${namaPelanggan} - ${kodeResi}.pdf`);
             document.body.appendChild(link);
-
             link.click();
-
             link.remove();
-            URL.revokeObjectURL(fileURL);
 
+            URL.revokeObjectURL(fileURL);
         } catch (error) {
-            console.error('Error generating the PDF:', error);
+            console.error("Error generating the PDF:", error);
+        } finally {
+            setTimeout(() => {
+                setLoadingButtons((prev) => ({ ...prev, [kodeResi]: false }));
+                setProgress((prev) => ({ ...prev, [kodeResi]: 0 }));
+            }, 1000);
         }
     };
 
@@ -334,28 +350,59 @@ const Resi = () => {
                                         </div>
                                     </td>
                                     <td className="px-1 py-3 text-right">
-                                        {/* Export to PDF Button */}
                                         <button
-                                            className="grid grid-flow-row text-gray-600"
+                                            className={`grid grid-flow-row text-gray-600 ${loadingButtons[resi.kode_resi] ? "opacity-50 cursor-not-allowed" : ""
+                                                }`}
                                             onClick={() => handleExportResi(resi.nama_pelanggan, resi.kode_resi)}
+                                            disabled={loadingButtons[resi.kode_resi]}
+                                            aria-label="Export to PDF"
                                         >
-                                            <svg
-                                                className="w-6 h-6"
-                                                fill="none"
-                                                strokeWidth="1.5"
-                                                stroke="currentColor"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                aria-hidden="true"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M15.75 9V4.5a2.25 2.25 0 0 0-2.25-2.25h-3a2.25 2.25 0 0 0-2.25 2.25V9m-6 6h18m-9-9v9"
-                                                ></path>
-                                            </svg>
-                                            <span className="inline-flex text-xs">Export to PDF</span>
+                                            {loadingButtons[resi.kode_resi] ? (
+                                                <svg className="animate-spin w-6 h-6 text-yellow-500" viewBox="0 0 24 24" fill="none">
+                                                    <circle
+                                                        className="opacity-25"
+                                                        cx="12"
+                                                        cy="12"
+                                                        r="10"
+                                                        stroke="currentColor"
+                                                        strokeWidth="4"
+                                                    ></circle>
+                                                    <path
+                                                        className="opacity-75"
+                                                        fill="currentColor"
+                                                        d="M4 12a8 8 0 018-8v8H4z"
+                                                    ></path>
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    className="w-6 h-6"
+                                                    fill="none"
+                                                    strokeWidth="1.5"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        d="M15.75 9V4.5a2.25 2.25 0 0 0-2.25-2.25h-3a2.25 2.25 0 0 0-2.25 2.25V9m-6 6h18m-9-9v9"
+                                                    ></path>
+                                                </svg>
+                                            )}
+                                            <span className="inline-flex text-xs">
+                                                {loadingButtons[resi.kode_resi] ? "Downloading..." : "Export to PDF"}
+                                            </span>
                                         </button>
+
+                                        {loadingButtons[resi.kode_resi] && (
+                                            <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+                                                <div
+                                                    className="bg-yellow-500 h-2 rounded-full transition-all duration-300"
+                                                    style={{ width: `${progress[resi.kode_resi] || 0}%` }}
+                                                ></div>
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
