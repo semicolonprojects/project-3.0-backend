@@ -15,6 +15,8 @@ const Resi = () => {
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [inputValue, setInputValue] = useState(1);
+
 
     useEffect(() => {
         const fetchResis = async () => {
@@ -63,8 +65,18 @@ const Resi = () => {
         }
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const handlePageChange = (e) => {
+        e.preventDefault();
+        const pageNumber = parseInt(inputValue, 10);
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        } else {
+            alert(`Please enter a page number between 1 and ${totalPages}`);
+        }
     };
 
     const handleExportResi = async (namaPelanggan, kodeResi) => {
@@ -408,27 +420,25 @@ const Resi = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-center items-center py-2">
-                        {Array.from(
-                            { length: totalPages },
-                            (_, index) => index + 1
-                        ).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                disabled={currentPage === page}
-                                value={page}
-                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${currentPage === page
-                                    ? "pointer-events-none" && "underline"
-                                    : ""
-                                    }`}
-                            >
-                                {page}
-                            </button>
-                        ))}
+                    <div className="grid mx-auto  justify-center items-center py-6 grid-flow-row">
+                    <form onSubmit={handlePageChange}>
+                    <div className="">  
+                    <label className="pr-3 text-sm font-semibold" htmlFor="page-input">Page {currentPage} of {totalPages} : </label>
+      
+                    <input className="font-light text-sm max-w-xl w-auto text-center"
+                        type="number"
+                        id="page-input"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                        min="1"
+                        max={totalPages}
+                    >
+                      
+                      </input>
+                    
                     </div>
-                    <div className="flex justify-end items-end p-6">
-                        Page {currentPage} from {totalPages}
+                   
+                </form>
                     </div>
                 </div>
             </div>
