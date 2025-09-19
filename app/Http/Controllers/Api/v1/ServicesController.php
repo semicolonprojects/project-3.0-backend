@@ -18,30 +18,26 @@ class ServicesController extends Controller
      */
     public function index(Request $request)
     {
-        try {
-            if ($request->has('data') && $request->data === 'all') {
-                $services = Services::latest()->get();
-            } elseif ($request->has('data')) {
-                if ($request->data === 'Shoes') {
-                    $categories = ServiceCategory::where('category_barang', 'like', '%Shoes%')->get();
-                } else {
-                    $categories = ServiceCategory::where('category_barang', $request->data)->get();
-                }
+        $data = $request->get('data');
+        $search = $request->get('search', '');
 
-                $serviceIds = $categories->pluck('id')->toArray();
-                $services = Services::whereIn('category_id', $serviceIds)->get();
+        if ($data === 'all') {
+            $services = Services::latest()->get();
+        } elseif ($data) {
+            $categories = ServiceCategory::query()
+                ->when(
+                    $data === 'Shoes',
+                    fn($q) => $q->where('category_barang', 'like', '%Shoes%'),
+                    fn($q) => $q->where('category_barang', $data)
+                )
+                ->pluck('id');
 
-                if ($services->isEmpty()) {
-                    $services = [];
-                }
-            } else {
-                $services = Services::latest()->paginate();
-            }
-
-            return new ServicesCollection($services);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Failed to fetch services', 'message' => $e->getMessage()], 500);
+            $services = Services::whereIn('category_id', $categories)->get();
+        } else {
+            $services = Services::search($search, ['nama_service'])->latest()->paginate();
         }
+
+        return new ServicesCollection($services);
     }
 
 

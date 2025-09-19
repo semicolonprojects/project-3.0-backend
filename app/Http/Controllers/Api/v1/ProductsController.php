@@ -22,15 +22,20 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        $all = $request->has('all');
+        $all     = $request->boolean('all');
+        $search  = $request->get('search', '');
+        $data    = $request->get('data');
+
+        $query = Products::search($search, ['product_name', 'category'])
+            ->when($data, fn($q) => $q->where('category', $data));
 
         if ($all) {
-            return new ProductCollection(Products::orderBy('created_at', 'asc')->get());
-        } elseif ($request->has('data')) {
-            return new ProductCollection(Products::orderBy('created_at', 'asc')->where('category', $request->data)->get());
+            $products = $query->orderBy('created_at', 'asc')->get();
         } else {
-            return new  ProductCollection(Products::latest()->paginate());
+            $products = $query->latest()->paginate();
         }
+
+        return new ProductCollection($products);
     }
 
     /**

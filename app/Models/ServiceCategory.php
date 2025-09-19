@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSearch;
 
     protected $fillable = [
         'name',
@@ -15,15 +16,4 @@ class ServiceCategory extends Model
         'image',
         'category_barang'
     ];
-
-    // public function cekresi()
-    // {
-    //     return $this->hasMany(CekResi::class);
-    // }
-
-    // public function services()
-    // {
-    //     return $this->hasMany(Services::class);
-    // }
-
 }

@@ -280,21 +280,11 @@ class CekResiController extends Controller
         $search = $request->get('search', '');
 
         $cekResi = CekResi::with('service.category')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('kode_resi', 'LIKE', "%{$search}%")
-                        ->orWhere('nama_pelanggan', 'LIKE', "%{$search}%");
-                });
-            })
+            ->search($search, ['kode_resi', 'nama_pelanggan', 'status_pengerjaan'])
             ->get();
 
         $resiTemp = ResiTemp::with('service.category')
-            ->when($search, function ($query, $search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('kode_resi', 'LIKE', "%{$search}%")
-                        ->orWhere('nama_pelanggan', 'LIKE', "%{$search}%");
-                });
-            })
+            ->search($search, ['kode_resi', 'nama_pelanggan', 'status_pengerjaan'])
             ->get();
 
         $mergedResi = $cekResi->merge($resiTemp);
