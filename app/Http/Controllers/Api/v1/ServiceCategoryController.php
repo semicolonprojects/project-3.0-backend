@@ -14,9 +14,14 @@ class ServiceCategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ServiceCategoryResource::collection(ServiceCategory::latest()->paginate(5));
+        $search = $request->get('search', '');
+        return ServiceCategoryResource::collection(
+            ServiceCategory::search($search, ['name', 'slug', 'category_barang'])
+                ->latest()
+                ->paginate()
+        );
     }
 
     /**

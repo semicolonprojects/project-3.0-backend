@@ -277,8 +277,15 @@ class CekResiController extends Controller
 
     public function getData(Request $request)
     {
-        $cekResi = CekResi::with('service.category')->get();
-        $resiTemp = ResiTemp::with('service.category')->get();
+        $search = $request->get('search', '');
+
+        $cekResi = CekResi::with('service.category')
+            ->search($search, ['kode_resi', 'nama_pelanggan', 'status_pengerjaan'])
+            ->get();
+
+        $resiTemp = ResiTemp::with('service.category')
+            ->search($search, ['kode_resi', 'nama_pelanggan', 'status_pengerjaan'])
+            ->get();
 
         $mergedResi = $cekResi->merge($resiTemp);
 

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ResiTemp extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSearch;
 
     protected $guarded = ['id'];
 

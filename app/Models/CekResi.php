@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -12,7 +13,7 @@ class CekResi extends Model
     const STATUS_DIKERJAKAN = 'Sedang Dikerjakan';
     const STATUS_SELESAI = 'Dikirim / Selesai';
 
-    use HasFactory;
+    use HasFactory, HasSearch;
 
     protected $guarded = ['id'];
 

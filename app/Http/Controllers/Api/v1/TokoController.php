@@ -15,11 +15,12 @@ class TokoController extends Controller
      */
     public function index(Request $request)
     {
-        $models = Toko::latest()->paginate();
+        $search = $request->get('search', '');
+        $query = Toko::search($search, ['kode', 'nama_toko', 'alamat_toko'])->latest();
 
-        if ($request->has('all')) {
-            $models = Toko::latest()->get();
-        }
+        $models = $request->boolean('all')
+            ? $query->get()
+            : $query->paginate();
 
         return response()->json($models);
     }

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\HasSearch;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Services extends Model
 {
-    use HasFactory;
+    use HasFactory, HasSearch;
 
     public function getRouteKeyName()
     {

@@ -20,15 +20,18 @@ class ArtikelController extends Controller
      */
     public function index(Request $request)
     {
-        $all = $request->has('all');
+        $all = $request->boolean('all');
+        $search = $request->get('search', '');
 
-        if ($all) {
+        $query = Artikel::search($search, ['judul'])->latest();
 
-            return new ArtikelCollection(Artikel::latest()->get());
-        } else {
-            return new ArtikelCollection(Artikel::latest()->paginate());
-        }
+        $artikels = $all
+            ? $query->get()
+            : $query->paginate();
+
+        return new ArtikelCollection($artikels);
     }
+
 
     /**
      * Show the form for creating a new resource.

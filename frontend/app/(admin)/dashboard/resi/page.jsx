@@ -1,11 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { deleteResi, getResiData } from "./_api/api.js";
 import { toast } from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+
+function useDebounce(value, delay) {
+    const [debounced, setDebounced] = useState(value);
+
+    useEffect(() => {
+        const handler = setTimeout(() => setDebounced(value), delay);
+        return () => clearTimeout(handler);
+    }, [value, delay]);
+
+    return debounced;
+}
 
 const Resi = () => {
     const router = useRouter();
@@ -17,34 +28,48 @@ const Resi = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [inputValue, setInputValue] = useState(1);
 
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchResis = async () => {
             try {
-                const combineResi = await getResiData(currentPage);
-                setResis(combineResi.data);
-                setTotalPages(combineResi.last_page);
+                const response = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getResi`,
+                    {
+                        params: { search: debouncedSearch, page: currentPage },
+                        signal: controller.signal,
+                    }
+                );
+
+                setResis(response.data?.data ?? []);
+                setTotalPages(response.data?.last_page ?? 1);
             } catch (error) {
-                throw error;
+                toast.error(error);
             }
         };
+
         fetchResis();
-    }, [currentPage]);
 
-    const filteredResis = Object.values(resis)
-        .map((resi, index) => ({
-            ...resi,
-            index
-        }))
-        .filter(
-            ({ nama_pelanggan, kode_resi }) =>
-                nama_pelanggan.toLowerCase().includes(search.toLowerCase()) ||
-                kode_resi.toLowerCase().includes(search.toLowerCase())
-        );
+        return () => controller.abort();
+    }, [debouncedSearch, currentPage]);
 
-    const handleSearchChange = (e) => {
+    const handleSearchChange = useCallback((e) => {
         setSearch(e.target.value);
-    };
+    }, []);
+
+    const filteredResis = useMemo(
+        () =>
+            (Array.isArray(resis) ? resis : Object.values(resis ?? {})).map(
+                (resi, index) => ({
+                    ...resi,
+                    index,
+                })
+            ),
+        [resis]
+    );
+
 
     const handleDeleteResi = async (id) => {
         if (!window.confirm("Hapus Resi?")) return;
@@ -421,24 +446,24 @@ const Resi = () => {
                         </tbody>
                     </table>
                     <div className="grid mx-auto  justify-center items-center py-6 grid-flow-row">
-                    <form onSubmit={handlePageChange}>
-                    <div className="">  
-                    <label className="pr-3 text-sm font-semibold" htmlFor="page-input">Page {currentPage} of {totalPages} : </label>
-      
-                    <input className="font-light text-sm max-w-xl w-auto text-center"
-                        type="number"
-                        id="page-input"
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        min="1"
-                        max={totalPages}
-                    >
-                      
-                      </input>
-                    
-                    </div>
-                   
-                </form>
+                        <form onSubmit={handlePageChange}>
+                            <div className="">
+                                <label className="pr-3 text-sm font-semibold" htmlFor="page-input">Page {currentPage} of {totalPages} : </label>
+
+                                <input className="font-light text-sm max-w-xl w-auto text-center"
+                                    type="number"
+                                    id="page-input"
+                                    value={inputValue}
+                                    onChange={handleInputChange}
+                                    min="1"
+                                    max={totalPages}
+                                >
+
+                                </input>
+
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
