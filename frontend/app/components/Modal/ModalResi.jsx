@@ -134,7 +134,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                     {/* Total for items */}
                                     <div className="mt-4 font-semibold text-gray-800">
                                         Total: Rp {details[details.length - 1].nama_item.reduce((total, item) => {
-                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + (service.price || 0), 0);
+                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + Number(service.price || 0),0);
                                             return total + (itemTotal || 0);
                                         }, 0).toLocaleString()}
                                     </div>
@@ -159,7 +159,7 @@ const ModalResi = ({ showModal, inputValue, setshowModal }) => {
                                 <span className="text-xl text-yellow-500">
                                     Rp {(
                                         details[details.length - 1].nama_item.reduce((total, item) => {
-                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + (service.price || 0), 0);
+                                            const itemTotal = item.service_id?.reduce((acc, service) => acc + Number(service.price || 0), 0);
                                             return total + (itemTotal || 0);
                                         }, 0) + details[0].ongkir
                                     ).toLocaleString()}
