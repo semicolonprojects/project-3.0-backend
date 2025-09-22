@@ -3,52 +3,55 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { getTokos } from "./_api/api";
 import toast from "react-hot-toast";
+import useDebounce from "../../../hooks/useDebounce";
+import Pagination from "../components/Pagination";
 
 const Page = () => {
-    const [toko, setToko] = useState([]);
+    const [tokos, setToko] = useState([]);
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [inputValue, setInputValue] = useState(1);
 
-    const [debouncedSearch, setDebouncedSearch] = useState(search);
-
-    useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            setDebouncedSearch(search);
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    }, [search]);
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
-        const fetchServices = async () => {
+        const controller = new AbortController();
+
+        const fetchTokos = async () => {
             try {
-                const { data } = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko`);
-                setToko(data.data);
-                setTotalPages(data.last_page);
+                const response = await getTokos(search, currentPage);
+                setToko(response.data ?? []);
+                setTotalPages(response.last_page ?? 1);
             } catch (error) {
-                toast.error(error.message || "Error", {
-                    position: "bottom-right",
-                });
+                toast.error(error);
             }
         };
 
-        fetchServices();
-    }, [currentPage]);
+        fetchTokos();
 
-    const filteredToko = useMemo(() => {
-        const searchLower = debouncedSearch.toLowerCase();
-        return toko.filter(
-            (toko_data) =>
-                toko_data.nama_toko.toLowerCase().includes(searchLower)
-                || toko_data.alamat_toko.toLowerCase().includes(searchLower)
-                || toko_data.kode.toLowerCase().includes(searchLower)
-        );
-    }, [toko, debouncedSearch]);
+        return () => controller.abort();
+    }, [debouncedSearch, currentPage]);
+
+    const filteredToko = useMemo(
+        () =>
+            (Array.isArray(tokos) ? tokos : Object.values(tokos ?? {})).map(
+                (toko, index) => ({
+                    ...toko,
+                    index,
+                })
+            ),
+        [tokos]
+    );
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
+    };
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
     };
 
     const handleDeleteToko = async (id) => {
@@ -281,28 +284,11 @@ const Page = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-center items-center py-2">
-                        {Array.from(
-                            { length: totalPages },
-                            (_, index) => index + 1
-                        ).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                disabled={currentPage === page}
-                                value={page}
-                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${currentPage === page
-                                    ? "pointer-events-none" && "underline"
-                                    : ""
-                                    }`}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="flex justify-end items-end p-6">
-                        Page {currentPage} from {totalPages}
-                    </div>
+                    <Pagination currentPage={currentPage}
+                        totalPages={totalPages}
+                        inputValue={inputValue}
+                        onInputChange={handleInputChange}
+                        onPageSubmit={handlePageChange} />
                 </div>
             </div>
         </>

@@ -46,7 +46,6 @@ function EditPage({ params }) {
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services/${params.slug}`
                 );
                 const res = serviceData.data.data;
-                console.log("🚀 ~ detail ~ res:", res);
                 setServiceName(res.nama_service);
                 setServiceDesc(res.deskripsi);
                 setServiceTitle(res.nama_service);
@@ -204,7 +203,7 @@ function EditPage({ params }) {
                                 {categories.length > 0 ? (
                                     <select
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                        value={oldCategory}
+                                        defaultValue={oldCategory}
                                         onChange={(e) =>
                                             setOldCategory(e.target.value)
                                         }

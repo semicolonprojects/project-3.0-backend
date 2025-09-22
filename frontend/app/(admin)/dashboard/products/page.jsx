@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { deleteProduct, getProducts } from "./_api/api.js";
 import toast from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation.js";
+import useDebounce from "../../../hooks/useDebounce.js";
+import Pagination from "../components/Pagination.jsx";
 
 const Products = () => {
     const router = useRouter();
@@ -12,37 +14,50 @@ const Products = () => {
     const [search, setSearch] = useState("");
     const [currentPages, setCurrentPages] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [inputValue, setInputValue] = useState(1);
+
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchProducts = async () => {
             try {
-                const productData = await getProducts(currentPages);
-                const res = productData;
-                setProducts(res.data);
-                setTotalPages(res.meta.last_page);
+                const response = await getProducts(search, currentPages);
+                setProducts(response.data ?? []);
+                setTotalPages(response.meta?.last_page ?? 1);
             } catch (error) {
-                console.log(error);
+                toast.error(error);
             }
         };
 
         fetchProducts();
-    }, [currentPages]);
+
+        return () => controller.abort();
+    }, [debouncedSearch, currentPages]);
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
     };
 
-    const filteredProducts = products.filter(
-        (product) =>
-            product.product_name.toLowerCase().includes(search.toLowerCase()) ||
-            product.category.toLowerCase().includes(search.toLowerCase())
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const filteredProducts = useMemo(
+        () =>
+            (Array.isArray(products) ? products : Object.values(products ?? {})).map(
+                (product, index) => ({
+                    ...product,
+                    index,
+                })
+            ),
+        [products]
     );
 
     function formatRupiah(price) {
-        // Convert price to string and remove any non-digit characters
         const cleanPrice = String(price).replace(/\D/g, "");
 
-        // Format the price with thousands separator and IDR currency symbol
         const formattedPrice = new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
@@ -55,12 +70,11 @@ const Products = () => {
         const confirmDelete = window.confirm(
             "Are you sure you want to delete this product?"
         );
-        if (!confirmDelete) return; // If the user cancels, do nothing
+        if (!confirmDelete) return;
 
         try {
             await deleteProduct(productId);
             setProducts(products.filter((product) => product.id !== productId));
-            // Show toast notification when task is successfully deleted
             toast.success("Product deleted successfully");
             router.refresh();
         } catch (error) {
@@ -68,8 +82,14 @@ const Products = () => {
         }
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPages(page); // Update the current page
+    const handlePageChange = (e) => {
+        e.preventDefault();
+        const pageNumber = parseInt(inputValue, 10);
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPages(pageNumber);
+        } else {
+            alert(`Please enter a page number between 1 and ${totalPages}`);
+        }
     };
 
     return (
@@ -298,29 +318,11 @@ const Products = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-center items-center py-2">
-                        {Array.from(
-                            { length: totalPages },
-                            (_, index) => index + 1
-                        ).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                disabled={currentPages === page}
-                                value={page}
-                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${
-                                    currentPages === page
-                                        ? "pointer-events-none" && "underline"
-                                        : ""
-                                }`}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="flex justify-end items-end p-6">
-                        Page {currentPages} from {totalPages}
-                    </div>
+                    <Pagination currentPage={currentPages}
+                        totalPages={totalPages}
+                        inputValue={inputValue}
+                        onInputChange={handleInputChange}
+                        onPageSubmit={handlePageChange} />
                 </div>
             </div>
         </>

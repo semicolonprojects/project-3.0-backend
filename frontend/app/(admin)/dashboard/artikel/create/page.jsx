@@ -75,7 +75,6 @@ const Page = () => {
             toast.dismiss();
             if (error.response.status === 422 && error.response.data) {
                 const errors = error.response.data;
-                console.log("🚀 ~ handleSubmit ~ errors:", errors);
                 Object.keys(errors).forEach((field) => {
                     errors[field].forEach((errorMessage) => {
                         toast.error(`${field}: ${errorMessage}`, {

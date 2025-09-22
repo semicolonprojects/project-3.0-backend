@@ -6,17 +6,8 @@ import { toast } from "react-hot-toast";
 import Link from "next/link.js";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-
-function useDebounce(value, delay) {
-    const [debounced, setDebounced] = useState(value);
-
-    useEffect(() => {
-        const handler = setTimeout(() => setDebounced(value), delay);
-        return () => clearTimeout(handler);
-    }, [value, delay]);
-
-    return debounced;
-}
+import useDebounce from "../../../hooks/useDebounce.js";
+import Pagination from '../components/Pagination.jsx';
 
 const Resi = () => {
     const router = useRouter();
@@ -35,16 +26,9 @@ const Resi = () => {
 
         const fetchResis = async () => {
             try {
-                const response = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getResi`,
-                    {
-                        params: { search: debouncedSearch, page: currentPage },
-                        signal: controller.signal,
-                    }
-                );
-
-                setResis(response.data?.data ?? []);
-                setTotalPages(response.data?.last_page ?? 1);
+                const response = await getResiData(search, currentPage);
+                setResis(response.data ?? []);
+                setTotalPages(response.last_page ?? 1);
             } catch (error) {
                 toast.error(error);
             }
@@ -69,7 +53,6 @@ const Resi = () => {
             ),
         [resis]
     );
-
 
     const handleDeleteResi = async (id) => {
         if (!window.confirm("Hapus Resi?")) return;
@@ -445,26 +428,11 @@ const Resi = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="grid mx-auto  justify-center items-center py-6 grid-flow-row">
-                        <form onSubmit={handlePageChange}>
-                            <div className="">
-                                <label className="pr-3 text-sm font-semibold" htmlFor="page-input">Page {currentPage} of {totalPages} : </label>
-
-                                <input className="font-light text-sm max-w-xl w-auto text-center"
-                                    type="number"
-                                    id="page-input"
-                                    value={inputValue}
-                                    onChange={handleInputChange}
-                                    min="1"
-                                    max={totalPages}
-                                >
-
-                                </input>
-
-                            </div>
-
-                        </form>
-                    </div>
+                    <Pagination currentPage={currentPage}
+                        totalPages={totalPages}
+                        inputValue={inputValue}
+                        onInputChange={handleInputChange}
+                        onPageSubmit={handlePageChange} />
                 </div>
             </div>
         </>

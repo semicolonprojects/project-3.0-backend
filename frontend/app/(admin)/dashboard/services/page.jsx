@@ -1,44 +1,56 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { deleteService, getServices } from "./_api/api.js";
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import useDebounce from "../../../hooks/useDebounce.js";
+import Pagination from "../components/Pagination.jsx";
 
 const Services = () => {
-    const router = useRouter();
     const [services, setServices] = useState([]);
     const [search, setSearch] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [inputValue, setInputValue] = useState(1);
+
+    const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {
+        const controller = new AbortController();
+
         const fetchServices = async () => {
             try {
-                const { data, meta } = await getServices(currentPage);
-                setServices(data);
-                setTotalPages(meta.last_page);
+                const response = await getServices(search, currentPage);
+                setServices(response.data ?? []);
+                setTotalPages(response.meta?.last_page ?? 1);
             } catch (error) {
-                toast.error(error.message || "Gagal mendapatkan service", {
-                    position: "bottom-right",
-                });
+                toast.error(error);
             }
         };
 
         fetchServices();
-    }, [currentPage]);
 
-    const filteredServices = services.filter((service) => {
-        const searchLower = search.toLowerCase();
-        return (
-            service.nama_service.toLowerCase().includes(searchLower) ||
-            service.category.toLowerCase().includes(searchLower)
-        );
-    });
+        return () => controller.abort();
+    }, [debouncedSearch, currentPage]);
+
+    const filteredServices = useMemo(
+        () =>
+            (Array.isArray(services) ? services : Object.values(services ?? {})).map(
+                (service, index) => ({
+                    ...service,
+                    index,
+                })
+            ),
+        [services]
+    );
 
     const handleSearchChange = (e) => {
         setSearch(e.target.value);
+    };
+
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
     };
 
     const formatRupiah = (price) => {
@@ -67,8 +79,14 @@ const Services = () => {
         }
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+    const handlePageChange = (e) => {
+        e.preventDefault();
+        const pageNumber = parseInt(inputValue, 10);
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        } else {
+            alert(`Please enter a page number between 1 and ${totalPages}`);
+        }
     };
 
     return (
@@ -300,29 +318,11 @@ const Services = () => {
                             ))}
                         </tbody>
                     </table>
-                    <div className="flex justify-center items-center py-2">
-                        {Array.from(
-                            { length: totalPages },
-                            (_, index) => index + 1
-                        ).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => handlePageChange(page)}
-                                disabled={currentPage === page}
-                                value={page}
-                                className={`inline-block text-gray-800 font-semibold py-2 px-4 ${
-                                    currentPage === page
-                                        ? "pointer-events-none" && "underline"
-                                        : ""
-                                }`}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="flex justify-end items-end p-6">
-                        Page {currentPage} from {totalPages}
-                    </div>
+                    <Pagination currentPage={currentPage}
+                        totalPages={totalPages}
+                        inputValue={inputValue}
+                        onInputChange={handleInputChange}
+                        onPageSubmit={handlePageChange} />
                 </div>
             </div>
         </>

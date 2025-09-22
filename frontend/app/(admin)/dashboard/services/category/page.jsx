@@ -1,47 +1,69 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { getServicesCategory, deleteServiceCategory } from "./_api/api";
-import Pagination from "./components/Pagination.jsx";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import useDebounce from "../../../../hooks/useDebounce";
+import Pagination from "../../components/Pagination";
 
 const Category = () => {
     const [search, setSearch] = useState("");
     const [currentPages, setCurrentPages] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [categories, setCategories] = useState([]);
+    const [inputValue, setInputValue] = useState(1);
 
     const router = useRouter();
 
-    useEffect(
-        () => {
-            const fetchServiceCategory = async () => {
-                try {
-                    const categoriesData = await getServicesCategory(
-                        currentPages
-                    );
-                    const res = categoriesData;
-                    setCategories(res.data);
-                    setTotalPages(res.meta.last_page);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
+    const debouncedSearch = useDebounce(search, 500);
 
-            fetchServiceCategory();
-        },
-        [currentPages],
-        [categories]
-    );
+    useEffect(() => {
+        const controller = new AbortController();
 
-    function handleSearchChange(e) {
+        const fetchServiceCategory = async () => {
+            try {
+                const response = await getServicesCategory(search, currentPages);
+                setCategories(response.data ?? []);
+                setTotalPages(response.meta?.last_page ?? 1);
+            } catch (error) {
+                toast.error(error);
+            }
+        };
+
+        fetchServiceCategory();
+
+        return () => controller.abort();
+    }, [debouncedSearch, currentPages]);
+
+    const handleSearchChange = useCallback((e) => {
         setSearch(e.target.value);
-    }
+    }, []);
 
-    const filteredCategories = categories?.filter((category) =>
-        category.name.toLowerCase().includes(search.toLowerCase())
+    const handleInputChange = (e) => {
+        setInputValue(e.target.value);
+    };
+
+    const handlePageChange = (e) => {
+        e.preventDefault();
+        const pageNumber = parseInt(inputValue, 10);
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPages(pageNumber);
+        } else {
+            alert(`Please enter a page number between 1 and ${totalPages}`);
+        }
+    };
+
+    const filteredCategories = useMemo(
+        () =>
+            (Array.isArray(categories) ? categories : Object.values(categories ?? {})).map(
+                (category, index) => ({
+                    ...category,
+                    index,
+                })
+            ),
+        [categories]
     );
 
     const handelDeleteTask = async (serviceCategoryId) => {
@@ -260,13 +282,11 @@ const Category = () => {
                     ))}
                 </tbody>
             </table>
-            <div>
-                <Pagination
-                    currentPages={currentPages}
-                    totalPages={totalPages}
-                    setCurrentPages={setCurrentPages}
-                />
-            </div>
+            <Pagination currentPage={currentPages}
+                totalPages={totalPages}
+                inputValue={inputValue}
+                onInputChange={handleInputChange}
+                onPageSubmit={handlePageChange} />
         </>
     );
 };

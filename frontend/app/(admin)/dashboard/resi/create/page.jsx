@@ -72,7 +72,7 @@ function Page() {
                     getAllCategory({ signal }),
                     getStatusPengerjaan({ signal }),
                     axios.get(
-                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko?all`
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko?all=true`
                     ),
                 ]);
 

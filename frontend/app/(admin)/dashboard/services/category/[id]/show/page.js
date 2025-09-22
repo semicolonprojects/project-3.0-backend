@@ -13,7 +13,6 @@ function Show({ params }) {
             try {
                 const serviceData = await detailServiceCategory(params.id);
                 const res = serviceData.data;
-                console.log("🚀 ~ fetchServices ~ res:", res);
                 setCategoryService(res);
                 setCategoryImage(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${res.image}`

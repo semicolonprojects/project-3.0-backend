@@ -11,7 +11,6 @@ const Page = ({ params }) => {
             try {
                 const serviceData = await getService(params.slug);
                 const res = serviceData.data;
-                console.log("🚀 ~ fetchServices ~ res:", res);
                 setService(res);
                 setServiceImage(
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/service/${res.category_image}`

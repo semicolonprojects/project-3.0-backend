@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getServicesCategory = async (currentPage) => {
+export const getServicesCategory = async (search, currentPage) => {
     const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category?page=${currentPage}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category?search=${search}&page=${currentPage}`
     );
     return response.data;
 };

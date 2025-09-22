@@ -39,7 +39,6 @@ function Edit({ params }) {
                     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${params.id}`
                 );
                 const res = serviceData.data.data;
-                console.log(res);
                 setShowCategory(res.name);
                 setCategoryId(res.id);
                 setCategorySlug(res.slug);
@@ -75,8 +74,6 @@ function Edit({ params }) {
             await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
             );
-
-            console.log("🚀 ~ handleUpdate ~ res:", res);
 
             toast.dismiss();
             toast.success(`Category updated successfully`, {
@@ -156,9 +153,8 @@ function Edit({ params }) {
                         Category
                     </label>
                     <select
-                        type="text"
                         name="categoryFor"
-                        defaultValue={categoryFor}
+                        value={categoryFor}
                         onChange={(e) => setCategoryFor(e.target.value)}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         required
