@@ -1,7 +1,7 @@
 "use client";
 
 import { FileUploader } from "react-drag-drop-files";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { detailProduct } from "../_api/api.js";
 import axios from "axios";
 import { useRouter } from "next/navigation.js";
@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { getAllCategory } from "../category/_api/api.js";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const fileTypes = ["jpg", "png", "jpeg"];
 
     const [file, setFile] = useState("");
@@ -31,19 +32,19 @@ const Page = ({ params }) => {
         const detail = async () => {
             try {
                 const productData = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${params.slug}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${slug}`
                 );
                 const res = productData.data.data;
 
                 const cateogry = await getAllCategory();
                 setGetCategory(cateogry.data);
 
-                setProductName(res.product_name);
-                setProductTitle(res.product_name);
-                setProductPrice(res.price);
-                setProductCategory(res.category);
-                setTemplateMessage(res.whatsapp_link);
-                setDescription(res.description);
+                setProductName(res.product_name || "");
+                setProductTitle(res.product_name || "");
+                setProductPrice(res.price || "");
+                setProductCategory(res.category || "");
+                setTemplateMessage(res.whatsapp_link || "");
+                setDescription(res.description || "");
                 setProductId(res.id);
             } catch (error) {
                 console.log(error);

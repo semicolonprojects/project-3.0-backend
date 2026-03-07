@@ -1,11 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Logo from "/public/image/logo.png";
-import WhatsApp from "/public/image/whatsapp.svg";
-import Instagram from "/public/image/instagram.svg";
-import Tiktok from "/public/image/tiktok.svg";
-import Youtube from "/public/image/youtube.svg";
 import ModalSocials from "../components/Modal/ModalSocials";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -123,10 +118,10 @@ const Sidebar = () => {
                                     <Link href="/">
                                         <div className="grid grid-flow-row items-center">
                                             <Image
-                                                src={Logo}
+                                                src="/image/logo.png"
                                                 height={60}
                                                 width={60}
-                                                alt="..."
+                                                alt="Nettoyer Shoes Logo"
                                                 className="rotate-90 ml-6 desktop-lg:w-24 "
                                             />
                                         </div>
@@ -167,7 +162,12 @@ const Sidebar = () => {
                                         target="_blank"
                                         className="flex justify-center items-center pl-1"
                                     >
-                                        <Image src={WhatsApp} alt="WhatsApp" />
+                                        <Image
+                                            src="/image/whatsapp.svg"
+                                            alt="WhatsApp"
+                                            width={30}
+                                            height={30}
+                                        />
                                     </Link>
                                     <Link
                                         href="/cek-status"
@@ -188,10 +188,10 @@ const Sidebar = () => {
                                         href="/"
                                     >
                                         <Image
-                                            src={Logo}
+                                            src="/image/logo.png"
                                             height={53}
                                             width={53}
-                                            alt="..."
+                                            alt="Nettoyer Shoes Logo"
                                         />
                                     </Link>
                                 </div>
@@ -204,8 +204,10 @@ const Sidebar = () => {
                                         className="flex justify-center items-center"
                                     >
                                         <Image
-                                            src={Instagram}
+                                            src="/image/instagram.svg"
                                             alt="Instagram"
+                                            width={30}
+                                            height={30}
                                         />
                                     </Link>
                                     <Link
@@ -215,7 +217,12 @@ const Sidebar = () => {
                                         target="_blank"
                                         className="flex justify-center items-center"
                                     >
-                                        <Image src={Tiktok} alt="Tiktok" />
+                                        <Image
+                                            src="/image/tiktok.svg"
+                                            alt="Tiktok"
+                                            width={30}
+                                            height={30}
+                                        />
                                     </Link>
                                     <Link
                                         href="https://www.youtube.com/@Nettoyer.Shoes_IDN"
@@ -224,7 +231,12 @@ const Sidebar = () => {
                                         target="_blank"
                                         className="flex justify-center items-center"
                                     >
-                                        <Image src={Youtube} alt="Youtube" />
+                                        <Image
+                                            src="/image/youtube.svg"
+                                            alt="Youtube"
+                                            width={30}
+                                            height={30}
+                                        />
                                     </Link>
                                 </div>
                             </div>

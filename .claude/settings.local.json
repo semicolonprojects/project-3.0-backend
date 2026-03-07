@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(php:*)",
+      "Bash(npm install:*)",
+      "Bash(npm audit:*)",
+      "Bash(\"COMPOSER_PHP=C:\\\\waap\\\\php84\\\\php.exe\":*)",
+      "Bash(export:*)",
+      "Bash(npm list:*)",
+      "Bash(npm show:*)",
+      "Bash(npm update:*)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

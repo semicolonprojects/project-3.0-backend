@@ -5,13 +5,14 @@ import { detailServiceCategory } from "../../_api/api";
 import { useEffect, useState } from "react";
 
 function Show({ params }) {
+    const { id } = React.use(params);
     const [categoryService, setCategoryService] = useState([]);
-    const [categoryImage, setCategoryImage] = useState("");
+    const [categoryImage, setCategoryImage] = useState(null);
 
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const serviceData = await detailServiceCategory(params.id);
+                const serviceData = await detailServiceCategory(id);
                 const res = serviceData.data;
                 setCategoryService(res);
                 setCategoryImage(
@@ -33,11 +34,13 @@ function Show({ params }) {
                 </p>
                 <div className="grid grid-cols-2">
                     <div className="max-w-md w-full h-full ">
-                        <img
-                            src={categoryImage}
-                            alt={categoryService.name}
-                            className="h-[560px] w-96"
-                        />
+                        {categoryImage && (
+                            <img
+                                src={categoryImage}
+                                alt={categoryService.name}
+                                className="h-[560px] w-96"
+                            />
+                        )}
                     </div>
                     <div className="relative mx-1">
                         <div className="flex">

@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
-import Before from "/public/image/before.png";
-import After from "/public/image/after.png";
 import Link from "next/link";
 
 function Services() {
@@ -53,21 +51,25 @@ function Services() {
             className="max-w-[977px] w-full h-fit mx-auto relative select-none"
         >
             <Image
-                src={Before}
+                src="/image/before.png"
                 className="h-[300px] tablet:h-[730px] w-fill pointer-events-none"
-                alt="..."
+                alt="Before"
+                width={977}
+                height={730}
                 loading="lazy"
             />
 
             <Image
-                src={After}
+                src="/image/after.png"
                 style={{
                     clipPath: `polygon(0 0, ${imageRevealFraq * 100}% 0, ${
                         imageRevealFraq * 100
                     }% 100%, 0 100%)`,
                 }}
                 className="h-[300px] tablet:h-[730px] w-fill absolute inset-0  pointer-events-none"
-                alt="..."
+                alt="After"
+                width={977}
+                height={730}
                 loading="lazy"
             />
 

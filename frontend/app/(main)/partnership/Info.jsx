@@ -1,4 +1,3 @@
-import WhiteShoes from "../../../public/image/sepatu_putih(home).png";
 import Image from "next/image";
 
 const Info = () => {
@@ -6,7 +5,7 @@ const Info = () => {
         <>
             <div className="px-28 w-full h-screen">
                 <Image
-                    src={WhiteShoes}
+                    src="/image/sepatu_putih(home).png"
                     alt="White Shoes"
                     fill
                     objectFit="cover"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     showArtikel,
     getAllArtikel,
@@ -9,6 +9,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [getArtikel, setGetArtikel] = useState("");
     const [groupData, setGroupData] = useState([]);
     const [slicedRandomProducts, setSlicedRandomProducts] = useState([]);
@@ -52,7 +53,7 @@ const Page = ({ params }) => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const data = await showArtikel(params.slug);
+                const data = await showArtikel(slug);
                 const res = await getAllArtikel(data.category_id);
                 setGroupData(res);
                 setGetArtikel(data);
@@ -64,7 +65,7 @@ const Page = ({ params }) => {
         };
 
         fetchData();
-    }, [params.slug]);
+    }, [slug]);
 
     useEffect(() => {
         setFilteredArticles(

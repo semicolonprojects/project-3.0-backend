@@ -1,14 +1,16 @@
 "use client";
+import React from "react";
 import { getResiDataDetail } from "../../_api/api.js";
 import { useEffect, useState } from "react";
 
 function Show({ params }) {
+    const { id } = React.use(params);
     const [resi, setResi] = useState([]);
 
     useEffect(() => {
         const fetchResi = async () => {
             try {
-                const resiData = await getResiDataDetail(params.id);
+                const resiData = await getResiDataDetail(id);
                 setResi(resiData);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -16,7 +18,7 @@ function Show({ params }) {
         };
 
         fetchResi();
-    }, [params.id]);
+    }, [id]);
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);

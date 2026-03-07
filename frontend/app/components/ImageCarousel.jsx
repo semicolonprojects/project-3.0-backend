@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Coming from "/public/image/coming-soon.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
@@ -92,11 +91,10 @@ const ImageCarousel = () => {
                         <SwiperSlide key={index}>
                             <div className="grid grid-cols-1 laptop:grid-cols-3 laptop-lg:grid-cols-3 phone:gap-5">
                                 {groupData.map((item, itemIndex) => (
-                                    <div className=" max-w-sm desktop-md:max-w-96 desktop-md:max-h-[980px] desktop-lg:max-w-[500px] desktop-lg:max-h-[980px] bg-white border border-gray-200 rounded-lg  ">
+                                    <div key={itemIndex} className=" max-w-sm desktop-md:max-w-96 desktop-md:max-h-[980px] desktop-lg:max-w-[500px] desktop-lg:max-h-[980px] bg-white border border-gray-200 rounded-lg  ">
                                         <Link
                                             href={`/artikel/${item.slug}`}
                                             className="w-96"
-                                            key={itemIndex}
                                         >
                                             <img
                                                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/storage/public/artikel/${item.image}`}
@@ -109,7 +107,6 @@ const ImageCarousel = () => {
                                                 <Link
                                                     href={`/artikel/${item.slug}`}
                                                     className="w-96"
-                                                    key={itemIndex}
                                                 >
                                                     <div className="mb-2 text-2xl font-bold tracking-tight text-wrap break-words text-gray-900">
                                                         {item.judul}
@@ -132,7 +129,6 @@ const ImageCarousel = () => {
                                             <Link
                                                 href={`/artikel/${item.slug}`}
                                                 className="mt-4 block items-center px-3 py-2 w-32 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-                                                key={itemIndex}
                                             >
                                                 Read More
                                             </Link>
@@ -146,8 +142,10 @@ const ImageCarousel = () => {
             ) : (
                 <div className="bg-white border border-gray-200 rounded-xl shadow ">
                     <Image
-                        src={Coming}
-                        alt="..."
+                        src="/image/coming-soon.png"
+                        alt="Coming Soon"
+                        width={1920}
+                        height={580}
                         className="w-screen h-[470px] desktop-lg:h-[580px] rounded-t-lg"
                     />
                 </div>

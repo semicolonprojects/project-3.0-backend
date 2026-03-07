@@ -76,8 +76,8 @@ class TokoController extends Controller
     public function update(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
-            'kode' => 'sometimes|required|unique:tokos',
-            'nama_toko' => 'sometimes|required|unique:tokos',
+            'kode' => 'sometimes|required|unique:tokos,kode,' . $id,
+            'nama_toko' => 'sometimes|required|unique:tokos,nama_toko,' . $id,
             'alamat_toko' => 'sometimes|required',
         ]);
 

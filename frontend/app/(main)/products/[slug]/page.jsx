@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react";
 import axios from "axios"; // Import Axios
 import Spinner from "../../../components/Spinner";
 import DetailDesktop from "./DetailDesktop";
@@ -41,10 +41,11 @@ const useGetData = (url) => {
 };
 
 const Page = ({ params }) => {
+  const unwrappedParams = use(params);
   const API_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
 
   const { data: product, loading: productLoading } = useGetData(
-    `${API_URL}/api/v1/products/${params.slug}`
+    `${API_URL}/api/v1/products/${unwrappedParams.slug}`
   );
   const { data: randomProducts, loading: randomProductsLoading } = useGetData(
     `${API_URL}/api/v1/products?all`

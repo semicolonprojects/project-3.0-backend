@@ -1,10 +1,12 @@
 "use client";
 
+import React from "react";
 import axios from "axios";
 import { getAllCategory } from "../../category/_api/api";
 import { useEffect, useState } from "react";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [productTitle, setProductTitle] = useState("");
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState("");
@@ -16,7 +18,7 @@ const Page = ({ params }) => {
         const detail = async () => {
             try {
                 const productData = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${params.slug}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/products/${slug}`
                 );
                 const res = productData.data.data;
                 setProductName(res.product_name);
@@ -77,7 +79,7 @@ const Page = ({ params }) => {
 
                     <caption className="p-5 text-lg font-semibold text-left  text-gray-900 bg-">
                         <div className="h-64 w-96 relative">
-                            <img src={productImage} alt={productName} />
+                            {productImage && <img src={productImage} alt={productName} />}
                         </div>
                     </caption>
                 </table>

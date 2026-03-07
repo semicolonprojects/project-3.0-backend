@@ -5,7 +5,6 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import Logo from "../../public/image/logo1.png";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import ModalSocials from "./Modal/ModalSocials";
@@ -166,7 +165,13 @@ const Navbar = () => {
                         />
                         <div className="flex flex-col justify-center items-start gap-5 font-bold text-4xl text-[#4A89B0]">
                             <div className="w-full flex justify-center items-center">
-                                <Image src={Logo} alt="Logo" className="w-48" />
+                                <Image
+                                    src="/image/logo1.png"
+                                    alt="Nettoyer Shoes Logo"
+                                    width={200}
+                                    height={200}
+                                    className="w-48"
+                                />
                             </div>
                             <Link href="/">
                                 <motion.button

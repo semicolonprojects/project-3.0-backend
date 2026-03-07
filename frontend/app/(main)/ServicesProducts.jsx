@@ -1,7 +1,5 @@
 "use client";
 
-import TravelKit from "../../public/image/travel_kit.png";
-import Services from "../../public/image/services(sepatu&sikat).jpg";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { detectDevice } from "../utils/deviceUtils";
@@ -52,8 +50,10 @@ const ServicesProducts = () => {
                     <div className="relative w-[340px] laptop:w-[270px] laptop-lg:w-[300px] laptop-lg:h-[300px] desktop-sm:w-[345px] desktop-sm:h-[338px] desktop-lg:w-[435px] desktop-lg:h-[440px]  h-full rounded overflow-hidden shadow-lg">
                         <div className="absolute inset-0 bg-black opacity-40"></div>
                         <Image
-                            src={TravelKit}
-                            alt="..."
+                            src="/image/travel_kit.png"
+                            alt="Travel Kit"
+                            width={435}
+                            height={440}
                             className="w-full h-full bg-fill"
                         />
                         <Link href="/products">
@@ -69,8 +69,10 @@ const ServicesProducts = () => {
                             <div className="relative w-[340px] laptop:w-[270px] laptop-lg:w-[300px] laptop-lg:h-[300px] desktop-sm:w-[345px] desktop-sm:h-[338px]  desktop-lg:w-[435px] desktop-lg:h-[440px] h-full  rounded overflow-hidden">
                                 <div className="absolute inset-0 bg-black opacity-40"></div>
                                 <Image
-                                    src={Services}
-                                    alt="..."
+                                    src="/image/services(sepatu&sikat).jpg"
+                                    alt="Services"
+                                    width={435}
+                                    height={440}
                                     className="w-full h-full object-fill"
                                 />
                                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-end font-bold text-white p-4 [writing-mode:vertical-rl] rotate-180">

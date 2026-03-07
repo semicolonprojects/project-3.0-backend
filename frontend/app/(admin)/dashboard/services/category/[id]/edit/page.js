@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { detailServiceCategory, updateCategory } from "../../_api/api";
 import { FileUploader } from "react-drag-drop-files";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 function Edit({ params }) {
+    const { id } = React.use(params);
     const fileTypes = ["jpg", "png", "jpeg"];
 
     const handleInputChange = (event) => {
@@ -36,7 +37,7 @@ function Edit({ params }) {
         const detail = async () => {
             try {
                 const serviceData = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${params.id}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/service-category/${id}`
                 );
                 const res = serviceData.data.data;
                 setShowCategory(res.name);
@@ -139,8 +140,8 @@ function Edit({ params }) {
                             id="slug"
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Enter category slug"
-                            //  onChange={(e) => setCategorySlug(e.target.value)}
                             value={categorySlug}
+                            readOnly
                             required
                         />
                     </div>

@@ -1,16 +1,18 @@
 "use client";
 
+import React from "react";
 import parse from "html-react-parser";
 import { useEffect, useState } from "react";
 import { detailArtikel } from "../_api/api";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [artikel, setArtikel] = useState("");
 
     useEffect(() => {
         const fetchArtikel = async () => {
             try {
-                const data = await detailArtikel(params.slug);
+                const data = await detailArtikel(slug);
                 setArtikel(data.data);
             } catch (error) {
                 console.log(error);

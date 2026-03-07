@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PlusIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { getAllCategory } from '../../../services/category/_api/api';
@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
 const Page = ({ params }) => {
+    const { resi } = React.use(params);
     const [getCategory, setGetCategory] = useState([]);
     const [resiData, setResiData] = useState([
         {
@@ -35,7 +36,7 @@ const Page = ({ params }) => {
                     items,
                 ] = await Promise.all([
                     getAllCategory({ signal }),
-                    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/items/${params.resi}`),
+                    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/items/${resi}`),
                 ]);
 
                 const { data: categories } = categoriesResponse;
@@ -61,7 +62,7 @@ const Page = ({ params }) => {
             return () => controller.abort();
         };
         fetchCategory();
-    }, [params.resi])
+    }, [resi])
 
     const handleInputChange = (e, index) => {
         const { name, value } = e.target;
@@ -117,7 +118,7 @@ const Page = ({ params }) => {
         });
 
         const requestData = resiData.map((item) => ({
-            kode_resi: params.resi,
+            kode_resi: resi,
             nama_item: item.nama_item,
             services: item.services.map((service) => ({
                 id: service.id,
@@ -126,7 +127,7 @@ const Page = ({ params }) => {
 
         const formData = new FormData();
 
-        formData.append("kode_resi", params.resi);
+        formData.append("kode_resi", resi);
         const formattedData = requestData.map(item => ({
             nama_item: item.nama_item,
             service_id: item.services.map(service => ({ id: service.id }))

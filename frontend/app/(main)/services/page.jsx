@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import Before from "/public/image/before.png";
-import After from "/public/image/after.png";
 import Link from "next/link";
 import axios from "axios";
 
@@ -154,13 +152,15 @@ const Page = () => {
                             className="max-w-lg w-full tablet:max-w-5xl  tablet:w-full desktop-md:max-w-[1100px] desktop-lg:max-w-[1460px] desktop-lg:w-full h-3/4 mx-auto tablet:ml-5 relative select-none"
                         >
                             <Image
-                                src={Before}
+                                src="/image/before.png"
                                 className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full pointer-events-none"
-                                alt="..."
+                                alt="Before"
+                                width={1460}
+                                height={900}
                                 loading="lazy"
                             />
                             <Image
-                                src={After}
+                                src="/image/after.png"
                                 style={{
                                     clipPath: `polygon(0 0, ${
                                         imageRevealFraq * 100
@@ -169,7 +169,9 @@ const Page = () => {
                                     }% 100%, 0 100%)`,
                                 }}
                                 className="h-[220px] tablet:h-[520px] desktop-lg:h-full w-full absolute inset-0  pointer-events-none"
-                                alt="..."
+                                alt="After"
+                                width={1460}
+                                height={900}
                                 loading="lazy"
                             />
 

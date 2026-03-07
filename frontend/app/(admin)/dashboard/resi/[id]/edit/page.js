@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 const Edit = ({ params }) => {
+    const { id } = React.use(params);
     const fileTypes = ["jpg", "png", "jpeg"];
     const [fields, setFields] = useState([{ image: null, imagePreview: null }]);
     const [statusPengerjaanOptions, setStatusPengerjaanOptions] = useState([]);
@@ -25,7 +26,6 @@ const Edit = ({ params }) => {
         ongkir: "",
     });
     const router = useRouter();
-    const id = params.id;
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -111,7 +111,7 @@ const Edit = ({ params }) => {
 
         try {
             const { data } = await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${params.id}`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cekresi/${id}`,
                 formData
             );
             toast.dismiss();
@@ -119,7 +119,7 @@ const Edit = ({ params }) => {
             await axios.get(
                 `${process.env.NEXT_PUBLIC_BACKEND_URL}/storage-link`
             );
-            router.push(`/dashboard/resi/form/${params.id}`);
+            router.push(`/dashboard/resi/form/${id}`);
         } catch (error) {
             toast.dismiss();
             handleErrorResponse(error);

@@ -18,7 +18,7 @@ export const viewport = {
     maximumScale: 1,
     userScalable: false,
     height: 'device-height'
-    
+
     // Also supported by less commonly used
     // interactiveWidget: 'resizes-visual',
   }
@@ -26,12 +26,11 @@ export const viewport = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning>
-         
             <body className={`${monsterrat.className} bg-[#E1EAF3]`}>
-                <Toaster />
-                <main>
-                <CookiesProvider>{children}</CookiesProvider>
-                </main>
+                <CookiesProvider>
+                    <Toaster />
+                    <main>{children}</main>
+                </CookiesProvider>
             </body>
         </html>
     );

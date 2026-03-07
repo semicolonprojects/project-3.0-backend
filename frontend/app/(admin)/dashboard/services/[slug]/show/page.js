@@ -1,15 +1,17 @@
 "use client";
+import React from "react";
 import { getService } from "../../_api/api.js";
 import { useEffect, useState } from "react";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [service, setService] = useState([]);
     const [serviceImage, setServiceImage] = useState("");
 
     useEffect(() => {
         const fetchServices = async () => {
             try {
-                const serviceData = await getService(params.slug);
+                const serviceData = await getService(slug);
                 const res = serviceData.data;
                 setService(res);
                 setServiceImage(
@@ -67,7 +69,7 @@ const Page = ({ params }) => {
                     </p>
                     <div className="grid grid-flow-col gap-2">
                         <div>
-                            <img src={serviceImage} alt={service.category} />
+                            {serviceImage && <img src={serviceImage} alt={service.category} />}
                         </div>
                         <div className="relative mx-1">
                             <div className="flex">

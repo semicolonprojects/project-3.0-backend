@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation.js";
 import toast from "react-hot-toast";
 
 function EditPage({ params }) {
+    const { slug } = React.use(params);
     const handleInputChange = (event) => {
         setServiceName(event.target.value);
         setServiceSlug(createSlug(event.target.value));
@@ -43,7 +44,7 @@ function EditPage({ params }) {
         const detail = async () => {
             try {
                 const serviceData = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services/${params.slug}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/services/${slug}`
                 );
                 const res = serviceData.data.data;
                 setServiceName(res.nama_service);

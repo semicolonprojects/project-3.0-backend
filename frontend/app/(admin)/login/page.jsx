@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import illustration from "/public/image/ilustrasi_login.svg";
-import logo from "/public/image/logo3.png";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useCookies } from "next-client-cookies";
@@ -58,8 +56,10 @@ const Login = () => {
                         >
                             <Image
                                 className="w-16 h-10 mr-2.5"
-                                src={logo}
-                                alt="logo"
+                                src="/image/logo3.png"
+                                alt="Nettoyer Shoes Logo"
+                                width={64}
+                                height={40}
                             />
                             Nettoyer
                         </a>
@@ -120,9 +120,11 @@ const Login = () => {
                     </div>
                     <div className="place-items-end max-w-[977px] w-full h-fit">
                         <Image
-                            src={illustration}
+                            src="/image/ilustrasi_login.svg"
                             className="tablet:h-[540px] w-fill"
-                            alt="ilustrasi_login"
+                            alt="Ilustrasi Login"
+                            width={977}
+                            height={540}
                         />
                     </div>
                 </div>

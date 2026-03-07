@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
-import { getCookies } from "next-client-cookies/server";
-import toast from "react-hot-toast";
 
 export async function middleware(request) {
-  const cookies = getCookies(request);
-  const userToken = cookies.get("token");
+  const userToken = request.cookies.get("token")?.value;
   const requestedPath = new URL(request.url).pathname;
 
   if (userToken) {

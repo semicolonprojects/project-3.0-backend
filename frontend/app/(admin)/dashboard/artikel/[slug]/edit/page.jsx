@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { FileUploader } from "react-drag-drop-files";
 import TiptapEdit from "../../../../../components/TiptapEdit";
 import { useEffect, useState } from "react";
@@ -10,6 +11,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [categories, setCategories] = useState([]);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -42,7 +44,7 @@ const Page = ({ params }) => {
 
         const fetchArtikel = async () => {
             try {
-                const data = await detailArtikel(params.slug);
+                const data = await detailArtikel(slug);
                 setartikelId(data.data.id);
                 setTitle(data.data.judul);
                 setDescription(data.data.description);
@@ -55,7 +57,7 @@ const Page = ({ params }) => {
 
         fetchArtikel();
         fetchCategory();
-    }, [params.slug]);
+    }, [slug]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

@@ -8,6 +8,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const Page = ({ params }) => {
+    const { slug } = React.use(params);
     const [service, setService] = useState("");
     const [servicesDetail, setServicesDetail] = useState([]);
     const [serviceCarousel, setServiceCarousel] = useState([]);
@@ -19,7 +20,7 @@ const Page = ({ params }) => {
         const fetchService = async () => {
             try {
                 const { data } = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getSlug/${params.slug}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/getSlug/${slug}`
                 );
 
                 if (data) {
@@ -41,7 +42,7 @@ const Page = ({ params }) => {
 
         fetchService();
         fetchData(null);
-    }, [params.slug]);
+    }, [slug]);
 
     const onOptionChange = async (event) => {
         const selectedValue = event.target.value;
@@ -53,7 +54,7 @@ const Page = ({ params }) => {
         try {
             const url = `${
                 process.env.NEXT_PUBLIC_BACKEND_URL
-            }/api/v1/getById/${params.slug}${
+            }/api/v1/getById/${slug}${
                 selectedValue ? `/${selectedValue}` : ""
             }`;
             const { data } = await axios.get(url);

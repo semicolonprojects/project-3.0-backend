@@ -1,9 +1,5 @@
 "use client";
 import Image from "next/image";
-import GreyShoes from "../../public/image/sepatu_abu(home).png";
-import WhiteShoes from "../../public/image/foto page depan new 1-Photoroom.png";
-import gif from "../../public/image/video estetik.gif";
-import Logo from "/public/image/logo1.png";
 
 const About = () => {
     return (
@@ -12,8 +8,10 @@ const About = () => {
             <div className="hidden tablet:block w-full h-auto">
                 <div className="hidden tablet:block relative">
                     <Image
-                        src={WhiteShoes}
+                        src="/image/foto page depan new 1-Photoroom.png"
                         alt="Grey Shoes"
+                        width={1920}
+                        height={700}
                         className="w-full h-auto max-h-[700px] object-cover"
                     />
                 </div>
@@ -62,7 +60,7 @@ const About = () => {
 
             <div className="block tablet:hidden px-28 w-full h-screen ">
                 <Image
-                    src={gif}
+                    src="/image/video estetik.gif"
                     alt="GIF"
                     fill
                     objectFit="cover"
@@ -74,10 +72,10 @@ const About = () => {
                 <div className="absolute top-0 left-0 w-full h-full bg-slate-900 opacity-[0.72] flex items-center justify-center">
                     <div className="items-center ">
                         <Image
-                            src={Logo}
+                            src="/image/logo1.png"
                             height={300}
                             width={300}
-                            alt="..."
+                            alt="Nettoyer Shoes Logo"
                             className="pt-32 mx-auto pb-36"
                         />
                         <div className="text-white align-bottom tablet:p-0 w-screen tablet:w-fit max-h-screen md:max-h-max">

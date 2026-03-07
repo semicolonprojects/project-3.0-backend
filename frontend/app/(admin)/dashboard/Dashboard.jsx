@@ -5,7 +5,6 @@ import { useCookies } from "next-client-cookies";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "/public/image/logo3.png";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
 import NomorWhatsapp from "./NomorWhatsapp";
@@ -100,8 +99,10 @@ function Dashboard() {
                             >
                                 <Image
                                     className="w-16 h-10 mr-2.5"
-                                    src={logo}
-                                    alt="Logo"
+                                    src="/image/logo3.png"
+                                    alt="Nettoyer Shoes Logo"
+                                    width={64}
+                                    height={40}
                                 />
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap ">
                                     Nettoyer

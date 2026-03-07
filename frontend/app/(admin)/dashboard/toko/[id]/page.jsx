@@ -1,11 +1,13 @@
 "use client";
 
+import React from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 function Page({ params }) {
+    const { id } = React.use(params);
     const router = useRouter();
 
     const [tokoData, setTokoData] = useState({
@@ -26,7 +28,7 @@ function Page({ params }) {
         const fetchResiDetails = async () => {
             try {
                 const { data } = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko/${params.id}`
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko/${id}`
                 );
 
                 setTokoData({
@@ -39,8 +41,8 @@ function Page({ params }) {
             }
         };
 
-        if (params.id) fetchResiDetails();
-    }, [params.id]);
+        if (id) fetchResiDetails();
+    }, [id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -64,7 +66,7 @@ function Page({ params }) {
 
         try {
             await axios.post(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko/${params.id}`,
+                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/toko/${id}`,
                 formData
             );
             toast.dismiss();
